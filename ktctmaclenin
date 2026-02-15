@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang chọn bài thi</title>
+</head>
+<body>
+
+<h1>📚 CHỌN BÀI THI</h1>
+
+<ul>
+    <li><a href="bai-thi-1.html">Bài thi Chương 1</a></li>
+    <li><a href="bai-thi-2.html">Bài thi Chương 2</a></li>
+    <li><a href="bai-thi-2.html">Bài thi Chương 3</a></li>
+    <li><a href="bai-thi-2.html">Bài thi Chương 4</a></li>
+    <li><a href="bai-thi-2.html">Bài thi Chương 5</a></li>
+    <li><a href="bai-thi-2.html">Bài thi Chương 6</a></li>
+</ul>
+</body>
+</html>
