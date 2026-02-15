@@ -1,0 +1,2009 @@
+const questions = [
+//chuong1
+[
+  {
+    "q": "Kinh tế chính trị Mác - Lênin ra đời dựa trên sự kế thừa trực tiếp từ những thành tựu của...",
+    "a": ["Kinh tế chính trị cổ điển Anh", "Triết học cổ điển Đức", "Chủ nghĩa trọng thương", "Chủ nghĩa trọng nông"],
+    "c": 0
+  },
+  {
+    "q": "Lý luận của kinh tế chính trị Mác được thể hiện tập trung và cô đọng nhất trong tác phẩm nào?",
+    "a": ["“Phê phán kinh tế chính trị\"", "“Tuyên ngôn của Đảng Cộng sản\"", "“Gia đình thần thánh\"", "“Bộ Tư bản\""],
+    "c": 3
+  },
+  {
+    "q": "Chủ nghĩa trọng Thương lý giải nguồn gốc của lợi nhuận được tạo ra từ đâu?",
+    "a": ["Nông nghiệp", "Công nghiệp", "Thương nghiệp", "Dịch vụ"],
+    "c": 2
+  },
+  {
+    "q": "Chủ nghĩa trọng Nông là hệ thống lý luận kinh tế đi sâu vào nghiên cứu và phân tích để rút ra lý luận kinh tế từ lĩnh vực nào?",
+    "a": ["Nông nghiệp", "Công nghiệp", "Ngoại Thương", "Dịch vụ"],
+    "c": 0
+  },
+  {
+    "q": "Kinh tế chính trị Mác - Lênin bắt đầu phát triển vào thời gian nào?",
+    "a": ["Từ giữa thế kỷ XVIII", "Từ giữa thế kỷ XIX", "Từ cuối thế kỷ XIX", "Từ đầu thế kỷ XX"],
+    "c": 1
+  },
+  {
+    "q": "Điền vào chỗ trống để hoàn thiện khái niệm Kinh tế chính trị: “Kinh tế chính trị là môn khoa học kinh tế nghiên cứu các quan hệ kinh tế để tìm ra các quy luật chi phối sự vận động của các hiện tượng và quá trình hoạt động kinh tế của con người tương ứng với những (...) nhất định của nền sản xuất xã hội”?",
+    "a": ["Diễn biến", "Biến động", "Mức độ tăng trưởng", "Trình độ phát triển"],
+    "c": 3
+  },
+  {
+    "q": "Điền vào chỗ trống: “Kinh tế chính trị là môn khoa học kinh tế nghiên cứu các quan hệ kinh tế để tìm ra (...) chi phối sự vận động của các hiện tượng và quá trình hoạt động kinh tế của con người tương ứng với những trình độ phát triển nhất định của nền sản xuất xã hội”?",
+    "a": ["Các hiện tượng kinh tế", "Các quy luật", "Các nguồn lực", "Các mô hình"],
+    "c": 1
+  },
+  {
+    "q": "Điền vào chỗ trống để hoàn thiện khái niệm Kinh tế chính trị: “Kinh tế chính trị là môn khoa học kinh tế nghiên cứu (...) để tìm ra các quy luật chi phối sự vận động của các hiện tượng và quá trình hoạt động kinh tế của con người tương ứng với những trình độ phát triển nhất định của nền sản xuất xã hội”?",
+    "a": ["Các hiện tượng kinh tê", "Các quan hệ kinh tế", "Các quan hệ mua bán", "Các hiện tượng trao đổi"],
+    "c": 1
+  },
+  {
+    "q": "Ai là người kế thừa, bổ sung, phát triển lý luận kinh tế chính trị của C. Mác?",
+    "a": ["Vladimir Ilych Lenin", "Nikolai Lobachevsky", "Mikhail Lomonosov", "Pafnuty Chebyshev"],
+    "c": 0
+  },
+  {
+    "q": "Học thuyết nào giữ vị trí là “Hòn đá tảng” trong toàn bộ lý luận kinh tế của Mác?",
+    "a": ["Học thuyết giá trị thặng dư", "Học thuyết tích lũy", "Học thuyết giá trị", "Học thuyết tuần hoàn và chu chuyển tư bản"],
+    "c": 0
+  },
+  {
+    "q": "Điểm tiến bộ của kinh tế chính trị cổ điển Anh so với các trường phái kinh tế trước đó, nằm ở điều gì?",
+    "a": ["Tính khái quát cao và trình bày lý luận mang tính hệ thống thành những quy luật, phạm trù kinh tế cơ bản", "Nhiều tác phẩm hơn, tác phẩm đồ sộ hơn", "Các đại biểu nổi bật và xuất sắc hơn", "Đơn giản, dễ hiểu hơn, xây dựng dựa trên sự quan sát trực quan"],
+    "c": 0
+  },
+  {
+    "q": "Luận điểm sai về kinh tế chính trị Mác - Lênin?",
+    "a": ["Đây là một học thuyết mở, có thể vận dụng sáng tạo và phát triển", "Đây là một học thuyết cung cấp cơ sở lý luận cho phong trào đấu tranh của công nhân", "Đây là một học thuyết nằm trong bộ ba cấu thành của Chủ nghĩa Mác - Lênin", "Đây là một học thuyết chỉ dành cho các nhà hoạch định kinh tế"],
+    "c": 3
+  },
+  {
+    "q": "Sự bổ sung, phát triển của Lênin cho kinh tế chính trị Mác - Lênin không bao gồm điều gì?",
+    "a": ["Đặc điểm kinh tế của chủ nghĩa tư bản giai đoạn độc quyền", "Đặc điểm kinh tế của chủ nghĩa tư bản giai đoạn tự do cạnh tranh", "Đặc điểm kinh tế của chủ nghĩa tư bản giai đoạn độc quyền nhà nước", "Đặc điểm kinh tế của thời kỳ quá độ lên chủ nghĩa xã hội"],
+    "c": 1
+  },
+  {
+    "q": "Đóng góp lớn của V. I. Lênin đối với việc vận dụng, phát triển sáng tạo kinh tế chính trị Mác - Lênin ở các nước theo định hướng xã hội chủ nghĩa là gì?",
+    "a": ["Lý luận kinh tế chính trị về độc quyền", "Lý luận kinh tế chính trị về cạnh tranh", "Lý luận kinh tế chính trị về độc quyền nhà nước", "Lý luận về kinh tế chính trị của thời kỳ quá độ lên chủ nghĩa xã hội"],
+    "c": 3
+  },
+  {
+    "q": "Những thành tựu của kinh tế chính trị cổ điển Anh đã cung cấp tiền đề gì cho C. Mác và Ph. Ăngghen xây dựng kinh tế chính trị Mác?",
+    "a": ["Những phạm trù cơ bản của kinh tế hàng hóa", "Những lý luận cổ điển về kinh tế", "Những dẫn chứng quan trọng về kinh tế của nước Anh", "Không có giá trị gì"],
+    "c": 0
+  },
+  {
+    "q": "Trường phái nào được ghi nhận là hệ thống lý luận kinh tế chính trị bước đầu nghiên cứu về nền sản xuất tư bản chủ nghĩa?",
+    "a": ["Trường phái trọng Tiền", "Chủ nghĩa trọng Nông", "Kinh tế chính trị Tư sản cổ điển Anh", "Chủ nghĩa trọng Thương"],
+    "c": 3
+  },
+  {
+    "q": "Đối tượng nghiên cứu của chủ nghĩa trọng Thương thuộc lĩnh vực nào?",
+    "a": ["Lưu thông", "Sản xuất", "Tiền tệ", "Dịch vụ"],
+    "c": 0
+  },
+  {
+    "q": "Chủ nghĩa trọng Nông có đối tượng nghiên cứu thuộc lĩnh vực nào?",
+    "a": ["Nông nghiệp", "Thương nghiệp", "Công nghiệp", "Dịch vụ"],
+    "c": 0
+  },
+  {
+    "q": "Đối tượng nghiên cứu của kinh tế chính trị là?",
+    "a": ["Quá trình sản xuất vật chất", "Các phương pháp sản xuất để tối đa hóa lợi nhuận", "Các quan hệ của sản xuất và trao đổi trong phương thức sản xuất mà các quan hệ đó hình thành và phát triển", "Quan hệ sản xuất, phân phối, trao đổi và tiêu dùng"],
+    "c": 2
+  },
+  {
+    "q": "Quy luật kinh tế là...?",
+    "a": ["Những mối liên hệ phản ánh bản chất, khách quan, lặp lại của các hiện tượng và quá trình kinh tế", "Phản ánh bản chất của các hiện tượng trong xã hội", "Khách quan tồn tại trong mọi phương thức sản xuất", "Chủ quan tồn tại trong mọi phương thức sản xuất"],
+    "c": 0
+  },
+  {
+    "q": "Phương pháp nghiên cứu cơ bản, chủ đạo của kinh tế chính trị Mác - Lênin là?",
+    "a": ["Vận dụng thành thạo phép biện chứng duy vật", "Vận dụng thành thạo phép biện chứng duy tâm", "Vận dụng thành thạo chủ nghĩa duy vật siêu hình", "Vận dụng thành thạo chủ nghĩa duy tâm khách quan"],
+    "c": 0
+  },
+  {
+    "q": "Kinh tế chính trị Mác - Lênin có nhiệm vụ nghiên cứu là...",
+    "a": ["Tìm ra bản chất của lực lượng sản xuất", "Tìm ra bản chất của quan hệ sản xuất xã hội", "Tìm ra các quy luật kinh tế và sự tác động của nó nhằm ứng dụng có hiệu quả trong thực tiễn", "Tìm ra các quy luật kinh tế nhằm đạt được hiệu quả kinh tế mong muốn"],
+    "c": 2
+  },
+  {
+    "q": "Xác định đối tượng nghiên cứu của kinh tế chính trị là các quan hệ của sản xuất và trao đổi là dựa trên cơ sở?",
+    "a": ["Cách tiếp cận duy vật về lịch sử dựa trên những thành tựu của kinh tế chính trị nhân loại", "Dựa trên kinh nghiệm nghiên cứu nhiều năm và thực tiễn phong phú", "Dựa trên sự kết hợp quan điểm của chủ nghĩa trọng nông và trọng thương", "Dùng cách tiếp cận của D. Ricardo"],
+    "c": 0
+  },
+  {
+    "q": "Luận điểm: Quy luật kinh tế không phụ thuộc vào ý chí của con người được hiểu là?",
+    "a": ["Quy luật kinh tế mang tính thần bí", "Quy luật kinh tế tồn tại trước khi con người xuất hiện", "Quy luật kinh tế mang tính khách quan", "Quy luật kinh tế mang tính chủ quan"],
+    "c": 2
+  },
+  {
+    "q": "Điền từ vào chỗ trống: [...] tồn tại khách quan, không phụ thuộc vào ý chí của con người, con người không thể thủ tiêu [...] nhưng có thể nhận thức và vận dụng.",
+    "a": ["Quy luật kinh tế / quy luật kinh tế", "Quy luật kinh tế / chính sách kinh tế", "Chính sách kinh tế / thể chế kinh tế", "Đường lối kinh tế / chính sách kinh tế"],
+    "c": 0
+  },
+  {
+    "q": "“Nhận ra và gạt bỏ những hiện tượng tạm thời... nắm được bản chất... khái quát thành các khái niệm, phạm trù” là bản chất của phương pháp nào?",
+    "a": ["Phương pháp diễn dịch khoa học", "Phương pháp liên ngành khoa học", "Phương pháp phân tích khoa học", "Phương pháp trừu tượng hóa khoa học"],
+    "c": 3
+  },
+  {
+    "q": "Phương pháp quan trọng nhất trong nghiên cứu kinh tế chính trị Mác - Lênin là?",
+    "a": ["Trừu tượng hóa khoa học", "Logic và lịch sử", "Phân tích và tổng hợp", "Mô hình hóa"],
+    "c": 0
+  },
+  {
+    "q": "Điền từ: “Đối tượng nghiên cứu của kinh tế chính trị Mác - Lênin là các (...1...) của sản xuất và trao đổi đặt trong sự liên hệ với (...2...) và kiến trúc thượng tầng tương ứng”.",
+    "a": ["(1) Quan hệ sản xuất / (2) lực lượng sản xuất", "(1) Quan hệ xã hội / (2) quan hệ sản xuất", "(1) Quan hệ sản xuất / (2) cơ sở hạ tầng", "(1) Quan hệ xã hội / (2) lực lượng sản xuất"],
+    "c": 0
+  },
+  {
+    "q": "Điểm tiến bộ của kinh tế chính trị Mác - Lênin trong phương pháp nghiên cứu là gì?",
+    "a": ["Đưa ra những cách tiếp cận hoàn toàn mới dựa trên quan điểm tư sản", "Phê phán và phủ định triệt để các học thuyết trước đó", "Vận dụng triệt để thế giới quan và phương pháp luận duy vật biện chứng", "Lần đầu tiên đưa nghiên cứu của giai cấp công nhân vào công trình"],
+    "c": 2
+  },
+  {
+    "q": "Điền từ vào chỗ trống: Chính sách kinh tế là sản phẩm chủ quan của con người được hình thành trên cơ sở vận dụng các [...].",
+    "a": ["Quy luật kinh tế", "Thể chế kinh tế", "Chính sách kinh tế", "Đường lối kinh tế"],
+    "c": 0
+  },
+  {
+    "q": "Muốn thực hiện các hoạt động kinh tế đạt hiệu quả tốt cần điều gì?",
+    "a": ["Cần một nguồn tài chính dồi dào", "Cần nắm chắc và vận dụng đúng các quy luật kinh tế cơ bản", "Cần có nhiều mối quan hệ kinh tế tốt", "Cần nắm bắt được đầy đủ các thông tin của thị trường"],
+    "c": 1
+  },
+  {
+    "q": "Đối tượng nghiên cứu của Kinh tế chính trị cổ điển Anh là các quan hệ kinh tế trong lĩnh vực nào?",
+    "a": ["Sản xuất", "Lưu thông", "Dịch vụ", "Tài chính"],
+    "c": 0
+  },
+  {
+    "q": "Nội dung nào sau đây không phải là quan hệ xã hội thuộc đối tượng nghiên cứu của kinh tế chính trị?",
+    "a": ["Quan hệ giữa các đảng phái chính trị", "Quan hệ sở hữu", "Quan hệ phân phối lợi ích kinh tế", "Quan hệ xã hội trong quản trị phát triển quốc gia"],
+    "c": 0
+  },
+  {
+    "q": "Kinh tế chính trị Mác - Lênin có giá trị như thế nào đối với giai cấp công nhân và người lao động?",
+    "a": ["Giúp hình thành phong trào công nhân ở châu Âu", "Giúp phong trào công nhân đấu tranh mạnh hơn ở các nước thuộc địa", "Giúp nắm được bản chất phương thức sản xuất TBCN, nhận diện rõ đường lối đấu tranh", "Khiến các nhà tư bản từ bỏ việc bóc lột sức lao động"],
+    "c": 2
+  },
+  {
+    "q": "Mục đích cao nhất của kinh tế chính trị Mác - Lênin không bao gồm điều này?",
+    "a": ["Phát hiện ra các quy luật chi phối quan hệ giữa người với người", "Giúp các chủ thể vận dụng quy luật kinh tế phát triển xã hội", "Góp phần thúc đẩy văn minh và sự phát triển toàn diện xã hội", "Chỉ rõ sự ưu việt của kinh tế hàng hóa TBCN để phát triển quốc gia giàu mạnh"],
+    "c": 3
+  },
+  {
+    "q": "Chức năng nhận thức của kinh tế chính trị Mác - Lênin cung cấp cho người học điều gì?",
+    "a": ["Những nội dung của các quy luật kinh tế khách quan", "Những tri thức mở về những quy luật, phạm trù kinh tế", "Xây dựng hệ tư tưởng khoa học và cách mạng", "Làm nền tảng nghiên cứu những môn khoa học kinh tế khác"],
+    "c": 0
+  },
+  {
+    "q": "Chức năng tư tưởng của kinh tế chính trị Mác - Lênin cung cấp cho người học điều gì?",
+    "a": ["Xây dựng hệ tư tưởng tư sản và tự do cá nhân", "Xây dựng hệ tư tưởng kinh tế hỗn hợp", "Xây dựng nền tảng tư tưởng mới cho những người lao động tiến bộ", "Xây dựng nền tảng tư tưởng theo xu hướng kinh tế thị trường"],
+    "c": 2
+  },
+  {
+    "q": "Một trong những vai trò quan trọng về tư tưởng mà kinh tế chính trị Mác - Lênin cung cấp cho người học là gì?",
+    "a": ["Cổ vũ, khuyến khích người học khởi nghiệp", "Xây dựng tư tưởng sống thực tế, tránh ảo tưởng", "Xây dựng tư tưởng tôn trọng lao động, hướng tới quan hệ sản xuất tiến bộ", "Cổ vũ hệ tư tưởng của chủ nghĩa tư bản"],
+    "c": 2
+  },
+  {
+    "q": "Kinh tế chính trị Mác - Lênin có các chức năng nào?",
+    "a": ["Nhận thức, thực tiễn, tư tưởng, giáo dục", "Nhận thức, thực tiễn, tư tưởng, phương pháp luận", "Nhận thức, thực tiễn, xã hội, phương pháp luận", "Nhận thức, thực tiễn, giáo dục, xã hội"],
+    "c": 1
+  },
+  {
+    "q": "Luận điểm: Chức năng nhận thức là lý do xuất hiện của mọi khoa học nghĩa là gì?",
+    "a": ["Tri thức khoa học được xây dựng để phục vụ nhu cầu nhận thức của con người", "Các ngành khoa học xuất phát từ thế giới ý niệm", "Khoa học được sinh ra do hoạt động tinh thần cao", "Khả năng nhận thức của nhà khoa học sinh ra ngành khoa học"],
+    "c": 0
+  },
+//chuong2
+  {
+    "q": "Kiểu tổ chức kinh tế đầu tiên của xã hội loài người là....",
+    "a": ["Kinh tế hàng hoá", "Kinh tế cá thể", "Kinh tế tự nhiên", "Kinh tế thị trường"],
+    "c": 2
+  },
+  {
+    "q": "Sản xuất hàng hoá là...",
+    "a": ["Kiểu tổ chức hoạt động kinh tế mà ở đó, những người sản xuất ra sản phẩm nhằm mục đích trao đổi, mua bán", "Kiểu tổ chức hoạt động kinh tế mà ở đó, sản phẩm được sản xuất ra nhằm thoả mãn nhu cầu của bản thân người sản xuất", "Kiểu tổ chức hoạt động kinh tế mà ở đó, sản phẩm được sản xuất ra nhằm thoả mãn nhu cầu mang tính nội bộ", "Kiểu tổ chức hoạt động kinh tế mà ở đó, những người sản xuất ra sản phẩm nhằm đáp ứng nhu cầu của xã hội"],
+    "c": 0
+  },
+  {
+    "q": "Điều kiện ra đời và tồn tại của sản xuất hàng hóa là...",
+    "a": ["Phân công lao động cá biệt và chế độ tư hữu về tư liệu sản xuất", "Phân công lao động chung và chế độ sở hữu khác nhau về tư liệu sản xuất", "Phân công lao động nội bộ và sự tách biệt về kinh tế giữa những người sản xuất", "Phân công lao động xã hội và sự tách biệt tương đối về kinh tế giữa những người sản xuất"],
+    "c": 3
+  },
+  {
+    "q": "Mục đích của người sản xuất trong kinh tế hàng hoá là...",
+    "a": ["Trao đổi, mua bán", "Tự tiêu dùng", "Tăng năng suất lao động", "Tăng cường độ lao động"],
+    "c": 0
+  },
+  {
+    "q": "Phân công lao động xã hội là:",
+    "a": ["Sự phân chia lao động xã hội vào các ngành, lĩnh vực khác nhau", "Sự chia nhỏ quá trình sản xuất, mỗi người đảm nhận một công đoạn", "Sự phân chia tư liệu sản xuất giữa các ngành", "Sự phân chia giữa các thành viên trong nội bộ gia đình"],
+    "c": 0
+  },
+  {
+    "q": "Sự tách biệt tương đối về mặt kinh tế giữa các chủ thể sản xuất nghĩa là gì?",
+    "a": ["Những người sản xuất độc lập với nhau, có sở hữu tư nhân về tư liệu sản xuất", "Mỗi người sản xuất ra một sản phẩm khác nhau", "Mọi người không giao tiếp với nhau trong quá trình sản xuất", "Mỗi người sử dụng một phương pháp khác nhau trong quá trình sản xuất"],
+    "c": 0
+  },
+  {
+    "q": "Phân công lao động xã hội làm cho những người sản xuất hàng hóa...",
+    "a": ["Độc lập với nhau", "Phụ thuộc vào nhau", "Đối lập với nhau", "Tách rời nhau"],
+    "c": 1
+  },
+  {
+    "q": "Sự tách biệt tương đối về mặt kinh tế giữa các chủ thể sản xuất làm cho họ...",
+    "a": ["Độc lập với nhau", "Phụ thuộc vào nhau", "Mâu thuẫn với nhau", "Tách rời nhau"],
+    "c": 0
+  },
+  {
+    "q": "Giá trị sử dụng của hàng hoá nhằm...",
+    "a": ["Thoả mãn nhu cầu của người sản xuất ra nó", "Thoả mãn nhu cầu của người mua", "Thoả mãn nhu cầu của người bán", "Thoả mãn nhu cầu của người quản lí"],
+    "c": 1
+  },
+  {
+    "q": "Mục đích của người sản xuất trong kinh tế tự nhiên là gì?",
+    "a": ["Trao đổi, mua bán", "Tự tiêu dùng", "Tăng năng suất lao động", "Tối đa hóa lợi nhuận"],
+    "c": 1
+  },
+  {
+    "q": "Hàng hóa là gì?",
+    "a": ["Là sản phẩm của lao động", "Là sản phẩm của lao động, có thể thỏa mãn một nhu cầu nào đó của con người thông qua trao đổi, mua bán", "Là cái có thể thỏa mãn nhu cầu nào đó cho con người", "Là những dạng vật chất hữu hình"],
+    "c": 1
+  },
+  {
+    "q": "Thuộc tính cơ bản của hàng hóa là gì?",
+    "a": ["Giá trị", "Giá trị sử dụng", "Giá trị sử dụng và giá trị", "Giá trị, giá trị sử dụng và giá trị trao đổi"],
+    "c": 2
+  },
+  {
+    "q": "Điền từ còn thiếu: “Giá trị của hàng hóa là lao động xã hội của người sản xuất ra hàng hóa (...) trong hàng hóa ấy”.",
+    "a": ["Kết tinh", "Tồn tại", "Tiêu hao", "Thể hiện"],
+    "c": 0
+  },
+  {
+    "q": "Điền từ còn thiếu: “Giá trị sử dụng của hàng hóa là (...) của sản phẩm, có thể (...) nhu cầu nào đó của con người”.",
+    "a": ["Công dụng/ thỏa mãn", "Tính năng/ đáp ứng", "Công dụng/ phục vụ", "Tác dụng/ đáp ứng"],
+    "c": 0
+  },
+  {
+    "q": "Giá cả của hàng hóa là gì?",
+    "a": ["Quan hệ về số lượng giữa hàng và tiền", "Giá trị của hàng hóa", "Biểu hiện bằng tiền của giá trị hàng hóa", "Sự biểu hiện bằng tiền của giá trị sử dụng hàng hoá"],
+    "c": 2
+  },
+  {
+    "q": "C. Mác cho rằng, các hàng hoá trao đổi được với nhau, bởi vì...",
+    "a": ["Đều là sản phẩm của lao động, kết tinh một lượng lao động xã hội bằng nhau", "Đều dựa trên hao phí lao động cá biệt để sản xuất ra hàng hóa", "Có lượng hao phí vật tư, kĩ thuật bằng nhau", "Đều có giá trị sử dụng ngang nhau"],
+    "c": 0
+  },
+  {
+    "q": "Giá trị của hàng hóa chỉ được thực hiện khi nào?",
+    "a": ["Khi con người sử dụng hàng hóa đó", "Khi con người thực hiện xong quá trình trao đổi, mua bán hàng hóa", "Khi con người tạo ra hàng hóa đó", "Khi con người có sự trân trọng hàng hóa đó"],
+    "c": 1
+  },
+  {
+    "q": "Giá trị sử dụng của hàng hóa được thực hiện khi nào?",
+    "a": ["Khi con người sử dụng hàng hóa đó", "Khi con người đem đi trao đổi, mua bán", "Khi con người tạo ra hàng hóa đó", "Khi con người đem tặng hàng hóa đó cho người khác"],
+    "c": 0
+  },
+  {
+    "q": "Cơ sở để hàng hoá A có thể trao đổi được với hàng hoá B là...",
+    "a": ["Lượng lao động hao phí của hàng hoá A = hàng hoá B", "Lượng lao động hao phí của hàng hoá A > hàng hoá B", "Lượng lao động hao phí của hàng hoá A < hàng hoá B", "Giá trị sử dụng của hai hàng hóa bằng nhau"],
+    "c": 0
+  },
+  {
+    "q": "Số lượng các giá trị sử dụng của hàng hoá phụ thuộc vào nhân tố nào?",
+    "a": ["Những yếu tố điều kiện tự nhiên", "Trình độ khoa học công nghệ", "Chuyên môn hoá sản xuất", "Phong tục, tập quán"],
+    "c": 1
+  },
+  {
+    "q": "Tại sao nói giá trị và giá trị sử dụng của hàng hóa có sự thống nhất với nhau?",
+    "a": ["Vì nó đều do con người tạo ra", "Vì nó đều cùng tồn tại trong một hàng hóa, nếu thiếu một trong hai thuộc tính thì sản phẩm không trở thành hàng hóa", "Vì nó không mâu thuẫn với nhau", "Vì nó đều giúp con người thỏa mãn nhu cầu của mình"],
+    "c": 1
+  },
+  {
+    "q": "Biểu hiện mâu thuẫn của thuộc tính giá trị và giá trị sử dụng của hàng hóa là gì?",
+    "a": ["Vì giá trị của hàng hóa được tạo ra trước nhưng thực hiện sau", "Vì giá trị sử dụng của hàng hóa được tạo ra sau nhưng thực hiện trước", "Vì hai thuộc tính này gây ra phiền toái cho con người trong quá trình sử dụng", "Vì quá trình thực hiện giá trị và giá trị sử dụng của hàng hóa tách rời nhau về không gian và thời gian"],
+    "c": 3
+  },
+  {
+    "q": "Giá trị sử dụng của hàng hoá là phạm trù mang tính...",
+    "a": ["Vĩnh viễn", "Lịch sử", "Tất nhiên", "Ngẫu nhiên"],
+    "c": 0
+  },
+  {
+    "q": "Lao động cụ thể là...",
+    "a": ["Sự tiêu hao sức lao động của người sản xuất hàng hóa nói chung", "Sự tiêu hao sức cơ bắp, thần kinh", "Lao động có ích dưới một hình thức cụ thể của những nghề nghiệp chuyên môn nhất định", "Lao động chuyên môn hóa"],
+    "c": 2
+  },
+  {
+    "q": "Lao động trừu tượng là gì?",
+    "a": ["Lao động cụ thể của người sản xuất hàng hoá không kể đến những hình thức cụ thể", "Lao động phức tạp của người sản xuất hàng hoá", "Lao động cá biệt của người sản xuất hàng hoá", "Lao động xã hội của người sản xuất hàng họá không kể đến những hình thức cụ thể, là sự hao phí sức lao động về cơ bắp, thần kinh, trí óc"],
+    "c": 3
+  },
+  {
+    "q": "Giá trị của hàng hoá là phạm trù mang tính...",
+    "a": ["Vĩnh viễn", "Lịch sử", "Tất nhiên", "Ngẫu nhiên"],
+    "c": 1
+  },
+  {
+    "q": "Lao động cụ thể tạo ra...",
+    "a": ["Giá trị của hàng hoá", "Giá trị sử dụng của hàng hoá", "Giá trị trao đổi của hàng hoá", "Giá trị cá biệt của hàng hoá"],
+    "c": 1
+  },
+  {
+    "q": "Lao động trừu tượng là cơ sở và nguồn gốc của...",
+    "a": ["Giá trị hàng hóa", "Giá trị sử dụng của hàng hóa", "Số lượng công dụng của hàng hóa", "Tất cả đáp án đều sai"],
+    "c": 0
+  },
+  {
+    "q": "Chọn phương án đúng nhất: Hàng hoá có hai thuộc tính giá trị và giá trị sử dụng, bởi vì...",
+    "a": ["Lao động sản xuất hàng hoá có tính hai mặt: lao động cụ thể và lao động trừu tượng", "Lao động sản xuất hàng hoá có mục đích để trao đổi, mua bán", "Lao động sản xuất hàng hoá có hai loại lao động phức tạp và lao động giản đơn", "Lao động sản xuất hàng hoá có tính chất tư nhân và xã hội"],
+    "c": 0
+  },
+  {
+    "q": "Mâu thuẫn cơ bản của lao động sản xuất hàng hóa là:",
+    "a": ["Mâu thuẫn giữa lao động tư nhân và lao động xã hội", "Mâu thuẫn giữa giá trị sử dụng và giá trị của hàng hóa", "Mâu thuẫn giữa giá trị và giá cả hàng hóa", "Mâu thuẫn giai cấp bị trị và giai cấp thống trị"],
+    "c": 0
+  },
+  {
+    "q": "Lượng giá trị xã hội của hàng hóa được quyết định bởi?",
+    "a": ["Thời gian lao động thặng dư của người sản xuất hàng hóa", "Hao phí lao động sống của người sản xuất ra hàng hóa", "Thời gian lao động xã hội cần thiết để sản xuất ra hàng hóa", "Thời gian lao động cá biệt để sản xuất ra hàng hóa"],
+    "c": 2
+  },
+  {
+    "q": "Thời gian lao động cá biệt là gì?",
+    "a": ["Là thời gian để tạo ra một hàng hóa", "Là thời gian để tạo ra một hàng hóa của từng chủ thể sản xuất", "Là thời gian lao động trung bình của xã hội", "Là khoảng thời gian lao động thấp hơn mức cần thiết"],
+    "c": 1
+  },
+  {
+    "q": "Điền từ thích hợp: “Thời gian lao động xã hội cần thiết là thời gian để sản xuất trong những điều kiện (...1...) với trình độ (...2...) trung bình, cường độ lao động (...3...)”",
+    "a": ["(1) tốt, (2) thành thạo, (3) tốt", "(1) trung bình, (2) thành thạo, (3) trung bình", "(1) bình thường, (2) thành thạo, (3) trung bình", "(1) xấu, (2) trung bình, (3) xấu"],
+    "c": 2
+  },
+  {
+    "q": "Năng suất lao động là...",
+    "a": ["Năng lực sản xuất của người lao động, tính bằng sản phẩm/thời gian hoặc ngược lại", "Số lượng sản phẩm sản xuất ra trong một đơn vị thời gian", "Trình độ tiên tiến và mức độ trang bị kĩ thuật", "Mức độ khẩn trương, tích cực của hoạt động lao động"],
+    "c": 0
+  },
+  {
+    "q": "Chọn đáp án đúng nhất điền vào chỗ trống: “Cường độ lao động là mức độ (...) của hoạt động lao động trong sản xuất”.",
+    "a": ["Khẩn trương, tích cực", "Áp lực", "Nặng nhọc", "Căng thẳng"],
+    "c": 0
+  },
+  {
+    "q": "Lao động giản đơn là gì?",
+    "a": ["Là lao động làm công việc đơn giản", "Là lao động làm ra các hàng hóa có giá trị thấp", "Là lao động không phải qua đào tạo một cách hệ thống, chuyên sâu vẫn thao tác được", "Là lao động không cần đến máy móc hỗ trợ"],
+    "c": 2
+  },
+  {
+    "q": "Lao động phức tạp là gì?",
+    "a": ["Là lao động được thực hiện bởi nhiều thao tác phức tạp", "Là lao động phải trải qua đào tạo về kỹ năng, nghiệp vụ theo yêu cầu chuyên môn", "Là lao động tạo ra những hàng hóa có giá trị cao", "Là lao động được xã hội coi trọng"],
+    "c": 1
+  },
+  {
+    "q": "Lượng giá trị của đơn vị hàng hóa:",
+    "a": ["Tỷ lệ thuận với năng suất lao động", "Tỷ lệ nghịch với cường độ lao động", "Tỷ lệ nghịch với năng suất lao động", "Tỷ lệ thuận với cường độ lao động"],
+    "c": 2
+  },
+  {
+    "q": "Nội dung nào dưới đây là biện pháp để tăng cường độ lao động?",
+    "a": ["Tăng mức độ khẩn trương của lao động", "Tăng mức độ nặng nhọc của lao động", "Kéo dài thời gian lao động", "Cả 3 đáp án đều đúng"],
+    "c": 0
+  },
+  {
+    "q": "Nhân tố ảnh hưởng đến lượng giá trị hàng hóa là...",
+    "a": ["Năng suất lao động", "Cường độ lao động", "Mức độ phức tạp của lao động", "Cả 3 đáp án đúng"],
+    "c": 3
+  },
+  {
+    "q": "Khi năng suất lao động tăng lên thì...",
+    "a": ["Tổng số sản phẩm tăng và lượng giá trị trong một đơn vị hàng hoá giảm", "Tổng số sản phẩm giảm và lượng giá trị trong một đơn vị hàng hoá tăng", "Tổng số sản phẩm tăng và lượng giá trị trong một đơn vị hàng hoá tăng", "Tổng số sản phẩm giảm và lượng giá trị trong một đơn vị hàng hoá giảm"],
+    "c": 0
+  },
+  {
+    "q": "Chọn phương án đúng nhất: Việc tăng năng suất lao động ảnh hưởng như thế nào?",
+    "a": ["Tổng số sản phẩm tăng, tổng giá trị sản phẩm không đổi và lượng giá trị đơn vị giảm", "Tổng số sản phẩm tăng, tổng giá trị sản phẩm tăng và lượng giá trị đơn vị giảm", "Tổng số sản phẩm tăng, tổng giá trị sản phẩm giảm và lượng giá trị đơn vị giảm", "Tổng số sản phẩm tăng, tổng giá trị sản phẩm không đổi và lượng giá trị đơn vị tăng"],
+    "c": 0
+  },
+  {
+    "q": "Khi năng suất lao động tăng lên 2 lần thì...",
+    "a": ["Tổng số sản phẩm và lượng giá trị đơn vị cùng tăng lên 2 lần", "Tổng số lượng sản phẩm tăng lên 2 lần và lượng giá trị đơn vị giảm xuống 2 lần", "Tổng số sản phẩm và lượng giá trị đơn vị cùng giảm xuống 2 lần", "Tổng số sản phẩm giảm xuống 2 lần và lượng giá trị đơn vị cũng tăng lên 2 lần"],
+    "c": 1
+  },
+  {
+    "q": "Khi tăng cường độ lao động lên 2 lần thì các nhân tố khác như thế nào?",
+    "a": ["Tổng số sản phẩm và lượng giá trị đơn vị cùng tăng lên 2 lần", "Tổng số sản phẩm tăng lên 2 lần và lượng giá trị đơn vị giảm xuống 2 lần", "Tổng số sản phẩm và lượng giá trị đơn vị không đổi", "Tổng số sản phẩm và tổng lượng giá trị tăng 2 lần nhưng lượng giá trị đơn vị không đổi"],
+    "c": 3
+  },
+  {
+    "q": "Điểm giống nhau khi tăng năng suất lao động và cường độ lao động là gì?",
+    "a": ["Tổng số sản phẩm tăng", "Lượng giá trị trong một đơn vị hàng hoá tăng", "Lượng giá trị trong một đơn vị hàng hoá không đổi", "Lượng giá trị trong một đơn vị hàng hoá giảm"],
+    "c": 0
+  },
+  {
+    "q": "Khi đồng thời tăng năng suất lao động và cường độ lao động lên 2 lần thì...",
+    "a": ["Tổng số sản phẩm tăng lên 4 lần, tổng giá trị sản phẩm tăng 2 lần", "Tổng số sản phẩm tăng 2 lần, tổng giá trị sản phẩm tăng lên 2 lần", "Lượng giá trị đơn vị giảm 2 lần, tổng giá trị sản phẩm tăng 2 lần", "Tổng số sản phẩm tăng 2 lần, lượng giá trị đơn vị giảm 2 lần"],
+    "c": 0
+  },
+  {
+    "q": "Nhân tố cơ bản, lâu dài để tăng sản phẩm cho xã hội là...",
+    "a": ["Tăng năng suất lao động", "Tăng số người lao động", "Tăng cường độ lao động", "Kéo dài thời gian lao động"],
+    "c": 0
+  },
+  {
+    "q": "Tiền tệ ra đời là kết quả của quá trình nào?",
+    "a": ["Quá trình mua bán, trao đổi quốc tế", "Quá trình hình thành nhà nước", "Quá trình trao đổi trực tiếp, ngẫu nhiên hàng hóa", "Quá trình phát triển của sản xuất và trao đổi hàng hoá"],
+    "c": 3
+  },
+  {
+    "q": "Hình thái giá trị đầu tiên của tiền tệ là...",
+    "a": ["Hình thái giá trị giản đơn hay ngẫu nhiên", "Hình thái mở rộng của giá trị", "Hình thái chung của giá trị", "Hình thái tiền tệ"],
+    "c": 0
+  },
+  {
+    "q": "Khi sản xuất và trao đổi hàng hoá phát triển đòi hỏi vật ngang giá chung xuất hiện ở hình thái nào?",
+    "a": ["Hình thái giá trị giản đơn hay ngẫu nhiên", "Hình thái mở rộng của giá trị", "Hình thái chung của giá trị", "Hình thái tiền tệ"],
+    "c": 2
+  },
+  {
+    "q": "Bản chất của tiền là gì?",
+    "a": ["Là loại hàng hoá đặc biệt, làm vật ngang giá chung và phản ánh lao động xã hội", "Là loại hàng hoá đặc biệt, làm vật ngang giá chung và phản ánh lao động tư nhân", "Là loại hàng hoá đặc biệt, làm vật ngang giá chung và phản ánh lao động cá biệt", "Là loại hàng hoá đặc biệt, làm vật ngang giá chung và phản ánh lao động thủ công"],
+    "c": 0
+  },
+  {
+    "q": "Tiền tệ có các chức năng sau đây:...",
+    "a": ["Thước đo giá trị, lưu thông, cất trữ, môi giới, thế giới", "Thước đo giá trị, giao thông, cất trữ, thanh toán, thế giới", "Thước đo giá trị, phương tiện lưu thông, cất trữ, thanh toán, tiền tệ thế giới", "Thước đo giá trị, trao đổi, cất trữ, thanh toán, tiền tệ thế giới"],
+    "c": 2
+  },
+  {
+    "q": "Thực hiện chức năng thước đo giá trị, tiền được dùng để... ",
+    "a": ["Làm phương tiện mua hàng hoá", "Đo lường giá trị của các hàng hoá khác", "Làm phương tiện nộp thuế", "Làm phương tiện trả nợ"],
+    "c": 1
+  },
+  {
+    "q": "Tiền được dùng làm gì khi thực hiện chức năng phương tiện lưu thông?",
+    "a": ["Thanh toán", "Môi giới trong quá trình trao đổi hàng hoá", "Nộp thuế", "Trả nợ"],
+    "c": 1
+  },
+  {
+    "q": "Thực hiện chức năng phương tiện thanh toán, tiền được dùng để...",
+    "a": ["Môi giới trong quá trình trao đổi hàng hoá", "Trả nợ, nộp thuế, trả tiền mua hàng chịu...", "Làm phương tiện mua hàng", "Đo lường giá trị các hàng hoá"],
+    "c": 1
+  },
+  {
+    "q": "Tiền được dùng làm gì khi thực hiện chức năng tiền tệ thế giới?",
+    "a": ["Phương tiện mua bán", "Di chuyển của cải", "Mua bán, thanh toán quốc tế", "Đo lường giá trị các hàng hoá"],
+    "c": 2
+  },
+  {
+    "q": "Tại sao nói tiền tệ là một loại hàng hóa đặc biệt?",
+    "a": ["Vì tiền được tạo ra từ những chất liệu đặc biệt", "Vì tiền được chọn là vật ngang giá chung cho tất cả các hàng hóa khác", "Vì tiền thường xuyên xuất hiện trong quá trình lưu thông hàng hóa", "Vì tiền thúc đẩy quá trình trao đổi, mua bán diễn ra thuận lợi hơn"],
+    "c": 1
+  },
+  {
+    "q": "Chọn phương án đúng nhất: Thực hiện chức năng tiền tệ thế giới, tiền phải đáp ứng yêu cầu...",
+    "a": ["Không đủ giá trị, tiền vàng hoặc tiền được quốc tế công nhận", "Có đủ giá trị, tiền vàng hoặc những đồng tiền được công nhận là phương tiện thanh toán quốc tế", "Đủ giá trị, tiền bạc hoặc tiền được quốc tế công nhận", "Đủ giá trị, tiền vàng hoặc tiền không được quốc tế công nhận"],
+    "c": 1
+  },
+  {
+    "q": "Hàng hoá vô hình có những đặc điểm nào?",
+    "a": ["Không cất trữ được, sản xuất và tiêu dùng diễn ra đồng thời", "Cất trữ được, sản xuất và tiêu dùng diễn ra đồng thời", "Không cất trữ được, sản xuất và tiêu dùng tách rời nhau", "Cất trữ được, sản xuất và tiêu dùng tách rời nhau"],
+    "c": 0
+  },
+  {
+    "q": "Trong điều kiện kinh tế thị trường hiện nay, một số hàng hoá có quan hệ trao đổi khác thông thường là...",
+    "a": ["Quyền sử dụng đất đai, thương hiệu và hàng hoá tư liệu sản xuất", "Thương hiệu, hàng hoá tư liệu tiêu dùng, chứng khoán", "Quyền sử dụng đất đai, thương hiệu, chứng khoán và một số giấy tờ có giá khác", "Quyền sử dụng đất đai, thương hiệu, chứng khoán, hàng hoá nông phẩm"],
+    "c": 2
+  },
+  {
+    "q": "Điền vào chỗ trống: “Thị trường là tổng hòa những (...) kinh tế, trong đó nhu cầu của các chủ thể được đáp ứng thông qua trao đổi, mua bán...”.",
+    "a": ["Quan hệ", "Hoạt động", "Hiện tượng", "Mối liên hệ"],
+    "c": 0
+  },
+  {
+    "q": "Căn cứ vào vai trò của các yếu tố được trao đổi, người ta phân chia thị trường thành:",
+    "a": ["Thị trường trong nước và thị trường thế giới", "Thị trường các yếu tố đầu vào và thị trường các yếu tố đầu ra", "Thị trường tư liệu sản xuất và thị trường tư liệu tiêu dùng", "Thị trường tự do, có điều tiết, cạnh tranh hoàn hảo và độc quyền"],
+    "c": 1
+  },
+  {
+    "q": "Để các quan hệ sản xuất, lưu thông, phân phối, tiêu dùng trở thành một thể thống nhất trong quốc gia, cần phát huy vai trò của:",
+    "a": ["Nhà nước", "Thị trường", "Tiền tệ", "Hàng hóa"],
+    "c": 1
+  },
+  {
+    "q": "Cơ chế thị trường là hệ thống các quan hệ kinh tế mang đặc tính (...)",
+    "a": ["Áp đặt", "Tự điều chỉnh", "Ngẫu nhiên", "Tự phát"],
+    "c": 1
+  },
+  {
+    "q": "Cơ chế thị trường được sinh ra từ đâu?",
+    "a": ["Nhà nước", "Nền sản xuất hàng hóa", "Nền sản xuất tự nhiên", "Người sản xuất"],
+    "c": 1
+  },
+  {
+    "q": "Sản xuất và lưu thông hàng hoá chịu sự chi phối của những quy luật kinh tế nào?",
+    "a": ["Quy luật giá trị", "Quy luật cạnh tranh và quy luật cung cầu", "Quy luật lưu thông tiền tệ", "Tất cả các đáp án đúng"],
+    "c": 3
+  },
+  {
+    "q": "Nội dung của quy luật giá trị là gì?",
+    "a": ["Việc sản xuất hàng hóa phải tiến hành trên cơ sở hao phí lao động xã hội cần thiết", "Việc trao đổi hàng hóa phải tiến hành trên cơ sở hao phí lao động xã hội cần thiết", "Việc sản xuất và trao đổi hàng hóa phải tiến hành trên cơ sở hao phí lao động xã hội cần thiết", "Việc sản xuất và trao đổi phải tiến hành trên cơ sở hao phí lao động cá biệt"],
+    "c": 2
+  },
+  {
+    "q": "Điền từ: “Cạnh tranh là sự ganh đua giữa những (...) với nhau nhằm thu lợi ích tối đa”",
+    "a": ["Người mua và người bán", "Nhà sản xuất và người tiêu dùng", "Chủ thể kinh tế", "Người sản xuất"],
+    "c": 2
+  },
+  {
+    "q": "Vai trò của thị trường là...",
+    "a": ["Thực hiện giá trị hàng hóa, là môi trường cho sản xuất phát triển", "Kích thích sáng tạo, tạo cách thức phân bổ nguồn lực hiệu quả", "Gắn kết nền kinh tế thành một chỉnh thể quốc gia và thế giới", "Tất cả các đáp án đều đúng"],
+    "c": 3
+  },
+  {
+    "q": "Điền từ: “Nền kinh tế thị trường là nền kinh tế được vận hành theo (...). ... mọi quan hệ được thông qua (...)”.",
+    "a": ["Cơ chế thị trường/ sự quản lý của nhà nước", "Cơ chế thị trường/ thị trường", "Quy luật kinh tế/ thị trường", "Quy luật kinh tế/ sự điều tiết của nhà nước"],
+    "c": 1
+  },
+  {
+    "q": "Vị trí của quy luật giá trị trong nền sản xuất hàng hóa?",
+    "a": ["Là quy luật kinh tế khách quan của nền sản xuất hàng hóa", "Là quy luật kinh tế cơ bản của sản xuất và trao đổi hàng hóa", "Là quy luật kinh tế chung của mọi nền sản xuất", "Là quy luật kinh tế cá biệt của nền sản xuất hàng hóa"],
+    "c": 1
+  },
+  {
+    "q": "Đâu là biểu hiện của việc vi phạm quy luật giá trị trong nền kinh tế thị trường?",
+    "a": ["Hàng hóa được tạo ra quá nhiều", "Hàng hóa trao đổi không theo nguyên tắc ngang giá", "Quá trình tạo ra hàng hóa không áp dụng khoa học công nghệ", "Hàng hóa bị người tiêu dùng tẩy chay"],
+    "c": 1
+  },
+  {
+    "q": "Cơ sở hình thành giá cả hàng hóa là...",
+    "a": ["Giá trị của hàng hoá", "Giá trị sử dụng của hàng hoá", "Cả giá trị và giá trị sử dụng của hàng hóa", "Giá trị trao đổi của hàng hóa"],
+    "c": 0
+  },
+  {
+    "q": "Kết quả của cạnh tranh trong nội bộ ngành là...",
+    "a": ["Hình thành giá cả của từng loại hàng hóa", "Hình thành giá trị của từng loại hàng hóa", "Hình thành giá trị thị trường của từng loại hàng hóa", "Hình thành giá trị cá biệt của từng loại hàng hóa"],
+    "c": 2
+  },
+  {
+    "q": "Hãy chọn đáp án không phải là tác động tiêu cực của cạnh tranh?",
+    "a": ["Gây tổn hại môi trường kinh doanh", "Gây lãng phí nguồn lực xã hội", "Gây hạn chế năng lực đổi mới khoa học, kỹ thuật", "Gây tổn hại phúc lợi của xã hội"],
+    "c": 2
+  },
+  {
+    "q": "Nhận định nào sau đây là sai về đặc trưng của nền kinh tế thị trường?",
+    "a": ["Có sự đa dạng của các chủ thể kinh tế, nhiều hình thức sở hữu", "Thị trường tự điều tiết nền kinh tế thông qua các quy luật khách quan", "Đóng vai trò quyết định trong việc phân bổ các nguồn lực xã hội", "Giá cả được hình thành theo nguyên tắc thị trường"],
+    "c": 2
+  },
+  {
+    "q": "Quan hệ Cung - Cầu có ảnh hưởng như thế nào đến giá trị và giá cả của hàng hóa?",
+    "a": ["Quyết định giá trị và giá cả của hàng hóa", "Làm cho giá cả luôn cao hơn giá trị", "Làm cho giá trị và giá cả luôn ổn định", "Làm giá cả vận động lên xuống xung quanh giá trị hàng hóa"],
+    "c": 3
+  },
+  {
+    "q": "Nếu số lượng tiền cần thiết cho lưu thông không ăn khớp với lượng hàng hóa sẽ dẫn tới tình trạng gì?",
+    "a": ["Trì trệ hoặc lạm phát nền kinh tế", "Trì trệ nền kinh tế", "Lạm phát nền kinh tế", "Mất kiểm soát nền kinh tế"],
+    "c": 0
+  },
+  {
+    "q": "Hiện tượng nào sau đây không phải là khuyết tật của nền kinh tế thị trường?",
+    "a": ["Cuộc khủng hoảng tài chính 2008", "Chiến sự tải Dải Gaza năm 2023", "Bất bình đẳng xã hội nặng nề tại Ấn Độ", "Sự cố môi trường Formosa năm 2016"],
+    "c": 1
+  },
+  {
+    "q": "Đáp án nào không phải là tác động của quy luật cung - cầu?",
+    "a": ["Điều tiết quan hệ giữa sản xuất và lưu thông hàng hóa", "Làm thay đổi cơ cấu và quy mô thị trường", "Nâng cao năng suất lao động, hạ giá thành sản phẩm", "Dự đoán xu thế biến động của giá cả"],
+    "c": 2
+  },
+  {
+    "q": "Đâu là những chủ thể chính tham gia thị trường?",
+    "a": ["Người sản xuất và người tiêu dùng", "Người tiêu dùng và chủ thể trung gian", "Người sản xuất, người tiêu dùng, chủ thể trung gian và nhà nước", "Nhà nước và người tiêu dùng"],
+    "c": 2
+  },
+  {
+    "q": "Mục tiêu của người sản xuất khi tham gia thị trường?",
+    "a": ["Tạo ra hàng hóa chất lượng", "Thỏa mãn và làm hài lòng nhu cầu người tiêu dùng", "Tìm kiếm lợi nhuận", "Tạo dựng thương hiệu cá nhân"],
+    "c": 2
+  },
+  {
+    "q": "Nhân tố quyết định đến sự phát triển bền vững của sản xuất là?",
+    "a": ["Sức mua của người tiêu dùng", "Vai trò điều tiết của nhà nước", "Sự phát triển của khoa học công nghệ", "Năng suất lao động cao"],
+    "c": 0
+  },
+  {
+    "q": "Vai trò của nhà nước trong nền kinh tế thị trường?",
+    "a": ["Thực hiện quản lý nhà nước về kinh tế", "Sử dụng các công cụ kinh tế để điều tiết nền kinh tế", "Tất cả các đáp án", "Có các biện pháp để khắc phục khuyết tật của thị trường"],
+    "c": 2
+  },
+  {
+    "q": "Chủ thể nào đóng vai trò quan trọng trong định hướng quá trình sản xuất?",
+    "a": ["Người sản xuất", "Người trung gian", "Người tiêu dùng", "Nhà nước"],
+    "c": 2
+  },
+  {
+    "q": "Để thúc đẩy phát triển hiệu quả, ngoài chức năng quản lý, nhà nước cần phải...?",
+    "a": ["Quan tâm đến quyền lợi người sản xuất", "Kiểm soát vai trò của chủ thể trung gian", "Lắng nghe nhu cầu người tiêu dùng", "Tôn trọng các quy luật khách quan của thị trường"],
+    "c": 3
+  },
+  {
+    "q": "Nhà nước thực hiện chức năng quản lý nền kinh tế nhằm hướng đến?",
+    "a": ["Bảo vệ quyền lợi người sản xuất", "Ngăn chặn tác động tiêu cực của chủ thể trung gian", "Gia tăng sức mua cho người tiêu dùng", "Phát triển kinh tế và đảm bảo hài hòa quan hệ lợi ích giữa các chủ thể"],
+    "c": 3
+  },
+  {
+    "q": "Cung cấp hàng hóa dịch vụ không làm tổn hại sức khỏe và lợi ích con người là trách nhiệm của:",
+    "a": ["Người sản xuất", "Người trung gian", "Người tiêu dùng", "Nhà nước"],
+    "c": 0
+  },
+  {
+    "q": "Chủ thể nào sau đây không phải chủ thể trung gian trong thị trường?",
+    "a": ["Nhà phân phối sản phẩm", "Môi giới bất động sản", "Người tiêu dùng", "Môi giới chứng khoán"],
+    "c": 2
+  },
+  {
+    "q": "Cơ sở thực tiễn làm xuất hiện các chủ thể trung gian trong kinh tế thị trường?",
+    "a": ["Sự chỉ đạo của Nhà nước", "Nhu cầu của người tiêu dùng", "Nhu cầu của người sản xuất", "Sự phân công lao động xã hội ngày càng sâu sắc"],
+    "c": 3
+  },
+  {
+    "q": "Đâu là nhận định đúng về vai trò của chủ thể trung gian trong thị trường?",
+    "a": ["Chỉ có tác động tích cực đối với thị trường", "Vừa có tác động tích cực, vừa có tác động tiêu cực đối với thị trường", "Đóng vai trò quyết định trong quá trình tiêu thụ hàng hóa", "Được phép quyết định giá cả của hàng hóa"],
+    "c": 1
+  },
+  {
+    "q": "Từ vai trò của một số chủ thể chính tham gia thị trường, nhận định nào sau đây là đúng?",
+    "a": ["Doanh nghiệp đóng vai trò là người tiêu dùng", "Doanh nghiệp đóng vai trò là người sản xuất", "Doanh nghiệp đóng vai trò quyết định trong quá trình tiêu thụ", "Doanh nghiệp vừa đóng vai trò là người mua, vừa đóng vai trò là người bán"],
+    "c": 3
+  },
+//chuong3
+{
+    "q": "Chọn đáp án đúng về công thức chung của tư bản?",
+    "a": ["T - H - T", "T - H - T'", "H - T - H", "H - T - H'"],
+    "c": 1
+  },
+  {
+    "q": "Vai trò của tiền trong công thức chung của tư bản là gì?",
+    "a": ["Tiền đóng vai trò là tư bản", "Tiền đóng vai trò là trung gian trong trao đổi", "Tiền đóng vai trò là thước đo giá trị của hàng hóa", "Tiền đóng vai trò là phương tiện mua bán, thanh toán"],
+    "c": 0
+  },
+  {
+    "q": "Chọn đáp án đúng về công thức lưu thông hàng hóa giản đơn?",
+    "a": ["T - H - T", "T - H - T'", "H - T - H", "T - H - H"],
+    "c": 2
+  },
+  {
+    "q": "Vai trò của tiền trong công thức lưu thông hàng hóa giản đơn là gì?",
+    "a": ["Tiền đóng vai trò là tư bản", "Tiền đóng vai trò làm tăng giá trị của hàng hóa", "Tiền làm môi giới, trung gian trong trao đổi hàng hóa", "Thực hiện giá trị sử dụng của hàng hóa"],
+    "c": 2
+  },
+  {
+    "q": "C. Mác đã chỉ ra mâu thuẫn của công thức chung của tư bản xuất phát từ...",
+    "a": ["Mâu thuẫn về vai trò của sản xuất và lưu thông trong quá trình tạo ra và thu về giá trị hàng hóa", "Sự khác biệt giữa công thức chung của tư bản và công thức lưu thông hàng hóa giản đơn", "Mâu thuẫn về vai trò của tiền trong công thức lưu thông của tư bản và hàng hóa giải đơn", "Mâu thuẫn về vai trò của sản xuất và lưu thông trong quá trình tạo ra và thu về giá trị thặng dư"],
+    "c": 3
+  },
+  {
+    "q": "Sau khi nghiên cứu công thức chung của tư bản, C. Mác đã rút ra điều gì về nguồn gốc của giá trị thặng dư?",
+    "a": ["Giá trị thặng dư có được nhờ đưa tiền vào lưu thông", "Giá trị thặng dư có được là do việc mua hàng hóa giá rẻ và bán hàng hóa với giá đắt", "Giá trị thặng dư được tạo ra trong lĩnh vực sản xuất nhưng cần có lưu thông để thực hiện nó", "Giá trị thặng dư chính là tiền lãi có được nhờ quá trình trao đổi, mua bán hàng hóa"],
+    "c": 2
+  },
+  {
+    "q": "Tư bản là gì?",
+    "a": ["Là tiền và máy móc thiết bị", "Là tiền có khả năng đẻ ra tiền", "Là giá trị mang lại giá trị thặng dư bằng cách bóc lột sức lao động của công nhân làm thuê", "Là công cụ sản xuất và nguyên liệu"],
+    "c": 2
+  },
+  {
+    "q": "Điền vào chỗ trống: “Sức lao động hay năng lực lao động là toàn bộ (...) tồn tại trong cơ thể, trong một người đang sống, và được người đó đem ra vận dụng mỗi khi sản xuất ra một giá trị sử dụng nào đó”.",
+    "a": ["Năng lực thể chất", "Năng lực tinh thần", "Năng lực sản xuất", "Năng lực thể chất và tinh thần"],
+    "c": 3
+  },
+  {
+    "q": "Giá trị hàng hóa sức lao động gồm...",
+    "a": ["Giá trị các tư liệu sinh hoạt cần thiết để tái sản xuất sức lao động", "Giá trị các tư liệu sinh hoạt cần thiết để nuôi sống gia đình người công nhân", "Phí tổn đào tạo người lao động", "Tất cả các đáp án"],
+    "c": 3
+  },
+  {
+    "q": "Điều kiện để sức lao động trở thành hàng hoá là...",
+    "a": ["Người lao động được tự do về thân thể và không có tư liệu sản xuất", "Có quyền sở hữu năng lực lao động của mình", "Có quyền bán sức lao động của mình cho người khác", "Muốn lao động để có thu nhập"],
+    "c": 0
+  },
+  {
+    "q": "Giá trị sử dụng hàng hoá sức lao động là...",
+    "a": ["Thoả mãn nhu cầu của người mua nó", "Công dụng của hàng hoá sức lao động", "Tính có ích của hàng hoá sức lao động", "Tất cả các đáp án"],
+    "c": 3
+  },
+  {
+    "q": "Sự xuất hiện của sức lao động với tư cách là một hàng hóa có ý nghĩa như thế nào?",
+    "a": ["Làm tăng thêm mâu thuẫn trong công thức chung của tư bản", "Làm phong phú thêm thế giới hàng hóa", "Người lao động được giải phóng khỏi áp bức bóc lột", "Giải quyết được mâu thuẫn trong công thức chung, là điều kiện để tiền trở thành tư bản"],
+    "c": 3
+  },
+  {
+    "q": "Giá trị hàng hoá sức lao động khác với giá trị hàng hoá thông thường ở điểm nào?",
+    "a": ["Tạo ra giá trị nhiều hơn giá trị hàng hoá thông thường", "Mang yếu tố tinh thần", "Mang yếu tố lịch sử", "Mang yếu tố tinh thần và lịch sử"],
+    "c": 3
+  },
+  {
+    "q": "Giá trị của hàng hoá sức lao động phụ thuộc vào yếu tố nào?",
+    "a": ["Năng suất lao động xã hội", "Năng suất lao động trong ngành sản xuất tư liệu sản xuất", "Năng suất lao động của xí nghiệp cụ thể", "Phong tục, tập quán và mức sống của vùng hay của nước sử dụng sức lao động"],
+    "c": 3
+  },
+  {
+    "q": "Bản chất của tư bản là gì?",
+    "a": ["Tiền đẻ ra tiền", "Tư liệu sản xuất", "Quan hệ sản xuất xã hội", "Tư liệu lao động"],
+    "c": 2
+  },
+  {
+    "q": "Trong xí nghiệp tư bản người công nhân cần làm việc theo nguyên tắc gì?",
+    "a": ["Không làm vượt quá lượng giá trị sức lao động", "Làm việc theo năng lực cá nhân", "Làm việc dưới sự kiểm soát của nhà tư bản", "Tất cả các đáp án"],
+    "c": 2
+  },
+  {
+    "q": "Điền vào chỗ trống: “Giá trị thặng dư là (...) do công nhân tạo ra, là kết quả của lao động không công của công nhân cho nhà tư bản”.",
+    "a": ["Số hàng hóa dư ra so với sản lượng được khoán", "Lượng chi phí sản xuất tiết kiệm được", "Bộ phận giá trị sử dụng mới của hàng hóa", "Bộ phận giá trị mới dôi ra ngoài giá trị sức lao động"],
+    "c": 3
+  },
+  {
+    "q": "Hình thái tồn tại của tư bản bất biến là gì?",
+    "a": ["Sức lao động", "Máy móc, thiết bị, nhà xưởng", "Nguyên nhiên vật liệu", "Tư liệu sản xuất"],
+    "c": 3
+  },
+  {
+    "q": "Hình thái tồn tại của tư bản khả biến là gì?",
+    "a": ["Hàng hóa sức lao động", "Máy móc", "Nhà xưởng", "Nguyên nhiên vật liệu"],
+    "c": 0
+  },
+  {
+    "q": "Về mặt lượng, tư bản bất biến trong quá trình sản xuất sẽ thay đổi như thế nào?",
+    "a": ["Được bảo toàn và chuyển toàn bộ giá trị vào sản phẩm", "Chuyển dần từng phần giá trị vào sản phẩm", "Giảm đi", "Tăng lên"],
+    "c": 0
+  },
+  {
+    "q": "Tư bản khả biến trong quá trình sản xuất sẽ thay đổi như thế nào về mặt lượng?",
+    "a": ["Không tăng lên", "Chuyển dần giá trị vào sản phẩm", "Chuyển nguyên giá trị vào sản phẩm", "Tăng lên"],
+    "c": 3
+  },
+  {
+    "q": "Tiền công dưới chủ nghĩa tư bản là...",
+    "a": ["Giá trị lao động", "Giá cả hàng hóa sức lao động", "Sự trả công lao động", "Giá trị hàng hóa sức lao động"],
+    "c": 1
+  },
+  {
+    "q": "Nguyên, nhiên, vật liệu chính là...",
+    "a": ["Tư bản bất biến", "Tư bản khả biến", "Tư bản tuần hoàn", "Tư bản cố định"],
+    "c": 0
+  },
+  {
+    "q": "Tiền công được biểu hiện bằng số lượng hàng hoá tiêu dùng và dịch vụ mà công nhân mua được chính là...",
+    "a": ["Tiền công thực tế", "Tiền công danh nghĩa", "Tiền công tính theo sản phẩm", "Tiền công tính theo thời gian"],
+    "c": 0
+  },
+  {
+    "q": "Trong công thức giá trị của hàng hóa, đâu là bộ phận giá trị mới được tạo ra?",
+    "a": ["(c + v)", "G", "m", "(v + m)"],
+    "c": 3
+  },
+  {
+    "q": "Dựa vào căn cứ nào để phân chia tư bản thành tư bản cố định và tư bản lưu động?",
+    "a": ["Xác định nguồn gốc của giá trị thặng dư", "Phương thức chu chuyển giá trị của tư bản sản xuất vào giá trị sản phẩm", "Phương thức khấu hao tư bản cố định", "Vai trò của từng bộ phận tư bản trong tạo ra giá trị thặng dư"],
+    "c": 1
+  },
+  {
+    "q": "Nguyên nhân cơ bản làm cho tư bản cố định hao mòn hữu hình là...",
+    "a": ["Ứng dụng tiến bộ khoa học - kĩ thuật mới", "Cung lớn hơn cầu về tư bản cố định", "Tăng năng suất lao động trong ngành chế tạo máy", "Do quá trình sử dụng và tác động của tự nhiên gây ra"],
+    "c": 3
+  },
+  {
+    "q": "Nguyên nhân cơ bản làm cho tư bản cố định hao mòn vô hình là...",
+    "a": ["Ứng dụng tiến bộ khoa học - kĩ thuật - công nghệ mới", "Cung lớn hơn cầu về tư bản cố định", "Tăng năng suất lao động trong ngành chế tạo máy", "Do sử dụng và tác động của tự nhiên gây ra"],
+    "c": 0
+  },
+  {
+    "q": "Ý nghĩa của sự phân chia tư bản thành tư bản bất biến và tư bản khả biến?",
+    "a": ["Đặc điểm chuyển giá trị của từng loại tư bản vào sản phẩm", "Vai trò của lao động quá khứ và lao động sống", "Chỉ ra nguồn gốc của giá trị thặng dư và bản chất bóc lột", "Tính chất hai mặt của lao động sản xuất hàng hóa"],
+    "c": 2
+  },
+  {
+    "q": "Khẳng định nào dưới đây KHÔNG đúng về tư bản cố định?",
+    "a": ["Tư bản cố định là nguồn gốc của giá trị thặng dư", "Tư bản cố định là điều kiện tăng năng suất lao động", "Tư bản cố định là điều kiện để giảm giá trị hàng hoá", "Tư bản cố định là bộ phận chủ yếu của tư bản bất biến"],
+    "c": 0
+  },
+  {
+    "q": "Chọn phương án đúng nhất: Vai trò của máy móc trong quá trình tạo ra giá trị thặng dư là gì?",
+    "a": ["Máy móc là nguồn gốc của giá trị thặng dư", "Máy móc là tiền đề vật chất cho việc tạo ra giá trị thặng dư", "Máy móc và sức lao động đều tạo ra giá trị thặng dư", "Máy móc là yếu tố quyết định tạo ra giá trị thặng dư"],
+    "c": 1
+  },
+  {
+    "q": "Khi trả tiền công bằng giá trị sức lao động cho công nhân làm thuê, nhà tư bản thu được gì?",
+    "a": ["Giá trị thặng dư", "Giá trị sử dụng", "Không thu được gì", "Tất cả các đáp án đều sai"],
+    "c": 0
+  },
+  {
+    "q": "Tuần hoàn của tư bản là gì?",
+    "a": ["Là sự vận động liên tục của tư bản tiền tệ", "Vận động từ tiền tệ sang sản xuất và hàng hoá", "Vận động qua 3 giai đoạn dưới 3 hình thái kế tiếp nhau quay về hình thái ban đầu kèm theo giá trị thặng dư", "Là sự vận động liên tục của tư bản cố định và tư bản lưu thông"],
+    "c": 2
+  },
+  {
+    "q": "Trong tuần hoàn tư bản, hình thái nào đóng vai trò chuẩn bị điều kiện sản xuất giá trị thặng dư?",
+    "a": ["Tư bản sản xuất", "Tư bản thương nghiệp", "Tư bản hàng hóa", "Tư bản tiền tệ"],
+    "c": 3
+  },
+  {
+    "q": "Trong tuần hoàn tư bản, hình thái tư bản nào đóng vai trò tạo ra giá trị thặng dư?",
+    "a": ["Tư bản sản xuất", "Tư bản hàng hóa", "Tư bản tiền tệ", "Tư bản ngân hàng"],
+    "c": 0
+  },
+  {
+    "q": "Trong tuần hoàn tư bản, hình thái tư bản nào đóng vai trò thực hiện giá trị thặng dư?",
+    "a": ["Tư bản sản xuất", "Tư bản hàng hóa", "Tư bản tiền tệ", "Tư bản ngân hàng"],
+    "c": 1
+  },
+  {
+    "q": "Thời gian chu chuyển của tư bản bao gồm những giai đoạn nào?",
+    "a": ["Thời gian mua yếu tố đầu vào và bán hàng hóa đầu ra", "Thời gian hoàn thiện sản phẩm hàng hóa", "Thời gian vận chuyển hàng hóa", "Thời gian sản xuất và thời gian lưu thông"],
+    "c": 3
+  },
+  {
+    "q": "Tốc độ chu chuyển của tư bản tăng lên thì khối lượng giá trị thặng dư sẽ...",
+    "a": ["Tăng lên", "Giảm xuống", "Không đổi", "Tuỳ điều kiện cụ thể"],
+    "c": 0
+  },
+  {
+    "q": "Tỉ suất giá trị thặng dư là tỉ lệ phần trăm giữa giá trị thặng dư và (...)?",
+    "a": ["Tư bản bất biến", "Tư bản khả biến", "Tư bản cố định", "Tư bản lưu động"],
+    "c": 1
+  },
+  {
+    "q": "Khối lượng giá trị thặng dư là lượng giá trị thặng dư bằng (...) mà nhà tư bản thu được.",
+    "a": ["Hiện vật", "Hàng hóa", "Tiền", "Tất cả các đáp án sai"],
+    "c": 2
+  },
+  {
+    "q": "M = m' . v là công thức tính...",
+    "a": ["Giá trị thặng dư", "Khối lượng giá trị thặng dư", "Tỉ suất giá trị thặng dư", "Lượng giá trị hàng hóa"],
+    "c": 1
+  },
+  {
+    "q": "m' = (M : V) x 100% là công thức tính...",
+    "a": ["Giá trị thặng dư", "Khối lượng giá trị thặng dư", "Tỉ suất giá trị thặng dư", "Lượng giá trị hàng hóa"],
+    "c": 2
+  },
+  {
+    "q": "Tỉ suất giá trị thặng dư biểu hiện điều gì?",
+    "a": ["Trình độ bóc lột của tư bản đối với lao động làm thuê", "Quy mô bóc lột của tư bản đối với lao động làm thuê", "Tính chất bóc lột của tư bản đối với lao động làm thuê", "Phạm vi bóc lột của tư bản đối với lao động làm thuê"],
+    "c": 0
+  },
+  {
+    "q": "Khối lượng giá trị thặng dư phản ánh điều gì?",
+    "a": ["Trình độ bóc lột của tư bản đối với lao động làm thuê", "Quy mô bóc lột của tư bản đối với lao động làm thuê", "Tính chất bóc lột của tư bản đối với lao động làm thuê", "Phạm vi bóc lột của tư bản đối với lao động làm thuê"],
+    "c": 1
+  },
+  {
+    "q": "Phương pháp kéo dài ngày lao động vượt quá thời gian lao động tất yếu để thu thặng dư là?",
+    "a": ["Sản xuất giá trị thặng dư siêu ngạch", "Sản xuất giá trị thặng dư tương đối", "Sản xuất giá trị thặng dư độc quyền", "Sản xuất giá trị thặng dư tuyệt đối"],
+    "c": 3
+  },
+  {
+    "q": "Phương pháp rút ngắn thời gian lao động tất yếu để kéo dài thời gian thặng dư là?",
+    "a": ["Sản xuất giá trị thặng dư siêu ngạch", "Sản xuất giá trị thặng dư tương đối", "Sản xuất giá trị thặng dư độc quyền", "Sản xuất giá trị thặng dư tuyệt đối"],
+    "c": 1
+  },
+  {
+    "q": "Phương pháp sản xuất giá trị thặng dư tuyệt đối được áp dụng phổ biến trong giai đoạn...",
+    "a": ["Trước khi chủ nghĩa tư bản ra đời", "Trong giai đoạn đầu của chủ nghĩa tư bản", "Giai đoạn đại công nghiệp cơ khí", "Giai đoạn phát triển của kinh tế thị trường"],
+    "c": 1
+  },
+  {
+    "q": "Để tăng cường bóc lột giá trị thặng dư tương đối cần phải...",
+    "a": ["Tăng cường độ lao động xã hội", "Tăng cường độ lao động ngành tư liệu sinh hoạt", "Tăng năng suất lao động trong các ngành sản xuất ra tư liệu sinh hoạt", "Kéo dài thời gian lao động trong ngành tư liệu sinh hoạt"],
+    "c": 2
+  },
+  {
+    "q": "Cơ sở chung của giá trị thặng dư tương đối và giá trị thặng dư siêu ngạch là...",
+    "a": ["Tăng năng suất lao động xã hội", "Tăng năng suất lao động", "Tăng năng suất lao động cá biệt", "Giảm giá trị sức lao động"],
+    "c": 1
+  },
+  {
+    "q": "Giá trị thặng dư tuyệt đối và giá trị thặng dư tương đối có điểm nào giống nhau?",
+    "a": ["Đều làm cho công nhân tốn sức lao động nhiều hơn", "Đều làm tăng tỉ suất giá trị thặng dư", "Đều làm giảm giá trị sức lao động của công nhân", "Đều được áp dụng không có giới hạn"],
+    "c": 1
+  },
+  {
+    "q": "Thời gian lao động tất yếu được hiểu là gì?",
+    "a": ["Thời gian người công nhân làm việc như một nhu cầu tất yếu", "Thời gian theo yêu cầu của nhà tư bản", "Thời gian người công nhân làm việc để bù đắp lại giá trị sức lao động của chính mình", "Thời gian người công nhân phải làm để tạo ra giá trị thặng dư"],
+    "c": 2
+  },
+  {
+    "q": "Thời gian lao động thặng dư là thời gian mà người công nhân tạo ra...",
+    "a": ["Giá trị thặng dư", "Toàn bộ giá trị sử dụng", "Toàn bộ giá trị mới", "Giá trị trao đổi"],
+    "c": 0
+  },
+  {
+    "q": "Tư bản đầu tư 900.000$, c=780.000$, 400 công nhân. m'=200%. Giá trị mới do 1 công nhân tạo ra là?",
+    "a": ["600$", "2.800$", "900$", "300$"],
+    "c": 2
+  },
+  {
+    "q": "Xí nghiệp có c=400.000$, Tổng giá trị W=1.000.000$, m'=200%. Chi phí tư bản khả biến v là?",
+    "a": ["250.000$", "200.000$", "300.000$", "400.000$"],
+    "c": 1
+  },
+  {
+    "q": "Ngày làm 8h, m'=100%. Nhà tư bản tăng m' lên 150%, lương và NSLĐ không đổi. Đây là phương pháp?",
+    "a": ["Sản xuất giá trị thặng dư siêu ngạch", "Sản xuất giá trị thặng dư tương đối", "Sản xuất giá trị thặng dư bình quân", "Sản xuất giá trị thặng dư tuyệt đối"],
+    "c": 3
+  },
+  {
+    "q": "Áp dụng dây chuyền hiện đại làm NSLĐ tăng 50%, giảm nửa số công nhân. Tỉ suất m' tăng do?",
+    "a": ["Áp dụng phương pháp sản xuất giá trị thặng dư tương đối", "m' không đổi", "Áp dụng phương pháp sản xuất giá trị thặng dư tuyệt đối", "Giảm được quỹ lương"],
+    "c": 0
+  },
+  {
+    "q": "Ngày 8h, m'=100%. Tăng ngày làm 1h và giá trị sức lao động giảm 25%. m' mới là?",
+    "a": ["150%", "200%", "250%", "300%"],
+    "c": 1
+  },
+  {
+    "q": "Giới hạn của phương pháp sản xuất giá trị thặng dư tuyệt đối là...",
+    "a": ["Độ dài ngày lao động không thể vượt quá 24 giờ", "Sự đấu tranh của công nhân", "Giới hạn về thể chất và tinh thần của người công nhân", "Không có giới hạn"],
+    "c": 2
+  },
+  {
+    "q": "Giới hạn của phương pháp sản xuất giá trị thặng dư tương đối là...",
+    "a": ["Độ dài ngày lao động không thể vượt quá 24 giờ", "Sự đấu tranh của công nhân", "Giới hạn về thể chất và tinh thần", "Không có giới hạn"],
+    "c": 3
+  },
+  {
+    "q": "Tái sản xuất là gì?",
+    "a": ["Là quá trình tái tạo các yếu tố của sản xuất xã hội", "Là quá trình sản xuất liên tục được lặp đi lặp lại không ngừng", "Là sự khôi phục điều kiện vật chất", "Là quá trình tái chế sản phẩm"],
+    "c": 1
+  },
+  {
+    "q": "Tái sản xuất mở rộng là gì?",
+    "a": ["Là quá trình sản xuất liên tục, lặp lại với quy mô ngày càng lớn", "Quá trình sản xuất lặp lại không ngừng", "Mở rộng phạm vi trao đổi hàng hóa", "Quá trình sản xuất lặp lại nhiều lần"],
+    "c": 0
+  },
+  {
+    "q": "Tích lũy tư bản là gì?",
+    "a": ["Quá trình tiết kiệm tư bản qua nhiều vòng tuần hoàn", "Quá trình tích lũy hàng hóa chờ thị trường", "Quá trình tiết kiệm chi phí nhờ máy móc", "Quá trình chuyển hóa một phần giá trị thặng dư thành tư bản"],
+    "c": 3
+  },
+  {
+    "q": "Thực chất của cấu tạo hữu cơ tư bản là gì?",
+    "a": ["Tỷ lệ giữa máy móc và công nhân", "Tỷ lệ giữa tư bản cố định và tư bản lưu động", "Tỷ lệ giữa tư bản bất biến và tư bản khả biến", "Tỷ lệ giữa tư bản tiền tệ và sản xuất"],
+    "c": 2
+  },
+  {
+    "q": "Động cơ trực tiếp thúc đẩy tích lũy tư bản là...",
+    "a": ["Quy luật giá trị", "Quy luật giá trị thặng dư", "Quy luật cạnh tranh", "Quy luật cung - cầu"],
+    "c": 1
+  },
+  {
+    "q": "Nếu khối lượng m không đổi, quy mô tích lũy phụ thuộc vào...",
+    "a": ["Tỷ suất giá trị thặng dư", "Tư bản bất biến", "Tư bản khả biến", "Tỷ lệ phân chia khối lượng giá trị thặng dư cho tích lũy và tiêu dùng"],
+    "c": 3
+  },
+  {
+    "q": "Ý nào dưới đây KHÔNG đúng về tích luỹ tư bản?",
+    "a": ["Tích luỹ tư bản là biến một phần giá trị thặng dư thành tư bản", "Nguồn gốc của tích luỹ tư bản là giá trị thặng dư", "Động cơ của tích luỹ tư bản là giá trị thặng dư", "Tích luỹ tư bản là sự tiết kiệm tư bản"],
+    "c": 3
+  },
+  {
+    "q": "Yếu tố làm tăng nhanh quy mô của tư bản xã hội là...",
+    "a": ["Tập trung tư bản", "Tích tụ tư bản", "Giá trị thặng dư", "Tỉ suất giá trị thặng dư"],
+    "c": 1
+  },
+  {
+    "q": "Tập trung tư bản không tạo ra điều gì?",
+    "a": ["Tăng quy mô của tư bản cá biệt", "Sáp nhập các tư bản sẵn có", "Thúc đẩy tích tụ tư bản", "Tăng quy mô của tổng tư bản xã hội"],
+    "c": 3
+  },
+  {
+    "q": "Điểm giống nhau giữa tích tụ và tập trung tư bản là...",
+    "a": ["Đều có cùng nguồn gốc trực tiếp", "Đều làm tăng quy mô của tư bản xã hội", "Đều làm tăng quy mô của tư bản cá biệt", "Tất cả các đáp án đều đúng"],
+    "c": 2
+  },
+  {
+    "q": "Điểm khác nhau giữa tích tụ và tập trung tư bản là...",
+    "a": ["Biện pháp làm tăng quy mô tư bản cá biệt", "Biện pháp bóc lột công nhân", "Biện pháp phân chia tư bản", "Biện pháp sản xuất giá trị thặng dư"],
+    "c": 0
+  },
+  {
+    "q": "Tập trung tư bản làm tăng quy mô của...",
+    "a": ["Tư bản xã hội", "Tư bản cá biệt", "Vừa tư bản cá biệt, vừa tư bản xã hội", "Không tăng quy mô của bất kỳ loại tư bản nào"],
+    "c": 1
+  },
+  {
+    "q": "Lợi tức tư bản cho vay biến động theo quan hệ cung - cầu vốn:",
+    "a": ["Cung = cầu, lợi tức tăng", "Cung > cầu, lợi tức giảm", "Cung < cầu, lợi tức giảm", "Cung = cầu, lợi tức giảm"],
+    "c": 1
+  },
+  {
+    "q": "Tích tụ tư bản phản ánh mối quan hệ trực tiếp giữa...",
+    "a": ["Giai cấp tư sản và giai cấp nông dân", "Giai cấp tư sản và giai cấp công nhân", "Các nhà tư bản với nhau", "Giai cấp công nhân và giai cấp nông dân"],
+    "c": 1
+  },
+  {
+    "q": "Xí nghiệp có 10M$, c=8M, m'=200%, tiêu dùng 2M$/năm. Sau 3 năm, quy mô tư bản là?",
+    "a": ["18 triệu đô la", "20 triệu đô la", "14 triệu đô la", "16 triệu đô la"],
+    "c": 3
+  },
+  {
+    "q": "Cấu tạo hữu cơ của tư bản (c/v) phản ánh...",
+    "a": ["Trình độ ứng dụng khoa học - kĩ thuật vào sản xuất", "Trình độ phát triển của quy mô sản xuất", "Mức độ bóc lột lao động làm thuê", "Sự phát triển nền sản xuất theo chiều sâu"],
+    "c": 0
+  },
+  {
+    "q": "Chi phí sản xuất tư bản chủ nghĩa là...",
+    "a": ["Chi phí nhà tư bản bỏ ra để sản xuất hàng hóa", "Chi phí về tư liệu sản xuất", "Chi phí về sức lao động", "Chi phí thực tế xã hội bỏ ra"],
+    "c": 0
+  },
+  {
+    "q": "Bộ phận chi phí sản xuất tư bản chủ nghĩa k được cấu thành bởi...",
+    "a": ["c + v", "c + m", "v + m", "c + v + m"],
+    "c": 0
+  },
+  {
+    "q": "Khoản chênh lệch giữa giá cả hàng hóa và chi phí sản xuất k là gì?",
+    "a": ["Lợi nhuận", "Giá trị thặng dư", "Lợi tức", "Thu nhập"],
+    "c": 0
+  },
+  {
+    "q": "Nhà tư bản công nghiệp nhường một phần m cho thương nghiệp bằng cách bán giá...",
+    "a": ["Thấp hơn giá trị", "Cao hơn giá trị", "Bằng giá trị", "Tất cả các đáp án sai"],
+    "c": 0
+  },
+  {
+    "q": "Nguồn gốc của lợi nhuận thương nghiệp là gì?",
+    "a": ["Một phần giá trị thặng dư nhà sản xuất trả cho nhà thương nghiệp", "Toàn bộ giá trị thặng dư", "Một phần giá trị thặng dư nhà cho vay trả", "Giá trị thặng dư do mua bán thị trường"],
+    "c": 0
+  },
+  {
+    "q": "Lợi tức được phát sinh khi thực hiện quan hệ kinh tế nào?",
+    "a": ["Mua, bán hàng hóa", "Cho vay tiền", "Thuê người lao động", "Hợp tác giữa các doanh nghiệp"],
+    "c": 1
+  },
+  {
+    "q": "Lợi ích kinh tế của tư bản ngân hàng có được từ đâu?",
+    "a": ["Nhận gửi tiền người nhàn rỗi", "Cho vay cung cấp vốn", "Phân chia m cùng các tập đoàn", "Chênh lệch lãi suất gửi và cho vay trừ chi phí"],
+    "c": 3
+  },
+  {
+    "q": "Địa tô tư bản chủ nghĩa là (...) nộp cho địa chủ ngoài lợi nhuận bình quân.",
+    "a": ["Bộ phận lợi nhuận siêu nghạch", "Toàn bộ lợi nhuận siêu nghạch", "Lợi nhuận bình quân", "Lợi nhuận"],
+    "c": 0
+  },
+  {
+    "q": "Lợi nhuận có quan hệ thế nào với giá trị thặng dư?",
+    "a": ["Không có quan hệ gì", "Lợi nhuận là phần dôi ra ngoài m", "Lợi nhuận là nguồn gốc của m", "Lợi nhuận là một hình thức biểu hiện của m"],
+    "c": 3
+  },
+  {
+    "q": "Tỷ suất lợi nhuận là tỉ lệ giữa lợi nhuận và...?",
+    "a": ["Tư bản bất biến", "Tư bản khả biến", "Toàn bộ tư bản ứng trước", "Tư bản lưu động"],
+    "c": 2
+  },
+  {
+    "q": "Nhân tố nào ảnh hưởng tới tỷ suất lợi nhuận?",
+    "a": ["Tỷ suất giá trị thặng dư", "Cấu tạo hữu cơ của tư bản", "Tốc độ chu chuyển và tiết kiệm tư bản bất biến", "Tất cả các đáp án"],
+    "c": 3
+  },
+  {
+    "q": "Lợi nhuận bình quân là số lợi nhuận bằng nhau của...?",
+    "a": ["Những tư bản khác nhau đầu tư vào ngành khác nhau", "Những tư bản như nhau đầu tư vào cùng ngành", "Những tư bản như nhau đầu tư vào ngành khác nhau", "Những tư bản khác nhau đầu tư vào cùng ngành"],
+    "c": 2
+  },
+  {
+    "q": "Nguyên nhân hình thành tỉ suất lợi nhuận bình quân là?",
+    "a": ["Cạnh tranh", "Chạy theo giá trị thặng dư", "Cạnh tranh giữa các ngành", "Cạnh tranh trong nội bộ ngành"],
+    "c": 2
+  },
+  {
+    "q": "Nhận định nào SAI về lợi nhuận thương nghiệp?",
+    "a": ["Có được nhờ bán hàng hóa cao hơn giá trị", "Thể hiện quan hệ giữa tư bản công nghiệp và thương nghiệp", "Là phần m nhà tư bản công nghiệp nhường lại", "Có nguồn gốc là giá trị thặng dư"],
+    "c": 0
+  },
+  {
+    "q": "Trong KTTT tư bản, mối quan hệ giữa tư bản thương nghiệp và sản xuất là gì?",
+    "a": ["Sản xuất phụ thuộc vào thương nghiệp", "Thương nghiệp phụ thuộc vào sản xuất", "Chúng không phụ thuộc nhau", "Tất cả các đáp án sai"],
+    "c": 1
+  },
+  {
+    "q": "Giá cả sản xuất bằng...?",
+    "a": ["Giá cả thị trường - lợi nhuận", "Toàn bộ chi phí sản xuất", "Chi phí sản xuất + Lợi nhuận bình quân", "Giá trị hàng hoá + Lợi nhuận thương nghiệp"],
+    "c": 2
+  },
+  {
+    "q": "Sự xuất hiện của lợi nhuận, địa tô, lợi tức có ý nghĩa gì?",
+    "a": ["Làm rõ các khái niệm kinh doanh", "Che giấu sự tồn tại của m một cách tinh vi", "Lợi nhuận là con đẻ tư bản ứng trước", "Tính toán chặt chẽ chi phí"],
+    "c": 1
+  },
+  {
+    "q": "Địa tô tư bản chủ nghĩa có nguồn gốc từ lao động của...?",
+    "a": ["Địa chủ", "Nhà tư bản kinh doanh nông nghiệp", "Năng lực kinh doanh", "Công nhân làm thuê trong nông nghiệp"],
+    "c": 3
+  },
+//chuong4
+{
+    "q": "Trong kinh tế thị trường, mục đích cuối cùng của cạnh tranh giữa các nhà tư bản là gì?",
+    "a": ["Tăng sản lượng tiêu dùng", "Giành lấy giá trị thặng dư cao hơn", "Bảo đảm an toàn cho sản xuất", "Phát triển lực lượng lao động xã hội"],
+    "c": 1
+  },
+  {
+    "q": "Nhà kinh điển nào sau đây nghiên cứu sâu về chủ nghĩa tư bản độc quyền?",
+    "a": ["C.Mác", "Ph.Ăng ghen", "C.Mác và Ăng ghen", "V.I.Lênin"],
+    "c": 3
+  },
+  {
+    "q": "Trong giai đoạn chủ nghĩa tư bản độc quyền có những hình thức cạnh tranh nào?",
+    "a": ["Cạnh tranh giữa tổ chức độc quyền với xí nghiệp ngoài độc quyền", "Cạnh tranh giữa các tổ chức độc quyền với nhau", "Cạnh tranh trong nội bộ tổ chức độc quyền", "Tất cả các đáp án"],
+    "c": 3
+  },
+  {
+    "q": "Quy luật kinh tế nào giữ vai trò chi phối cạnh tranh trong sản xuất tư bản chủ nghĩa?",
+    "a": ["Quy luật giá trị", "Quy luật cung - cầu", "Quy luật lợi nhuận bình quân", "Quy luật lưu thông tiền tệ"],
+    "c": 2
+  },
+  {
+    "q": "Tác động tiêu cực của độc quyền đối với nền kinh tế là gì?",
+    "a": ["Độc quyền làm cho cạnh tranh không hoàn hảo gây thiệt hại cho người tiêu dùng", "Độc quyền đã phần nào kìm hãm sự tiến bộ kỹ thuật", "Độc quyền làm tăng sự phân hóa giàu nghèo", "Tất cả các đáp án"],
+    "c": 3
+  },
+  {
+    "q": "Trong cạnh tranh nội bộ ngành, yếu tố nào quyết định vị thế của từng nhà tư bản?",
+    "a": ["Trình độ kỹ thuật và quy mô tư bản", "Sự ưu đãi của Nhà nước", "Mức hao phí lao động để sản xuất ra hàng hóa", "Khả năng tổ chức và quản lý sản xuất"],
+    "c": 0
+  },
+  {
+    "q": "Các tổ chức độc quyền sử dụng hình thức giá cả nào?",
+    "a": ["Giá cả thị trường", "Giá cả độc quyền cao", "Giá cả độc quyền thấp", "Giá cả tự do"],
+    "c": 1
+  },
+  {
+    "q": "Trong chủ nghĩa tư bản độc quyền, vì sao cạnh tranh không bị thủ tiêu?",
+    "a": ["Vì các tổ chức độc quyền cạnh tranh với nhau", "Vì tổ chức độc quyền cạnh tranh với các công ty ngoài độc quyền", "Vì các xí nghiệp trong nội bộ tổ chức độc quyền cạnh tranh với nhau", "Vì cạnh tranh là quy luật khách quan của nền kinh tế thị trường"],
+    "c": 3
+  },
+  {
+    "q": "Nguyên nhân hình thành lợi nhuận độc quyền là gì?",
+    "a": ["Do cạnh tranh nội bộ ngành", "Do sự thèm khát giá trị thặng dư của các nhà tư bản", "Do địa vị độc quyền đem lại", "Do quy luật giá cả sản xuất đem lại"],
+    "c": 2
+  },
+  {
+    "q": "Hãy lựa chọn mệnh đề đúng về mối quan hệ giữa cạnh tranh và độc quyền?",
+    "a": ["Độc quyền là con đẻ của cạnh tranh, đối lập với cạnh tranh và thủ tiêu cạnh tranh", "Độc quyền là con đẻ của cạnh tranh, đối lập với cạnh tranh nhưng không thủ tiêu cạnh tranh", "Cạnh tranh sinh ra độc quyền, chúng không đối lập nhau", "Tất cả các đáp án đều sai"],
+    "c": 1
+  },
+  {
+    "q": "Trong giai đoạn chủ nghĩa tư bản độc quyền quy luật giá trị có biểu hiện mới là gì?",
+    "a": ["Quy luật giá cả sản xuất", "Quy luật giá cả độc quyền", "Quy luật lợi nhuận độc quyền", "Quy luật lợi nhuận bình quân"],
+    "c": 1
+  },
+  {
+    "q": "Trong giai đoạn chủ nghĩa tư bản tự do cạnh tranh, quy luật giá trị có hình thức biểu hiện là gì?",
+    "a": ["Quy luật giá cả thị trường", "Quy luật giá cả độc quyền", "Quy luật lợi nhuận bình quân", "Quy luật giá cả sản xuất"],
+    "c": 3
+  },
+  {
+    "q": "Trong giai đoạn chủ nghĩa tư bản tự do cạnh tranh, quy luật giá trị thặng dư biểu hiện là gì?",
+    "a": ["Quy luật giá cả sản xuất", "Quy luật tích luỹ tư bản", "Quy luật tỷ suất lợi nhuận bình quân", "Quy luật lợi nhuận độc quyền cao"],
+    "c": 2
+  },
+  {
+    "q": "Trong giai đoạn chủ nghĩa tư bản độc quyền, quy luật giá trị thặng dư biểu hiện là gì?",
+    "a": ["Quy luật giá cả độc quyền", "Quy luật lợi nhuận độc quyền cao", "Quy luật lợi nhuận bình quân", "Quy luật giá cả sản xuất"],
+    "c": 1
+  },
+  {
+    "q": "Khi chủ nghĩa tư bản chuyển sang giai đoạn độc quyền, cạnh tranh có đặc điểm gì?",
+    "a": ["Không còn cạnh tranh", "Cạnh tranh bớt căng thẳng hơn", "Cạnh tranh trở nên tinh vi hơn", "Cạnh tranh trở nên khốc liệt hơn"],
+    "c": 3
+  },
+  {
+    "q": "Những đặc điểm kinh tế cơ bản của chủ nghĩa tư bản độc quyền là gì?",
+    "a": ["Tập trung sản xuất và các tổ chức độc quyền", "Tư bản tài chính và tài phiệt", "Xuất khẩu tư bản và phân chia thế giới", "Tất cả các đặc điểm nêu trên"],
+    "c": 3
+  },
+  {
+    "q": "Trong giai đoạn cạnh tranh tự do, chủ nghĩa tư bản chưa có đặc điểm nào?",
+    "a": ["Trao đổi hàng hóa", "Phân công lao động xã hội", "Xuất khẩu tư bản", "Xuất khẩu hàng hóa"],
+    "c": 2
+  },
+  {
+    "q": "Xuất khẩu tư bản là gì?",
+    "a": ["Đầu tư trực tiếp ra nước ngoài", "Cho nước ngoài vay", "Mang hàng hoá ra bán ở nước ngoài để thực hiện giá trị", "Đầu tư trực tiếp ra nước ngoài và cho nước ngoài vay"],
+    "c": 3
+  },
+  {
+    "q": "Xuất khẩu tư bản là đặc điểm của giai đoạn chủ nghĩa tư bản nào?",
+    "a": ["Của các nước giàu có", "Của chủ nghĩa tư bản nói chung", "Của chủ nghĩa tư bản độc quyền", "Chủ nghĩa tư bản cạnh tranh tự do"],
+    "c": 2
+  },
+  {
+    "q": "Nguyên nhân ra đời của chủ nghĩa tư bản độc quyền nhà nước là gì?",
+    "a": ["Trình độ xã hội hoá cao của LLSX", "Do mâu thuẫn cơ bản của CNTB", "Xu hướng quốc tế hoá kinh tế", "Tất cả các đáp án"],
+    "c": 3
+  },
+  {
+    "q": "Sự xuất hiện của chủ nghĩa tư bản độc quyền nhà nước tác động như thế nào tới mâu thuẫn giai cấp?",
+    "a": ["Mâu thuẫn giai cấp vô sản và tư sản giảm đi", "Làm cho mâu thuẫn trên sâu sắc hơn", "Làm hạn chế tác động tiêu cực của độc quyền", "Không còn mâu thuẫn giai cấp"],
+    "c": 1
+  },
+  {
+    "q": "Độc quyền nhà nước trong chủ nghĩa tư bản là gì?",
+    "a": ["Sự kết hợp tổ chức độc quyền tư nhân và nhà nước tư sản", "Nhà nước tư sản can thiệp vào kinh tế, chi phối độc quyền", "Các tổ chức độc quyền phụ thuộc vào nhà nước", "Sự thoả hiệp giữa nhà nước và tổ chức độc quyền"],
+    "c": 0
+  },
+  {
+    "q": "Một trong những đòn bẩy quan trọng của sự ra đời chủ nghĩa tư bản độc quyền là:",
+    "a": ["Sự phát triển của hệ thống quân sự", "Sự phát triển hệ thống tín dụng", "Sự phát triển hệ thống chính trị", "Sự phát triển của giao thông vận tải"],
+    "c": 1
+  },
+  {
+    "q": "Chủ nghĩa tư bản độc quyền xuất khẩu tư bản không nhằm mục đích nào?",
+    "a": ["Để giải quyết nguồn tư bản 'thừa' trong nước", "Chiếm đoạt giá trị thặng dư ở nước nhập khẩu", "Thực hiện giá trị và chiếm các nguồn lợi khác", "Phát triển kinh tế và chia sẻ nguồn lợi với nước nhập khẩu"],
+    "c": 3
+  },
+  {
+    "q": "Xuất khẩu tư bản nhà nước nhằm mục đích?",
+    "a": ["Quân sự", "Kinh tế", "Chính trị", "Tất cả các đáp án"],
+    "c": 3
+  },
+  {
+    "q": "Các tổ chức độc quyền quốc tế hình thành do hệ quả của:",
+    "a": ["Sự thôn tính lẫn nhau giữa các quốc gia", "Đấu tranh không khoan nhượng", "Thoả hiệp với nhau hình thành các tổ chức độc quyền quốc tế", "Sự tan rã của các tổ chức độc quyền trong nước"],
+    "c": 2
+  },
+  {
+    "q": "Sự ra đời của chủ nghĩa tư bản độc quyền nhà nước nhằm mục đích gì?",
+    "a": ["Phục vụ lợi ích của chủ nghĩa tư bản", "Phục vụ lợi ích của tổ chức độc quyền tư nhân", "Phục vụ lợi ích của nhà nước tư sản", "Phục vụ lợi ích của tổ chức độc quyền tư nhân và cứu nguy cho chủ nghĩa tư bản"],
+    "c": 3
+  },
+  {
+    "q": "Chủ nghĩa tư bản độc quyền nhà nước là gì?",
+    "a": ["Một quan hệ kinh tế, chính trị, xã hội", "Một chính sách trong giai đoạn độc quyền", "Một kiểu tổ chức kinh tế - xã hội", "Một cơ chế điều tiết của nhà nước tư sản"],
+    "c": 0
+  },
+  {
+    "q": "Nhà nước tư sản đảm nhận đầu tư vào ngành nào trong giai đoạn độc quyền?",
+    "a": ["Đầu tư lớn, thu hồi vốn nhanh, lợi nhuận ít", "Đầu tư lớn, thu hồi vốn chậm, lợi nhuận cao", "Đầu tư không lớn, thu hồi vốn nhanh, lợi nhuận cao", "Đầu tư lớn, thu hồi vốn chậm, lợi nhuận ít"],
+    "c": 3
+  },
+  {
+    "q": "Sự ra đời của tư bản tài chính là do:",
+    "a": ["Sự phát triển của độc quyền ngân hàng", "Sự phát triển của thị trường tài chính", "Sự phát triển của độc quyền công nghiệp", "Quá trình xâm nhập liên kết độc quyền ngân hàng với độc quyền công nghiệp"],
+    "c": 3
+  },
+  {
+    "q": "Dựa vào chủ thể xuất khẩu tư bản, có hình thức xuất khẩu tư bản nào?",
+    "a": ["Trực tiếp", "Gián tiếp", "Trực tiếp và gián tiếp", "Nhà nước và tư nhân"],
+    "c": 3
+  },
+  {
+    "q": "Vai trò mới của ngân hàng trong giai đoạn chủ nghĩa tư bản độc quyền là gì?",
+    "a": ["Đầu tư tư bản", "Khống chế hoạt động của nền kinh tế tư bản chủ nghĩa", "Trung tâm tín dụng", "Trung tâm thanh toán"],
+    "c": 1
+  },
+  {
+    "q": "Dựa vào hình thức đầu tư, có hình thức xuất khẩu tư bản nào?",
+    "a": ["Xuất khẩu tư bản nhà nước", "Xuất khẩu tư bản tư nhân", "Xuất khẩu tư bản trực tiếp và xuất khẩu tư bản gián tiếp", "Xuất khẩu tư bản nhà nước và xuất khẩu tư bản tư nhân"],
+    "c": 2
+  },
+  {
+    "q": "Mục đích của xuất khẩu tư bản là...",
+    "a": ["Để giải quyết nguồn tư bản 'thừa' trong nước", "Chiếm đoạt giá trị thặng dư và các nguồn lợi khác ở nước nhập khẩu tư bản", "Thực hiện giá trị và chiếm các nguồn lợi khác", "Giúp đỡ các nước nhập khẩu tư bản phát triển"],
+    "c": 1
+  },
+  {
+    "q": "Nguyên nhân xuất khẩu tư bản trong chủ nghĩa tư bản độc quyền là do:",
+    "a": ["Một số nước tư bản 'thiếu tư bản'", "Một số nước đang phát triển thiếu lao động", "Thừa tư bản ở các nước phát triển", "Thừa tư bản ở các nước phát triển và thiếu tư bản ở các nước đang phát triển"],
+    "c": 3
+  },
+  {
+    "q": "Sở hữu độc quyền nhà nước là sự kết hợp của những hình thức sở hữu nào dưới đây?",
+    "a": ["Sở hữu nhà nước và sở hữu tư nhân CNTB", "Sở hữu nhà nước và sở hữu độc quyền tư nhân", "Sở hữu của nhà nước tư sản", "Sở hữu của nhiều nước tư bản"],
+    "c": 1
+  },
+  {
+    "q": "Sở hữu nhà nước được hình thành bằng cách nào?",
+    "a": ["Xây dựng xí nghiệp nhà nước bằng ngân sách", "Quốc hữu hoá xí nghiệp tư nhân", "Mua cổ phần của doanh nghiệp tư nhân", "Tất cả các hình thức nêu trên"],
+    "c": 3
+  },
+  {
+    "q": "Cơ chế kinh tế của chủ nghĩa tư bản độc quyền nhà nước gồm:",
+    "a": ["Cơ chế thị trường và độc quyền tư nhân", "Độc quyền tư nhân và sự điều tiết của nhà nước", "Cơ chế thị trường, độc quyền tư nhân và sự can thiệp của nhà nước", "Cơ chế thị trường và sự điều tiết của nhà nước"],
+    "c": 2
+  },
+  {
+    "q": "Đâu KHÔNG phải là cách hình thành sở hữu nhà nước trong chủ nghĩa tư bản độc quyền nhà nước?",
+    "a": ["Xây dựng các xí nghiệp nhà nước", "Mua lại các xí nghiệp tư nhân", "Cổ phần hóa xí nghiệp", "Giải thể xí nghiệp tư nhân hoạt động không hiệu quả"],
+    "c": 3
+  },
+  {
+    "q": "Mâu thuẫn giai cấp trong thời kỳ chủ nghĩa tư bản độc quyền được biểu hiện:",
+    "a": ["Mâu thuẫn không thay đổi", "Mâu thuẫn có phần dịu đi", "Mâu thuẫn ngày càng sâu sắc hơn", "Đời sống giai cấp công nhân dần được cải thiện"],
+    "c": 2
+  },
+  {
+    "q": "Cơ chế hoạt động của chủ nghĩa tư bản độc quyền nhà nước là gì?",
+    "a": ["Tổ chức độc quyền phụ thuộc vào nhà nước", "Nhà nước phụ thuộc vào tổ chức độc quyền", "Nhà nước không phụ thuộc vào tổ chức độc quyền", "Nhà nước chi phối tổ chức độc quyền"],
+    "c": 1
+  },
+  {
+    "q": "Vai trò tích cực của chủ nghĩa tư bản là gì?",
+    "a": ["Thúc đẩy LLSX phát triển nhanh chóng", "Chuyển sản xuất nhỏ thành sản xuất lớn hiện đại", "Thực hiện xã hội hóa sản xuất", "Tất cả các đáp án"],
+    "c": 3
+  },
+  {
+    "q": "Những hạn chế của chủ nghĩa tư bản là gì?",
+    "a": ["Sản xuất phục vụ lợi ích thiểu số giai cấp tư sản", "Gây ra các cuộc chiến tranh trên thế giới", "Sự phân hóa giàu nghèo gay gắt", "Tất cả các đáp án"],
+    "c": 3
+  },
+  {
+    "q": "Chủ thể xuất khẩu tư bản của chủ nghĩa tư bản ngày nay chủ yếu là...",
+    "a": ["Các nhà tư bản tư nhân", "Các tổ chức độc quyền tư nhân trong nước", "Các tổ chức độc quyền xuyên quốc gia", "Nhà nước tư sản"],
+    "c": 2
+  },
+  {
+    "q": "Hệ quả của việc chủ nghĩa tư bản độc quyền ra đời là gì?",
+    "a": ["Phủ định quy luật giai đoạn cạnh tranh tự do", "Phủ định quy luật sản xuất hàng hoá", "Làm cho các quy luật kinh tế có hình thức biểu hiện mới", "Không làm thay đổi các quy luật"],
+    "c": 2
+  },
+  {
+    "q": "Hình thức xuất khẩu chủ yếu của chủ nghĩa tư bản ngày nay là gì?",
+    "a": ["Đầu tư trực tiếp", "Đầu tư gián tiếp", "Đầu tư trực tiếp kết hợp đầu tư gián tiếp", "Xuất khẩu hàng hoá"],
+    "c": 2
+  },
+  {
+    "q": "Thay đổi hình thức tổ chức tư bản tài chính ngày nay do nguyên nhân nào?",
+    "a": ["LLSX phát triển, nhiều ngành mới xuất hiện", "Ý muốn thống trị của tư bản tài chính", "Mục đích thu lợi nhuận độc quyền", "Sự điều tiết của nhà nước"],
+    "c": 0
+  },
+  {
+    "q": "Nguyên nhân xuất hiện nhiều doanh nghiệp vừa và nhỏ trong chủ nghĩa tư bản ngày nay là gì?",
+    "a": ["LLSX phát triển cho phép chuyên môn hoá sâu", "Thích ứng nhanh với biến động thị trường", "Dễ đổi mới trang thiết bị kỹ thuật", "Tất cả các đáp án"],
+    "c": 3
+  },
+  {
+    "q": "Trong chủ nghĩa tư bản ngày nay, các trùm tài chính thống trị nền kinh tế qua:",
+    "a": ["Chế độ tham dự", "Chế độ uỷ nhiệm", "Kết hợp chế độ tham dự với chế độ uỷ nhiệm", "Các tổ chức tài chính quốc tế"],
+    "c": 2
+  },
+  {
+    "q": "Nguyên nhân hình thành các công ty xuyên quốc gia là gì?",
+    "a": ["Cạnh tranh quốc tế", "LLSX phát triển cao làm xuất hiện quá trình quốc tế hoá kinh tế", "Do sự điều tiết của nhà nước", "Tất cả các đáp án"],
+    "c": 1
+  },
+//chuong5
+{
+    "q": "Chọn đáp án đúng điền vào chỗ trống: “(...) là nền kinh tế vận hành theo các quy luật của thị trường, đồng thời góp phần hướng tới từng bước xác lập một xã hội mà ở đó dân giàu, nước mạnh, dân chủ, công bằng, văn minh; có sự điều tiết của Nhà nước do Đảng Cộng sản Việt Nam lãnh đạo”.",
+    "a": ["Kinh tế hàng hóa nhiều thành phần", "Kinh tế thị trường", "Kinh tế thị trường tư bản chủ nghĩa", "Kinh tế thị trường định hướng xã hội chủ nghĩa"],
+    "c": 3
+  },
+  {
+    "q": "Chọn đáp án đúng điền vào chỗ trống: “Kinh tế thị trường định hướng xã hội chủ nghĩa là (...), đồng thời góp phần hướng tới từng bước xác lập một xã hội mà ở đó dân giàu, nước mạnh, dân chủ, công bằng, văn minh; có sự điều tiết của Nhà nước do Đảng Cộng sản Việt Nam lãnh đạo”.",
+    "a": ["Nền kinh tế hàng hóa giản đơn", "Nền kinh tế tự nhiên, tự cấp, tự túc", "Nền kinh tế vận hành theo các quy luật của thị trường", "Nền kinh tế vận hành theo quy luật cạnh tranh"],
+    "c": 2
+  },
+  {
+    "q": "Chọn đáp án đúng điền vào chỗ trống: “Kinh tế thị trường định hướng xã hội chủ nghĩa là nền kinh tế vận hành theo các quy luật của thị trường, đồng thời góp phần hướng tới từng bước xác lập một xã hội mà ở đó dân giàu, nước mạnh, dân chủ, công bằng, văn minh; có sự điều tiết của (...)”.",
+    "a": ["Thị trường hàng hóa", "Nhà nước do Đảng Cộng sản Việt Nam lãnh đạo", "Nhà nước", "Nhà nước xã hội chủ nghĩa"],
+    "c": 1
+  },
+  {
+    "q": "Nền kinh tế mà trong các hoạt động kinh tế của các chủ thể, hướng tới góp phần từng bước xác lập giá trị xã hội “dân giàu, nước mạnh, dân chủ, công bằng, văn minh là nền kinh tế nào?",
+    "a": ["Nền kinh tế thị trường", "Nền kinh tế thị trường tư bản chủ nghĩa", "Nền kinh tế thị trường định hướng xã hội chủ nghĩa", "Nền kinh tế thị trường xã hội chủ nghĩa"],
+    "c": 2
+  },
+  {
+    "q": "Định hướng xã hội chủ nghĩa trong nền kinh tế thị trường thực chất là hướng tới:",
+    "a": ["Duy trì sự lãnh đạo toàn diện của Đảng Cộng sản", "Từng bước xác lập hệ giá trị xã hội “dân giàu, nước mạnh, dân chủ, công bằng, văn minh\"", "Xóa bỏ toàn bộ đặc điểm của nền sản xuất hàng hóa", "Nền kinh tế tư nhân là nòng cốt"],
+    "c": 1
+  },
+  {
+    "q": "Để đạt được hệ giá trị xã hội “dân giàu, nước mạnh, dân chủ, công bằng, văn minh thì nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam hiện nay cần nhất yếu tố nào?",
+    "a": ["Đảm bảo vai trò điều tiết của nhà nước dưới sự lãnh đạo của Đảng Cộng sản", "Sự hợp tác và hỗ trợ từ các nước trên thế giới", "Ngân sách nhà nước phải đủ mạnh để thực hiện các chính sách phúc lợi", "Trong xã hội không còn mâu thuẫn giữa các tầng lớp dân cư"],
+    "c": 0
+  },
+  {
+    "q": "Kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
+    "a": ["Nền kinh tế có nhiều hình thức sở hữu, nhiều thành phần kinh tế", "Nền kinh tế có kinh tế nhà nước là chủ đạo", "Nền kinh tế có nhiều hình thức sở hữu, nhiều thành phần kinh tế, trong đó kinh tế nhà nước giữ vai trò chủ đạo, kinh tế tư nhân là một động lực quan trọng...", "Nền kinh tế tư nhân là nòng cốt"],
+    "c": 2
+  },
+  {
+    "q": "Đại hội lần thứ XIII của Đảng đã khẳng định: Nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
+    "a": ["Mô hình kinh tế tổng quát của nước ta trong thời kỳ quá độ lên chủ nghĩa xã hội", "Nền kinh tế vận hành đầy đủ, đồng bộ theo các quy luật thị trường", "Nền kinh tế phù hợp với từng giai đoạn phát triển của đất nước", "Nền kinh tế nhằm xóa đói, giảm nghèo"],
+    "c": 0
+  },
+  {
+    "q": "Phát triển kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là tất yếu vì:",
+    "a": ["Phù hợp với xu hướng phát triển khách quan của Việt Nam", "Do tính ưu việt của kinh tế thị trường trong thúc đẩy phát triển", "Phù hợp với nguyện vọng của người dân", "Bao gồm tất cả các đáp án"],
+    "c": 3
+  },
+  {
+    "q": "Nguyên nhân chủ yếu khiến lợi ích cá nhân cần được điều chỉnh bằng pháp luật và chính sách là gì?",
+    "a": ["Vì lợi ích cá nhân có thể mâu thuẫn với lợi ích xã hội", "Vì lợi ích cá nhân luôn đồng nhất với tập thể", "Vì lợi ích cá nhân không tồn tại", "Vì lợi ích cá nhân tuyệt đối đúng đắn"],
+    "c": 0
+  },
+  {
+    "q": "Đâu không phải là lý do tất yếu khách quan của việc phát triển kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam?",
+    "a": ["Phù hợp với xu hướng phát triển khách quan", "Do tính ưu việt của kinh tế thị trường", "Phù hợp với nguyện vọng của nhân dân", "Phù hợp với đặc điểm của thời đại ngày nay"],
+    "c": 3
+  },
+  {
+    "q": "Mục tiêu của việc phát triển kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
+    "a": ["Phát triển LLSX, xây dựng CSVC – kỹ thuật của CNXH; nâng cao đời sống nhân dân...", "Nhằm tạo thuận lợi cho các thành phần kinh tế nhất là kinh tế tư nhân phát triển", "Nhằm đa dạng hóa các thành phần kinh tế để thu hút đầu tư nước ngoài", "Phát triển quan hệ sản xuất, xây dựng kiến trúc thượng tầng của chủ nghĩa xã hội"],
+    "c": 0
+  },
+  {
+    "q": "Một trong những mục tiêu phát triển kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
+    "a": ["Nhằm có lợi khi tham gia mậu dịch quốc tế", "Xây dựng cơ sở vật chất - kỹ thuật của chủ nghĩa xã hội", "Gia tăng ảnh hưởng của kinh tế Việt Nam đối với quốc tế", "Tạo sức hút của đầu tư nước ngoài"],
+    "c": 1
+  },
+  {
+    "q": "Đâu không phải là mục tiêu phát triển kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
+    "a": ["Thiết lập chế độ công hữu về tư liệu sản xuất", "Phát triển lực lượng sản xuất, xây dựng cơ sở vật chất – kỹ thuật của chủ nghĩa xã hội", "Nâng cao đời sống của nhân dân", "Thực hiện “dân giàu, nước mạnh, dân chủ, công bằng, văn minh\""],
+    "c": 0
+  },
+  {
+    "q": "Sự khác biệt cơ bản của kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam với kinh tế thị trường tư bản chủ nghĩa là:",
+    "a": ["Có sự điều tiết của nhà nước", "Phát triển LLSX, xây dựng CSVC – kỹ thuật của CNXH; thực hiện dân giàu, nước mạnh...", "Đa dạng hóa các thành phần kinh tế để thu hút đầu tư nước ngoài", "Phát triển quan hệ sản xuất, xây dựng kiến trúc thượng tầng của chủ nghĩa xã hội"],
+    "c": 1
+  },
+  {
+    "q": "Đặc trưng cơ bản của nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam được Đại hội Đảng khóa XII xác định là:",
+    "a": ["Vận hành đầy đủ, đồng bộ theo quy luật thị trường, đảm bảo định hướng XHCN", "Là nền kinh tế thị trường hiện đại và hội nhập quốc tế; có quản lý của nhà nước", "Nhằm mục tiêu “dân giàu, nước mạnh, dân chủ, công bằng, văn minh\"", "Tất cả các đáp án đều đúng"],
+    "c": 3
+  },
+  {
+    "q": "Sở hữu trong nền kinh tế được hiểu là gì?",
+    "a": ["Là quan hệ giữa người với người trong quá trình sản xuất trên cơ sở chiếm hữu nguồn lực...", "Là quan hệ giữa con người với tự nhiên trong quá trình sản xuất", "Là quan hệ của con người khi chiếm hữu các sản phẩm tự nhiên", "Là quan hệ giữa con người và những vật xung quanh mà con người chiếm đoạt"],
+    "c": 0
+  },
+  {
+    "q": "Cơ sở sâu xa cho sự hình thành sở hữu hiện thực xuất phát từ:",
+    "a": ["Sự xuất hiện của nhà nước của giai cấp bóc lột", "Quá trình sản xuất và tái sản xuất xã hội", "Mối quan hệ giữa con người và tự nhiên", "Sự xuất hiện giai cấp đối kháng trong xã hội"],
+    "c": 1
+  },
+  {
+    "q": "Yếu tố quyết định trình độ phát triển của sở hữu là gì?",
+    "a": ["Là trình độ phát triển của quan hệ sản xuất", "Là trình độ phát triển của lực lượng sản xuất", "Là trình độ phát triển của văn hóa – xã hội", "Là trình độ phát triển của kiến trúc thượng tầng"],
+    "c": 1
+  },
+  {
+    "q": "Nội dung kinh tế của sở hữu là:",
+    "a": ["Lợi ích kinh tế mà chủ sở hữu được hưởng", "Của cải vật chất được sản xuất ra", "Giá trị của các hàng hóa", "Sản phẩm hàng hóa của xã hội"],
+    "c": 0
+  },
+  {
+    "q": "Nội dung pháp lý của sở hữu là:",
+    "a": ["Là những quy định pháp luật về tài sản", "Là những quy định về sản xuất và tái sản xuất xã hội", "Là những quy định pháp luật về hàng hóa", "Là những quy định về quyền hạn, nghĩa vụ của chủ thể sở hữu"],
+    "c": 3
+  },
+  {
+    "q": "Chọn đáp án sai về mối quan hệ giữa nội dung kinh tế và nội dung pháp lý của sở hữu.",
+    "a": ["Hai nội dung này thống nhất biện chứng trong một chỉnh thể", "Cần chú ý tới cả nội dung pháp lý cũng như kinh tế của sở hữu", "Nội dung kinh tế và nội dung pháp lý là hai khía cạnh tách rời, không có mối quan hệ", "Nếu không xét nội dung kinh tế thì nội dung pháp lý chỉ mang giá trị hình thức"],
+    "c": 2
+  },
+  {
+    "q": "Xét từ góc độ quan hệ sở hữu và thành phần kinh tế, kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
+    "a": ["Nền kinh tế có nhiều hình thức sở hữu, nhiều thành phần kinh tế", "Nền kinh tế có kinh tế nhà nước, kinh tế hợp tác xã là chủ đạo", "Có nhiều hình thức sở hữu, nhiều thành phần; kinh tế nhà nước chủ đạo, kinh tế tư nhân là động lực quan trọng", "Kinh tế nhà nước cùng kinh tế tư nhân giữ vai trò chủ đạo"],
+    "c": 2
+  },
+  {
+    "q": "Thành phần kinh tế nào đóng vai trò chủ đạo và mở đường, hướng dẫn, hỗ trợ các thành phần kinh tế khác cùng phát triển?",
+    "a": ["Kinh tế nhà nước", "Kinh tế tư nhân", "Kinh tế liên doanh với nước ngoài", "Kinh tế cá thể, tiểu chủ, hộ gia đình"],
+    "c": 0
+  },
+  {
+    "q": "Thành phần kinh tế nhà nước giữ vai trò gì trong nền kinh tế thị trường định hướng xã hội chủ nghĩa?",
+    "a": ["Giữ vai trò quan trọng", "Giữ vai trò chủ đạo", "Giữ vai trò thống trị", "Giữ vai trò xúc tác"],
+    "c": 1
+  },
+  {
+    "q": "Thành phần kinh tế tư nhân giữ vai trò gì trong nền kinh tế thị trường định hướng xã hội chủ nghĩa?",
+    "a": ["Là yếu tố chủ đạo", "Là yếu tố quyết định", "Là một động lực quan trọng", "Là yếu tố nòng cốt"],
+    "c": 2
+  },
+  {
+    "q": "Nhà nước quản lý nền kinh tế thị trường định hướng xã hội chủ nghĩa bằng cách nào?",
+    "a": ["Thông qua pháp luật, chiến lược, kế hoạch, quy hoạch và chính sách...", "Chăm lo xây dựng và hoàn thiện thể chế kinh tế", "Quản lý vĩ mô, điều tiết, khắc phục khuyết tật của thị trường", "Tất cả các đáp án đều đúng"],
+    "c": 3
+  },
+  {
+    "q": "Quan hệ quản lý và cơ chế quản lý của nhà nước trong nền KTTT định hướng XHCN có đặc trưng riêng là:",
+    "a": ["Nhà nước quản lý bằng pháp luật", "Là nhà nước pháp quyền XHCN của nhân dân, do nhân dân, vì nhân dân dưới sự lãnh đạo của Đảng", "Can thiệp, điều tiết vào quá trình phát triển kinh tế", "Thông qua pháp luật, các chiến lược, kế hoạch, quy hoạch"],
+    "c": 1
+  },
+  {
+    "q": "Quan hệ phân phối trong nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam bị chi phối bởi yếu tố nào?",
+    "a": ["Quan hệ sở hữu về tư liệu sản xuất", "Quan hệ về tổ chức quản lý lao động", "Xu hướng hội nhập kinh tế quốc tế", "Sự phát triển của quan hệ hàng hóa tiền tệ"],
+    "c": 0
+  },
+  {
+    "q": "Hình thức phân phối nào phản ánh định hướng xã hội chủ nghĩa của nền kinh tế thị trường?",
+    "a": ["Phân phối theo lao động", "Phân phối theo vốn đầu tư", "Phân phối theo lao động, hiệu quả kinh tế và phân phối theo phúc lợi", "Phân phối theo lao động, hiệu quả kinh tế và theo góp vốn"],
+    "c": 2
+  },
+  {
+    "q": "Đâu là hình thức phân phối của kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam?",
+    "a": ["Phân phối theo lao động và hiệu quả lao động", "Phân phối theo nhu cầu", "Phân phối bình quân, công bằng", "Phân phối theo vốn đầu tư"],
+    "c": 0
+  },
+  {
+    "q": "Đâu không phải là hình thức phân phối của kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam?",
+    "a": ["Phân phối theo lao động và hiệu quả lao động", "Phân phối theo nhu cầu", "Phân phối theo lao động và phúc lợi", "Phân phối theo phúc lợi"],
+    "c": 1
+  },
+  {
+    "q": "Chọn đáp án đúng điền vào chỗ trống: “Nền KTTT định hướng XHCN thực hiện gắn tăng trưởng kinh tế (...); phát triển kinh tế đi đôi với văn hóa - xã hội”.",
+    "a": ["Với tiến bộ xã hội", "Với tiến hóa xã hội", "Với công bằng xã hội", "Với dân chủ xã hội"],
+    "c": 0
+  },
+  {
+    "q": "Nền KTTT định hướng XHCN thực hiện gắn tăng trưởng kinh tế với công bằng xã hội; thực hiện (...) ngay trong từng chính sách, chiến lược.",
+    "a": ["Tiến bộ và công bằng xã hội", "Tiến hóa và công bằng xã hội", "Dân chủ xã hội", "Văn hóa xã hội"],
+    "c": 0
+  },
+  {
+    "q": "Đặc trưng nào phản ánh thuộc tính quan trọng mang tính định hướng XHCN của nền KTTT ở Việt Nam?",
+    "a": ["Đặc trưng về quan hệ sở hữu và thành phần kinh tế", "Đặc trưng về quan hệ quản lý nền kinh tế", "Đặc trưng về quan hệ phân phối", "Đặc trưng về gắn tăng trưởng kinh tế với công bằng xã hội"],
+    "c": 3
+  },
+  {
+    "q": "Chọn nhận định đúng về nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam hiện nay.",
+    "a": ["Đã xây dựng thành công và không có bất kỳ hạn chế nào", "Đang trong quá trình hình thành và phát triển, tất yếu còn bộc lộ yếu kém", "Đã phát triển đạt các tiêu chí của nền kinh tế tri thức", "Tất cả các nhận định đều chưa đúng"],
+    "c": 1
+  },
+  {
+    "q": "Trong kinh tế thị trường định hướng xã hội chủ nghĩa, lợi ích quốc gia, dân tộc có ý nghĩa gì?",
+    "a": ["Là lợi ích cao nhất, chi phối và định hướng các lợi ích khác", "Là cơ sở thống nhất và điều hòa các lợi ích kinh tế trong xã hội", "Được hình thành trên cơ sở tổng hòa lợi ích cá nhân và tập thể", "Là lợi ích giữ vai trò định hướng lâu dài cho sự phát triển bền vững"],
+    "c": 0
+  },
+  {
+    "q": "Trong quan hệ lợi ích kinh tế, lợi ích nào có vai trò gắn kết cá nhân với cộng đồng?",
+    "a": ["Lợi ích tập thể", "Lợi ích cá nhân", "Lợi ích quốc tế", "Lợi ích chính trị"],
+    "c": 0
+  },
+  {
+    "q": "Mục tiêu cơ bản của việc phân phối theo lao động trong nền kinh tế thị trường định hướng xã hội chủ nghĩa là gì?",
+    "a": ["Bảo đảm công bằng, khuyến khích nâng cao năng suất", "Tạo ra sự bình quân tuyệt đối", "Gắn kết lợi ích cá nhân với lợi ích xã hội", "Hạn chế sự phân hóa thu nhập trong xã hội"],
+    "c": 0
+  },
+  {
+    "q": "Mục đích của thể chế kinh tế thị trường định hướng xã hội chủ nghĩa là nhằm:",
+    "a": ["Điều chỉnh hành vi của các chủ thể kinh tế", "Điều chỉnh chức năng, hoạt động... nhằm thúc đẩy dân giàu, nước mạnh, dân chủ, công bằng, văn minh", "Điều chỉnh các hành vi sản xuất kinh doanh và các quan hệ kinh tế", "Điều chỉnh các hoạt động của con người trong một chế độ xã hội"],
+    "c": 1
+  },
+  {
+    "q": "Sự cần thiết phải hoàn thiện thể chế kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
+    "a": ["Do thể chế còn chưa đồng bộ", "Hệ thống thể chế chưa đầy đủ", "Hệ thống thể chế còn kém hiệu lực, hiệu quả", "Bao gồm tất cả các đáp án"],
+    "c": 3
+  },
+  {
+    "q": "Đâu không phải là lý do cần phải hoàn thiện thể chế kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam?",
+    "a": ["Hệ thống thể chế chưa đầy đủ", "Thể chế còn chưa đồng bộ", "Hoàn thiện là do ý muốn chủ quan và để giao lưu quốc tế", "Thể chế còn kém hiệu lực, hiệu quả"],
+    "c": 2
+  },
+  {
+    "q": "Trình độ và năng lực tổ chức quản lý nền KTTT định hướng XHCN của Nhà nước thể hiện chủ yếu ở:",
+    "a": ["Sử dụng sức mạnh quân sự", "Năng lực xây dựng và thực thi thể chế", "Sử dụng sức mạnh chính trị", "Năng lực kinh tế"],
+    "c": 1
+  },
+  {
+    "q": "Đánh giá về hạn chế: “Thể chế đảm bảo thực hiện tiến bộ và công bằng xã hội còn bất cập. Bất bình đẳng xã hội, (...) có xu hướng gia tăng”.",
+    "a": ["Phân hóa giàu - nghèo", "Ô nhiễm môi trường", "Chảy máu chất xám", "Dịch bệnh"],
+    "c": 0
+  },
+  {
+    "q": "Đánh giá về hạn chế: “Thể chế đảm bảo thực hiện tiến bộ và (...) còn nhiều bất cập. Bất bình đẳng xã hội, phân hóa giàu nghèo gia tăng”.",
+    "a": ["Phát triển kinh tế", "Phát triển văn hóa", "Công bằng xã hội", "Dân chủ xã hội"],
+    "c": 2
+  },
+  {
+    "q": "Đánh giá về hạn chế: “Đổi mới phương thức lãnh đạo của Đảng trong thực hiện nhiệm vụ phát triển kinh tế - xã hội chưa (...)”.",
+    "a": ["Đáp ứng yêu cầu đổi mới về chính trị", "Đáp ứng yêu cầu đổi mới về văn hóa", "Đáp ứng yêu cầu đổi mới về kinh tế", "Bao gồm tất cả các đáp án"],
+    "c": 2
+  },
+  {
+    "q": "Trong kinh tế thị trường định hướng xã hội chủ nghĩa, lợi ích cá nhân có vai trò như thế nào?",
+    "a": ["Là động lực trực tiếp, nhưng phải hài hòa với lợi ích cộng đồng", "Là một bộ phận cấu thành của hệ thống lợi ích kinh tế", "Là điểm xuất phát trực tiếp của các hành vi kinh tế", "Luôn đối lập với lợi ích xã hội"],
+    "c": 0
+  },
+  {
+    "q": "Đâu không phải là nội dung hoàn thiện thể chế về sở hữu trong nền KTTT định hướng XHCN ở Việt Nam?",
+    "a": ["Hoàn thiện thể chế phát triển các thành phần kinh tế", "Thể chế hóa đầy đủ quyền tài sản của Nhà nước, tổ chức và cá nhân", "Tiếp tục hoàn thiện pháp luật về đất đai, tài nguyên...", "Hoàn thiện thể chế về sở hữu trí tuệ"],
+    "c": 2
+  },
+  {
+    "q": "Cần phải làm gì trong quản lý và phát triển các doanh nghiệp thuộc mọi thành phần kinh tế?",
+    "a": ["Quản lý chặt chẽ và ban hành quy định chi tiết", "Duy trì cách quản lý hiện tại", "Phát huy mặt tích cực; kiểm tra, giám sát, công khai, minh bạch, ngăn chặn mặt tiêu cực", "Áp dụng lý thuyết bàn tay vô hình của Adam Smith"],
+    "c": 2
+  },
+  {
+    "q": "Nội dung hoàn thiện thể chế phát triển đồng bộ các yếu tố thị trường là:",
+    "a": ["Các yếu tố như hàng hóa, giá cả, cạnh tranh... phải vận hành theo nguyên tắc thể chế KTTT", "Xây dựng chiến lược, quy hoạch, kế hoạch nâng cao quản trị quốc gia", "Hoàn thiện pháp luật về quản lý, khai thác tài nguyên", "Hoàn thiện thể chế về các mô hình sản xuất kinh doanh"],
+    "c": 0
+  },
+  {
+    "q": "Nội dung hoàn thiện thể chế để phát triển đồng bộ, vận hành thông suốt các loại thị trường là:",
+    "a": ["Xây dựng và thực thi pháp luật, quy hoạch quản trị quốc gia", "Các loại thị trường như hàng hóa, vốn, công nghệ, sức lao động... cần vận hành thông suốt", "Hoàn thiện pháp luật về khai thác tài nguyên thiên nhiên", "Hàng hóa, giá cả, cạnh tranh phải vận hành theo nguyên tắc thị trường"],
+    "c": 1
+  },
+  {
+    "q": "Nguyên tắc quan trọng bảo đảm phát triển kinh tế thị trường định hướng xã hội chủ nghĩa là gì?",
+    "a": ["Kết hợp tăng trưởng kinh tế với công bằng xã hội", "Thực hiện tăng trưởng kinh tế thuần túy theo cơ chế thị trường", "Ưu tiên mục tiêu kinh tế trước mắt hơn các mục tiêu xã hội", "Duy trì cơ cấu kinh tế ổn định, bền vững"],
+    "c": 0
+  },
+  {
+    "q": "Nhận định “Những nước phát triển nhanh đều biết mở cửa, hội nhập” nói đến nội dung hoàn thiện thể chế nào?",
+    "a": ["Hoàn thiện thể chế về sở hữu, thành phần kinh tế", "Hoàn thiện thể chế về phát triển đồng bộ các loại thị trường", "Hoàn thiện gắn kết tăng trưởng kinh tế với phát triển bền vững và hội nhập quốc tế", "Hoàn thiện nâng cao năng lực lãnh đạo của Đảng"],
+    "c": 2
+  },
+  {
+    "q": "Nhận định: “Phát huy sức mạnh trí tuệ, nguồn lực và đồng thuận của toàn dân tộc” là nội dung:",
+    "a": ["Hoàn thiện thể chế về sở hữu, thành phần kinh tế", "Hoàn thiện thể chế về phát triển đồng bộ các loại thị trường", "Hoàn thiện gắn kết tăng trưởng kinh tế với công bằng xã hội", "Hoàn thiện, nâng cao năng lực lãnh đạo của Đảng và hệ thống chính trị"],
+    "c": 3
+  },
+  {
+    "q": "Sự thống nhất các lợi ích kinh tế trong nền kinh tế nhiều thành phần ở Việt Nam được bảo đảm nhờ:",
+    "a": ["Chính sách kinh tế đúng đắn của Đảng và Nhà nước", "Cơ chế điều tiết tự phát của thị trường", "Sự thỏa thuận lợi ích giữa các chủ thể", "Theo đuổi lợi ích trước mắt của khu vực tư nhân"],
+    "c": 0
+  },
+  {
+    "q": "Chọn đáp án đúng điền vào chỗ trống: “(...) là lợi ích vật chất, lợi ích thu được khi thực hiện các hoạt động kinh tế”.",
+    "a": ["Lợi ích", "Lợi ích kinh tế", "Lợi ích văn hóa", "Lợi ích tinh thần"],
+    "c": 1
+  },
+  {
+    "q": "Về bản chất, lợi ích kinh tế phản ánh:",
+    "a": ["Nguyên tắc đảm bảo lợi ích phù hợp vai trò chủ thể", "Mục đích và động cơ của quan hệ giữa các chủ thể trong sản xuất xã hội", "Lợi ích khi con người được thỏa mãn nhu cầu", "Cả lợi ích tinh thần và văn hóa"],
+    "c": 1
+  },
+  {
+    "q": "Chọn đáp án đúng: “Quan hệ lợi ích kinh tế là tương tác giữa người với người... nhằm...”",
+    "a": ["Đảm bảo lợi ích phù hợp với vai trò của các chủ thể", "Gắn với chủ thể kinh tế khác nhau là những lợi ích tương ứng", "Xác lập các lợi ích trong mối liên hệ với trình độ phát triển LLSX", "Thúc đẩy sự phát triển các lợi ích khác"],
+    "c": 0
+  },
+  {
+    "q": "Các quan hệ lợi ích kinh tế có mối quan hệ như thế nào?",
+    "a": ["Luôn thống nhất với nhau", "Vừa thống nhất, vừa mâu thuẫn với nhau", "Luôn trái ngược nhau", "Luôn bổ sung cho nhau"],
+    "c": 1
+  },
+  {
+    "q": "Đâu không phải là nhân tố ảnh hưởng đến quan hệ lợi ích kinh tế ở Việt Nam?",
+    "a": ["Trình độ phát triển của lực lượng sản xuất", "Địa vị của chủ thể trong hệ thống quan hệ sản xuất", "Chính sách phân phối thu nhập và hội nhập quốc tế", "Thói quen và phong tục tập quán"],
+    "c": 3
+  },
+  {
+    "q": "Chủ thể nào có vai trò điều hòa các quan hệ lợi ích kinh tế ở Việt Nam?",
+    "a": ["Nhà nước", "Doanh nghiệp lớn", "Tập đoàn độc quyền", "Chủ thể trung gian"],
+    "c": 0
+  },
+  {
+    "q": "Vai trò của Nhà nước trong đảm bảo hài hòa các quan hệ lợi ích là:",
+    "a": ["Bảo vệ lợi ích hợp pháp, tạo môi trường thuận lợi cho hoạt động tìm kiếm lợi ích", "Điều hòa lợi ích giữa cá nhân - doanh nghiệp - xã hội", "Kiểm soát, ngăn ngừa các quan hệ lợi ích tiêu cực", "Tất cả các đáp án đều đúng"],
+    "c": 3
+  },
+  {
+    "q": "Trong quản lý và phát triển doanh nghiệp, cần phải làm gì?",
+    "a": ["Quản lý chặt chẽ và ban hành quy định chi tiết", "Duy trì cách quản lý hiện tại", "Phát huy mặt tích cực; kiểm tra, giám sát, công khai, minh bạch, ngăn chặn mặt tiêu cực", "Áp dụng lý thuyết bàn tay vô hình của Adam Smith"],
+    "c": 2
+  },
+//chuong6
+{
+    "q": "Tiền đề của cuộc Cách mạng công nghiệp lần thứ nhất được phát triển trước hết trong lĩnh vực nào? [cite: 1954]",
+    "a": ["Cơ khí", "Điện", "Hóa chất", "Dệt vải"],
+    "c": 3
+  },
+  {
+    "q": "Nội dung nào sau đây KHÔNG phải là vai trò của cách mạng công nghiệp đối với phát triển? [cite: 1959]",
+    "a": ["Thúc đẩy sự phát triển lực lượng sản xuất", "Thúc đẩy hoàn thiện quan hệ sản xuất", "Thúc đẩy phương thức phân phối công bằng hơn", "Thúc đẩy đổi mới phương thức quản trị phát triển"],
+    "c": 2
+  },
+  {
+    "q": "Quốc gia nào thuộc nhóm các nước công nghiệp mới (NICs)? [cite: 1965]",
+    "a": ["Hoa Kỳ", "Singapore", "Việt Nam", "Trung Quốc"],
+    "c": 1
+  },
+  {
+    "q": "Quốc gia nào lựa chọn mô hình công nghiệp hoá rút ngắn? [cite: 1970]",
+    "a": ["Anh", "Đức", "Liên Xô", "Hàn Quốc"],
+    "c": 3
+  },
+  {
+    "q": "Điền từ: “CMCN là những bước phát triển (1) về chất tư liệu lao động... tạo bước phát triển (3) cao hơn hẳn nhờ áp dụng tính năng mới vào đời sống”. [cite: 1975]",
+    "a": ["(1) đột phá; (3) cường độ lao động", "(1) đột phá; (3) năng suất lao động", "(1) nhảy vọt; (3) cường độ lao động", "(1) nhảy vọt; (3) năng suất lao động"],
+    "c": 3
+  },
+  {
+    "q": "Cuộc cách mạng công nghiệp lần thứ nhất có đặc trưng nào? [cite: 1980]",
+    "a": ["Sử dụng năng lượng nước và hơi nước để cơ khí hoá sản xuất", "Sử dụng năng lượng điện để tạo dây chuyền sản xuất hàng loạt", "Sử dụng công nghệ thông tin tự động hoá sản xuất", "Liên kết thế giới thực và ảo"],
+    "c": 0
+  },
+  {
+    "q": "Cuộc Cách mạng công nghiệp lần thứ hai có đặc trưng nào? [cite: 1986]",
+    "a": ["Sử dụng năng lượng nước và hơi nước", "Sử dụng năng lượng điện tạo dây chuyền sản xuất hàng loạt", "Sử dụng máy tính tự động hoá sản xuất", "Sử dụng trí tuệ nhân tạo"],
+    "c": 1
+  },
+  {
+    "q": "Đặc trưng cơ bản của cuộc Cách mạng công nghiệp lần thứ ba là: [cite: 1991]",
+    "a": ["Sử dụng công nghệ thông tin và máy tính để tự động hoá sản xuất", "Sử dụng năng lượng hơi nước", "Sử dụng năng lượng điện", "Liên kết thế giới thực và ảo"],
+    "c": 0
+  },
+  {
+    "q": "Điền từ CMCN 2: Sử dụng năng lượng (1) để tạo ra các (2) chuyên môn hoá cao, chuyển sang giai đoạn (4) cục bộ. [cite: 1996]",
+    "a": ["(1) nước; (4) cơ khí", "(1) điện; (4) tự động hoá", "(1) nước; (4) tự động hoá", "(1) điện; (4) cơ khí"],
+    "c": 1
+  },
+  {
+    "q": "Chuyển từ lao động thủ công sang lao động máy móc nhằm tạo ra năng suất lao động cao là khái niệm nào? [cite: 2001]",
+    "a": ["Công nghiệp hoá", "Hiện đại hoá", "Tăng trưởng kinh tế", "Phát triển kinh tế"],
+    "c": 0
+  },
+  {
+    "q": "Quốc gia nào dưới đây tiêu biểu cho mô hình công nghiệp hoá cổ điển? [cite: 2006]",
+    "a": ["Anh", "Nhật Bản", "Hàn Quốc", "Đức"],
+    "c": 0
+  },
+  {
+    "q": "Nguồn vốn chủ yếu để CNH ở các nước tư bản cổ điển KHÔNG đến từ nguồn nào dưới đây? [cite: 2012]",
+    "a": ["Khai thác lao động làm thuê", "Làm phá sản người sản xuất nhỏ", "Nhận viện trợ từ các quốc gia phát triển", "Xâm chiếm thuộc địa"],
+    "c": 2
+  },
+  {
+    "q": "Mô hình công nghiệp hoá kiểu Liên Xô bắt đầu vào khoảng thời gian nào? [cite: 2017]",
+    "a": ["Đầu những năm 1930 ở Liên Xô", "Đầu những năm 1945 ở Liên Xô", "Đầu những năm 1930 ở Đông Âu", "Đầu những năm 1945 ở Đông Âu"],
+    "c": 0
+  },
+  {
+    "q": "Con đường công nghiệp hoá kiểu Liên Xô thường ưu tiên phát triển ngành? [cite: 2024]",
+    "a": ["Nông nghiệp", "Công nghiệp nặng", "Dịch vụ", "Công nghiệp nhẹ"],
+    "c": 1
+  },
+  {
+    "q": "Các nước công nghiệp mới (NICs) trung bình mất bao nhiêu năm để CNH, HĐH thành công? [cite: 2029]",
+    "a": ["10 đến 15 năm", "20 đến 30 năm", "30 đến 40 năm", "60 đến 80 năm"],
+    "c": 1
+  },
+  {
+    "q": "Nhật Bản và các nước NICs đã sử dụng con đường nào để tiến hành CNH, HĐH? [cite: 2034]",
+    "a": ["Đầu tư nghiên cứu từ thấp đến cao", "Tiếp nhận viện trợ hoàn toàn", "Chiến lược phát triển khoa học - công nghệ nhiều tầng", "Thực hiện CNH tách rời với HĐH"],
+    "c": 2
+  },
+  {
+    "q": "Nội dung của công nghiệp hoá, hiện đại hoá ở Việt Nam là... [cite: 2039]",
+    "a": ["Tạo lập những điều kiện để chuyển đổi nền sản xuất lạc hậu sang hiện đại", "Tăng cường nhận viện trợ nước ngoài", "Chỉ dựa vào nguồn lực trong nước", "Từng bước hoàn thiện LLSX phù hợp QHSX"],
+    "c": 0
+  },
+  {
+    "q": "Điền từ: “CNH, HĐH là quá trình chuyển đổi căn bản (1) các hoạt động... nhằm tạo ra (4) xã hội cao”. [cite: 2045]",
+    "a": ["(1) toàn diện; (4) năng suất lao động", "(1) chủ yếu; (4) năng suất lao động", "(1) toàn diện; (4) cường độ lao động", "(1) chủ yếu; (4) cường độ lao động"],
+    "c": 0
+  },
+  {
+    "q": "Nội dung nào KHÔNG phải là đặc điểm chủ yếu của quá trình CNH, HĐH ở Việt nam? [cite: 2050]",
+    "a": ["CNH theo định hướng XHCN", "Gắn với phát triển kinh tế tri thức", "Trong điều kiện KTTT định hướng XHCN", "Trong bối cảnh hạn chế hợp tác quốc tế"],
+    "c": 3
+  },
+  {
+    "q": "Thực hiện cơ giới hoá sản xuất bằng việc sử dụng năng lượng nước và hơi nước là nội dung cuộc CMCN nào? [cite: 2056]",
+    "a": ["Cách mạng công nghiệp lần thứ nhất", "Cách mạng công nghiệp lần thứ hai", "Cách mạng công nghiệp lần thứ ba", "Cách mạng công nghiệp lần thứ tư"],
+    "c": 0
+  },
+  {
+    "q": "Ba giai đoạn phát triển CMCN 1 mà C. Mác khái quát lần lượt là... [cite: 2062]",
+    "a": ["Hiệp tác giản đơn - Đại công nghiệp - Công trường thủ công", "Công trường thủ công - Hiệp tác giản đơn - Đại công nghiệp", "Hiệp tác giản đơn - Công trường thủ công - Đại công nghiệp", "Đại công nghiệp - Hiệp tác giản đơn - Công trường thủ công"],
+    "c": 2
+  },
+  {
+    "q": "Internet kết nối vạn vật (IoT) là cơ sở hình thành của cuộc cách mạng nào? [cite: 2068]",
+    "a": ["Cách mạng lần thứ nhất", "Cách mạng lần thứ hai", "Cách mạng lần thứ ba", "Cách mạng lần thứ tư"],
+    "c": 3
+  },
+  {
+    "q": "Quan điểm nào KHÔNG đúng khi lí giải về tính tất yếu của CNH, HĐH ở nước ta? [cite: 2074]",
+    "a": ["Là quy luật phổ biến", "Xây dựng CSVC-KT cho CNXH", "Làm khối liên minh công - nông - trí thức mạnh lên", "Để hội nhập kinh tế quốc tế sâu rộng"],
+    "c": 2
+  },
+  {
+    "q": "Nhiệm vụ nào dưới đây KHÔNG phải là nhiệm vụ để chuyển đổi nền sản xuất lạc hậu sang hiện đại? [cite: 2080]",
+    "a": ["Đẩy mạnh ứng dụng khoa học công nghệ", "Chuyển dịch cơ cấu kinh tế hiệu quả", "Từng bước hoàn thiện LLSX phù hợp với trình độ QHSX", "Thích ứng CMCN 4"],
+    "c": 2
+  },
+  {
+    "q": "Giải pháp cơ bản để nâng cao trình độ đào tạo, sử dụng nhân lực ở nước ta là... [cite: 2085]",
+    "a": ["Coi trọng trang bị lý thuyết kiến thức", "Quy hoạch mạng lưới cơ sở giáo dục gắn với quy hoạch phát triển KT-XH", "Thắt chặt đầu tư cho giáo dục", "Tách rời nghiên cứu đào tạo với doanh nghiệp"],
+    "c": 1
+  },
+  {
+    "q": "Ý nghĩa lý luận và thực tiễn của việc nghiên cứu CNH, HĐH là gì? [cite: 2091]",
+    "a": ["Làm rõ cơ sở khoa học cho việc hoạch định chính sách", "Hệ thống hóa quan điểm LLSX", "Nhận diện mâu thuẫn xã hội", "Cung cấp luận cứ ổn định chính trị"],
+    "c": 0
+  },
+  {
+    "q": "Internet ra đời vào khoảng thời gian nào của thế kỉ XX? [cite: 2096]",
+    "a": ["Thập niên 60", "Thập niên 70", "Thập niên 80", "Thập niên 90"],
+    "c": 0
+  },
+  {
+    "q": "Cách mạng công nghiệp lần thứ tư có sự xuất hiện các công nghệ mới là... [cite: 2101]",
+    "a": ["Máy tính", "Trí tuệ nhân tạo, Big data", "Động cơ điện", "Chế tạo ô tô"],
+    "c": 1
+  },
+  {
+    "q": "Trong quá trình CNH, yếu tố nào giữ vai trò quyết định nâng cao năng suất lao động xã hội? [cite: 2106]",
+    "a": ["Khoa học - công nghệ và chất lượng nguồn nhân lực", "Tăng cường độ lao động", "Mở rộng quy mô sản xuất", "Sử dụng lao động trình độ cao"],
+    "c": 0
+  },
+  {
+    "q": "Các nước đi sau muốn rút ngắn thời gian CNH cần chú ý... [cite: 2112]",
+    "a": ["Khai thác lợi thế trong nước và tận dụng nguồn lực ngoài", "Khai thác triệt để nội lực, không nhận chuyển giao công nghệ", "Chỉ dựa vào nguồn lực nước ngoài", "Thực hiện tuần tự từ CNH rồi đến HĐH"],
+    "c": 0
+  },
+  {
+    "q": "“Chính phủ điện tử” là khái niệm xuất hiện từ cuộc cách mạng công nghiệp lần thứ mấy? [cite: 2118]",
+    "a": ["Lần thứ nhất", "Lần thứ hai", "Lần thứ ba", "Lần thứ tư"],
+    "c": 2
+  },
+  {
+    "q": "“Đô thị thông minh” là khái niệm gắn với cuộc cách mạng lần thứ mấy? [cite: 2124]",
+    "a": ["Lần thứ nhất", "Lần thứ hai", "Lần thứ ba", "Lần thứ tư"],
+    "c": 3
+  },
+  {
+    "q": "Mối quan hệ tỉ lệ giữa các ngành, các vùng và các thành phần kinh tế là nội dung khái niệm nào? [cite: 2131]",
+    "a": ["Phát triển kinh tế", "Cơ cấu kinh tế", "Thành phần kinh tế", "Tăng trưởng kinh tế"],
+    "c": 1
+  },
+  {
+    "q": "Cơ cấu kinh tế bao gồm: [cite: 2137]",
+    "a": ["Cơ cấu ngành, vùng và nguồn lực", "Cơ cấu ngành, nguồn lực và thành phần", "Cơ cấu ngành, vùng và thành phần", "Cơ cấu nguồn lực, vùng và thành phần"],
+    "c": 2
+  },
+  {
+    "q": "Trong hệ thống cơ cấu kinh tế, cơ cấu nào giữ vị trí quan trọng nhất? [cite: 2142]",
+    "a": ["Cơ cấu ngành kinh tế", "Cơ cấu vùng kinh tế", "Cơ cấu nguồn lực kinh tế", "Cơ cấu thành phần kinh tế"],
+    "c": 0
+  },
+  {
+    "q": "Chuyển dịch cơ cấu ngành theo hướng nào được coi là hiện đại và hiệu quả? [cite: 2148]",
+    "a": ["Tăng nông nghiệp và dịch vụ", "Tăng công nghiệp và dịch vụ, giảm nông nghiệp", "Tăng dịch vụ, giảm công nghiệp", "Tăng nông nghiệp, giảm công nghiệp"],
+    "c": 1
+  },
+  {
+    "q": "Đặc điểm chủ yếu của nền kinh tế tri thức là gì? [cite: 2153]",
+    "a": ["Dựa vào sức lao động thủ công", "Ưu tiên công nghiệp nặng", "Tri thức trở thành LLSX trực tiếp, nguồn lực quan trọng nhất", "AI thay thế hoàn toàn con người"],
+    "c": 2
+  },
+  {
+    "q": "Cơ cấu ngành giữ vị trí quan trọng nhất vì... [cite: 2159]",
+    "a": ["Phản ánh trình độ phát triển và kết quả CNH, HĐH", "Là biểu hiện duy nhất của cơ cấu kinh tế", "Tập trung mọi nguồn lực", "Không bị ảnh hưởng bởi cơ cấu khác"],
+    "c": 0
+  },
+  {
+    "q": "Nội dung có vai trò đặc biệt để thích ứng CMCN 4 ở Việt Nam là... [cite: 2164]",
+    "a": ["Phát triển nguồn nhân lực chất lượng cao", "Chuyển đổi số quản trị xã hội", "Xây dựng hạ tầng CNTT", "CNH, HĐH nông thôn"],
+    "c": 0
+  },
+  {
+    "q": "Sự phát triển công nghệ số thúc đẩy chuyển biến kinh tế công nghiệp sang.... [cite: 2170]",
+    "a": ["Nền kinh tế tri thức", "Nền kinh tế số hóa", "Nền kinh tế độc quyền", "Nền kinh tế thị trường"],
+    "c": 0
+  },
+  {
+    "q": "Nhiệm vụ nào KHÔNG phải để ứng phó tiêu cực từ CMCN 4? [cite: 2176]",
+    "a": ["Thực hiện chuyển đổi số", "Huy động tối đa vốn viện trợ nước ngoài", "CNH, HĐH nông nghiệp", "Phát triển nhân lực chất lượng cao"],
+    "c": 1
+  },
+  {
+    "q": "Điền từ: “Hội nhập kinh tế quốc tế là quá trình quốc gia (1) kinh tế của mình với thế giới dựa trên (2) lợi ích, tuân thủ (3) quốc tế”. [cite: 2184]",
+    "a": ["(1) gắn kết; (2) chia sẻ; (3) chuẩn mực", "(1) hoà nhập; (2) hợp nhất; (3) chuẩn mực", "(1) gắn kết; (2) hợp nhất; (3) chuẩn mực", "(1) hoà nhập; (2) chia sẻ; (3) chuẩn mực"],
+    "c": 0
+  },
+  {
+    "q": "Một trong những tác động tiêu cực của hội nhập kinh tế quốc tế là... [cite: 2192]",
+    "a": ["Nâng cao chất lượng nhân lực", "Thúc đẩy hội nhập văn hoá", "Tiếp thu khoa học công nghệ", "Gia tăng sự phụ thuộc vào thị trường ngoài"],
+    "c": 3
+  },
+  {
+    "q": "Nội dung nào KHÔNG phải là tác động tích cực của hội nhập? [cite: 2197]",
+    "a": ["Mở rộng thị trường", "Gia tăng cạnh tranh gay gắt làm DN khó khăn", "Thúc đẩy hội nhập văn hoá", "Nâng cao chất lượng nhân lực"],
+    "c": 1
+  },
+  {
+    "q": "Nội dung nào KHÔNG phải là tác động tiêu cực của hội nhập? [cite: 2202]",
+    "a": ["Gia tăng sự phụ thuộc", "Nhiều DN phá sản", "Thúc đẩy hội nhập chính trị, quốc phòng", "Thách thức quyền lực nhà nước"],
+    "c": 2
+  },
+  {
+    "q": "Việt Nam tham gia Khu vực Thương mại tự do ASEAN (AFTA) vào năm nào? [cite: 2208]",
+    "a": ["1996", "1995", "1997", "1998"],
+    "c": 0
+  },
+  {
+    "q": "Việt Nam chính thức trở thành thành viên của WTO vào năm nào? [cite: 2213]",
+    "a": ["2004", "2005", "2006", "2007"],
+    "c": 3
+  },
+  {
+    "q": "Hội nhập kinh tế quốc tế mang tính tất yếu khách quan vì... [cite: 2218]",
+    "a": ["Là phương thức phát triển phổ biến", "Chỉ dành cho các nước lớn", "Hạn chế chủ quyền quốc gia", "Không giúp ích cho nước nghèo"],
+    "c": 0
+  },
+  {
+    "q": "Nội dung hội nhập kinh tế quốc tế ở nước ta là... [cite: 2224]",
+    "a": ["Thực hiện đa phương hoá", "Chuẩn bị điều kiện và đa dạng mức độ hội nhập", "Phát huy nội lực là chính", "Chỉ thực hiện đa phương hoá đối ngoại"],
+    "c": 1
+  },
+  {
+    "q": "Toàn cầu hoá trên phương diện nào là xu thế nổi trội nhất? [cite: 2229]",
+    "a": ["Văn hoá", "Xã hội", "Chính trị", "Kinh tế"],
+    "c": 3
+  },
+  {
+    "q": "Tác động tích cực của hội nhập đối với nước ta là... [cite: 2234]",
+    "a": ["Mở rộng thị trường, chuyển dịch cơ cấu, nâng cao nhân lực", "Làm gia tăng phụ thuộc thị trường ngoài", "Khiến nhiều DN phá sản", "Tăng khoảng cách giàu - nghèo"],
+    "c": 0
+  },
+  {
+    "q": "Khẳng định nào là đúng khi nói về hội nhập kinh tế quốc tế? [cite: 2244]",
+    "a": ["Chỉ nước phát triển mới tham gia", "Nước nghèo không nên tham gia", "Là xu hướng chung của tất cả các nước", "Chỉ là xu hướng riêng của nước đang phát triển"],
+    "c": 2
+  },
+  {
+    "q": "Biện pháp KHÔNG đúng để xây dựng kinh tế độc lập tự chủ? [cite: 2249]",
+    "a": ["Hoàn thiện đường lối kinh tế", "Hợp tác với nước phát triển bằng mọi giá", "Chủ động hội nhập kinh tế quốc tế", "Nâng cao năng lực cạnh tranh"],
+    "c": 1
+  },
+  {
+    "q": "Đối với nước đang phát triển, hội nhập là cần thiết vì... [cite: 2254]",
+    "a": ["Cơ hội tiếp cận tài chính, công nghệ và kinh nghiệm", "Tăng sự phụ thuộc vào nước ngoài", "Tạo ra khoảng cách giàu nghèo", "Chỉ để nhận viện trợ"],
+    "c": 0
+  },
+  {
+    "q": "Nội dung KHÔNG phải biện pháp xây dựng kinh tế độc lập tự chủ? [cite: 2259]",
+    "a": ["Hoàn thiện đường lối chung", "Hợp tác quốc tế bằng mọi giá", "Đẩy mạnh kinh tế đối ngoại", "Tăng cường năng lực cạnh tranh"],
+    "c": 1
+  },
+  {
+    "q": "Nhiệm vụ trọng tâm giúp Việt Nam đi tắt đón đầu, tránh tụt hậu? [cite: 2264]",
+    "a": ["Đẩy mạnh kinh tế đối ngoại", "Đẩy mạnh công nghiệp hoá, hiện đại hoá", "Kết hợp kinh tế với quốc phòng", "Đổi mới thể chế hành chính"],
+    "c": 1
+  },
+  {
+    "q": "Chủ thể nào được đặt vào vị trí trung tâm trong hội nhập kinh tế? [cite: 2269]",
+    "a": ["Nhà nước", "Người dân", "Đội ngũ trí thức", "Doanh nghiệp"],
+    "c": 3
+  },
+  {
+    "q": "Trong hội nhập quốc tế toàn diện, chủ thể nào là lực lượng nòng cốt? [cite: 2275]",
+    "a": ["Nhà nước", "Người dân", "Doanh nghiệp và doanh nhân", "Trí thức"],
+    "c": 2
+  },
+  {
+    "q": "Nhận định nào KHÔNG đúng khi nói về hội nhập kinh tế quốc tế? [cite: 2281]",
+    "a": ["Là phương thức phát triển phổ biến", "Là xu hướng riêng của các nước lớn", "Cơ hội giải quyết vấn đề toàn cầu", "Giúp nước nghèo thu hẹp khoảng cách"],
+    "c": 1
+  },
+  {
+    "q": "Điền từ độc lập tự chủ: Không bị (1), phụ thuộc... không bị (2) làm tổn hại (3) quốc gia và (4) cơ bản. [cite: 2287]",
+    "a": ["(1) khống chế; (3) lợi ích", "(1) lệ thuộc; (3) chủ quyền", "(1) lệ thuộc; (3) chủ quyền; (4) lợi ích", "(1) khống chế; (3) lợi ích; (4) chủ quyền"],
+    "c": 2
+  },
+  {
+    "q": "Tiến trình hội nhập kinh tế quốc tế từ thấp đến cao là... [cite: 2293]",
+    "a": ["FTA - PTA - CU - Thị trường chung", "PTA - FTA - CU - Thị trường chung - Liên minh kinh tế", "CU - PTA - FTA - Thị trường chung", "FTA - CU - Thị trường chung - PTA"],
+    "c": 1
+  },
+  {
+    "q": "Hiệu quả của hội nhập kinh tế quốc gia phụ thuộc nhiều vào: [cite: 2298]",
+    "a": ["Năng lực cạnh tranh của nền kinh tế", "Nền kinh tế độc lập tự chủ", "Hoạt động xuất nhập khẩu", "Việc gia nhập tổ chức quốc tế"],
+    "c": 0
+  },
+];
