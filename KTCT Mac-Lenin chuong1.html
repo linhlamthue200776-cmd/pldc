@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thi trắc nghiệm</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 15px;
+  font-size: 18px;
+}
+
+.container {
+  max-width: 100%;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.answer {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.answer:active {
+  background: #eef;
+}
+
+.correct {
+  background: #c8f7c5;
+  border-color: green;
+}
+
+.wrong {
+  background: #f7c5c5;
+  border-color: red;
+}
+
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+}
+
+button:active {
+  background: #2980b9;
+}
+</style>
+</head>
+
+
+<body>
+<div class="container">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+  <button onclick="nextQuestion()">Câu tiếp theo</button>
+</div>
+
+<script>
+const questions = [
+  {
+    "q": "Kinh tế chính trị Mác - Lênin ra đời dựa trên sự kế thừa trực tiếp từ những thành tựu của...",
+    "a": ["Kinh tế chính trị cổ điển Anh", "Triết học cổ điển Đức", "Chủ nghĩa trọng thương", "Chủ nghĩa trọng nông"],
+    "c": 0
+  },
+  {
+    "q": "Lý luận của kinh tế chính trị Mác được thể hiện tập trung và cô đọng nhất trong tác phẩm nào?",
+    "a": ["“Phê phán kinh tế chính trị\"", "“Tuyên ngôn của Đảng Cộng sản\"", "“Gia đình thần thánh\"", "“Bộ Tư bản\""],
+    "c": 3
+  },
+  {
+    "q": "Chủ nghĩa trọng Thương lý giải nguồn gốc của lợi nhuận được tạo ra từ đâu?",
+    "a": ["Nông nghiệp", "Công nghiệp", "Thương nghiệp", "Dịch vụ"],
+    "c": 2
+  },
+  {
+    "q": "Chủ nghĩa trọng Nông là hệ thống lý luận kinh tế đi sâu vào nghiên cứu và phân tích để rút ra lý luận kinh tế từ lĩnh vực nào?",
+    "a": ["Nông nghiệp", "Công nghiệp", "Ngoại Thương", "Dịch vụ"],
+    "c": 0
+  },
+  {
+    "q": "Kinh tế chính trị Mác - Lênin bắt đầu phát triển vào thời gian nào?",
+    "a": ["Từ giữa thế kỷ XVIII", "Từ giữa thế kỷ XIX", "Từ cuối thế kỷ XIX", "Từ đầu thế kỷ XX"],
+    "c": 1
+  },
+  {
+    "q": "Điền vào chỗ trống để hoàn thiện khái niệm Kinh tế chính trị: “Kinh tế chính trị là môn khoa học kinh tế nghiên cứu các quan hệ kinh tế để tìm ra các quy luật chi phối sự vận động của các hiện tượng và quá trình hoạt động kinh tế của con người tương ứng với những (...) nhất định của nền sản xuất xã hội”?",
+    "a": ["Diễn biến", "Biến động", "Mức độ tăng trưởng", "Trình độ phát triển"],
+    "c": 3
+  },
+  {
+    "q": "Điền vào chỗ trống: “Kinh tế chính trị là môn khoa học kinh tế nghiên cứu các quan hệ kinh tế để tìm ra (...) chi phối sự vận động của các hiện tượng và quá trình hoạt động kinh tế của con người tương ứng với những trình độ phát triển nhất định của nền sản xuất xã hội”?",
+    "a": ["Các hiện tượng kinh tế", "Các quy luật", "Các nguồn lực", "Các mô hình"],
+    "c": 1
+  },
+  {
+    "q": "Điền vào chỗ trống để hoàn thiện khái niệm Kinh tế chính trị: “Kinh tế chính trị là môn khoa học kinh tế nghiên cứu (...) để tìm ra các quy luật chi phối sự vận động của các hiện tượng và quá trình hoạt động kinh tế của con người tương ứng với những trình độ phát triển nhất định của nền sản xuất xã hội”?",
+    "a": ["Các hiện tượng kinh tê", "Các quan hệ kinh tế", "Các quan hệ mua bán", "Các hiện tượng trao đổi"],
+    "c": 1
+  },
+  {
+    "q": "Ai là người kế thừa, bổ sung, phát triển lý luận kinh tế chính trị của C. Mác?",
+    "a": ["Vladimir Ilych Lenin", "Nikolai Lobachevsky", "Mikhail Lomonosov", "Pafnuty Chebyshev"],
+    "c": 0
+  },
+  {
+    "q": "Học thuyết nào giữ vị trí là “Hòn đá tảng” trong toàn bộ lý luận kinh tế của Mác?",
+    "a": ["Học thuyết giá trị thặng dư", "Học thuyết tích lũy", "Học thuyết giá trị", "Học thuyết tuần hoàn và chu chuyển tư bản"],
+    "c": 0
+  },
+  {
+    "q": "Điểm tiến bộ của kinh tế chính trị cổ điển Anh so với các trường phái kinh tế trước đó, nằm ở điều gì?",
+    "a": ["Tính khái quát cao và trình bày lý luận mang tính hệ thống thành những quy luật, phạm trù kinh tế cơ bản", "Nhiều tác phẩm hơn, tác phẩm đồ sộ hơn", "Các đại biểu nổi bật và xuất sắc hơn", "Đơn giản, dễ hiểu hơn, xây dựng dựa trên sự quan sát trực quan"],
+    "c": 0
+  },
+  {
+    "q": "Luận điểm sai về kinh tế chính trị Mác - Lênin?",
+    "a": ["Đây là một học thuyết mở, có thể vận dụng sáng tạo và phát triển", "Đây là một học thuyết cung cấp cơ sở lý luận cho phong trào đấu tranh của công nhân", "Đây là một học thuyết nằm trong bộ ba cấu thành của Chủ nghĩa Mác - Lênin", "Đây là một học thuyết chỉ dành cho các nhà hoạch định kinh tế"],
+    "c": 3
+  },
+  {
+    "q": "Sự bổ sung, phát triển của Lênin cho kinh tế chính trị Mác - Lênin không bao gồm điều gì?",
+    "a": ["Đặc điểm kinh tế của chủ nghĩa tư bản giai đoạn độc quyền", "Đặc điểm kinh tế của chủ nghĩa tư bản giai đoạn tự do cạnh tranh", "Đặc điểm kinh tế của chủ nghĩa tư bản giai đoạn độc quyền nhà nước", "Đặc điểm kinh tế của thời kỳ quá độ lên chủ nghĩa xã hội"],
+    "c": 1
+  },
+  {
+    "q": "Đóng góp lớn của V. I. Lênin đối với việc vận dụng, phát triển sáng tạo kinh tế chính trị Mác - Lênin ở các nước theo định hướng xã hội chủ nghĩa là gì?",
+    "a": ["Lý luận kinh tế chính trị về độc quyền", "Lý luận kinh tế chính trị về cạnh tranh", "Lý luận kinh tế chính trị về độc quyền nhà nước", "Lý luận về kinh tế chính trị của thời kỳ quá độ lên chủ nghĩa xã hội"],
+    "c": 3
+  },
+  {
+    "q": "Những thành tựu của kinh tế chính trị cổ điển Anh đã cung cấp tiền đề gì cho C. Mác và Ph. Ăngghen xây dựng kinh tế chính trị Mác?",
+    "a": ["Những phạm trù cơ bản của kinh tế hàng hóa", "Những lý luận cổ điển về kinh tế", "Những dẫn chứng quan trọng về kinh tế của nước Anh", "Không có giá trị gì"],
+    "c": 0
+  },
+  {
+    "q": "Trường phái nào được ghi nhận là hệ thống lý luận kinh tế chính trị bước đầu nghiên cứu về nền sản xuất tư bản chủ nghĩa?",
+    "a": ["Trường phái trọng Tiền", "Chủ nghĩa trọng Nông", "Kinh tế chính trị Tư sản cổ điển Anh", "Chủ nghĩa trọng Thương"],
+    "c": 3
+  },
+  {
+    "q": "Đối tượng nghiên cứu của chủ nghĩa trọng Thương thuộc lĩnh vực nào?",
+    "a": ["Lưu thông", "Sản xuất", "Tiền tệ", "Dịch vụ"],
+    "c": 0
+  },
+  {
+    "q": "Chủ nghĩa trọng Nông có đối tượng nghiên cứu thuộc lĩnh vực nào?",
+    "a": ["Nông nghiệp", "Thương nghiệp", "Công nghiệp", "Dịch vụ"],
+    "c": 0
+  },
+  {
+    "q": "Đối tượng nghiên cứu của kinh tế chính trị là?",
+    "a": ["Quá trình sản xuất vật chất", "Các phương pháp sản xuất để tối đa hóa lợi nhuận", "Các quan hệ của sản xuất và trao đổi trong phương thức sản xuất mà các quan hệ đó hình thành và phát triển", "Quan hệ sản xuất, phân phối, trao đổi và tiêu dùng"],
+    "c": 2
+  },
+  {
+    "q": "Quy luật kinh tế là...?",
+    "a": ["Những mối liên hệ phản ánh bản chất, khách quan, lặp lại của các hiện tượng và quá trình kinh tế", "Phản ánh bản chất của các hiện tượng trong xã hội", "Khách quan tồn tại trong mọi phương thức sản xuất", "Chủ quan tồn tại trong mọi phương thức sản xuất"],
+    "c": 0
+  },
+  {
+    "q": "Phương pháp nghiên cứu cơ bản, chủ đạo của kinh tế chính trị Mác - Lênin là?",
+    "a": ["Vận dụng thành thạo phép biện chứng duy vật", "Vận dụng thành thạo phép biện chứng duy tâm", "Vận dụng thành thạo chủ nghĩa duy vật siêu hình", "Vận dụng thành thạo chủ nghĩa duy tâm khách quan"],
+    "c": 0
+  },
+  {
+    "q": "Kinh tế chính trị Mác - Lênin có nhiệm vụ nghiên cứu là...",
+    "a": ["Tìm ra bản chất của lực lượng sản xuất", "Tìm ra bản chất của quan hệ sản xuất xã hội", "Tìm ra các quy luật kinh tế và sự tác động của nó nhằm ứng dụng có hiệu quả trong thực tiễn", "Tìm ra các quy luật kinh tế nhằm đạt được hiệu quả kinh tế mong muốn"],
+    "c": 2
+  },
+  {
+    "q": "Xác định đối tượng nghiên cứu của kinh tế chính trị là các quan hệ của sản xuất và trao đổi là dựa trên cơ sở?",
+    "a": ["Cách tiếp cận duy vật về lịch sử dựa trên những thành tựu của kinh tế chính trị nhân loại", "Dựa trên kinh nghiệm nghiên cứu nhiều năm và thực tiễn phong phú", "Dựa trên sự kết hợp quan điểm của chủ nghĩa trọng nông và trọng thương", "Dùng cách tiếp cận của D. Ricardo"],
+    "c": 0
+  },
+  {
+    "q": "Luận điểm: Quy luật kinh tế không phụ thuộc vào ý chí của con người được hiểu là?",
+    "a": ["Quy luật kinh tế mang tính thần bí", "Quy luật kinh tế tồn tại trước khi con người xuất hiện", "Quy luật kinh tế mang tính khách quan", "Quy luật kinh tế mang tính chủ quan"],
+    "c": 2
+  },
+  {
+    "q": "Điền từ vào chỗ trống: [...] tồn tại khách quan, không phụ thuộc vào ý chí của con người, con người không thể thủ tiêu [...] nhưng có thể nhận thức và vận dụng.",
+    "a": ["Quy luật kinh tế / quy luật kinh tế", "Quy luật kinh tế / chính sách kinh tế", "Chính sách kinh tế / thể chế kinh tế", "Đường lối kinh tế / chính sách kinh tế"],
+    "c": 0
+  },
+  {
+    "q": "“Nhận ra và gạt bỏ những hiện tượng tạm thời... nắm được bản chất... khái quát thành các khái niệm, phạm trù” là bản chất của phương pháp nào?",
+    "a": ["Phương pháp diễn dịch khoa học", "Phương pháp liên ngành khoa học", "Phương pháp phân tích khoa học", "Phương pháp trừu tượng hóa khoa học"],
+    "c": 3
+  },
+  {
+    "q": "Phương pháp quan trọng nhất trong nghiên cứu kinh tế chính trị Mác - Lênin là?",
+    "a": ["Trừu tượng hóa khoa học", "Logic và lịch sử", "Phân tích và tổng hợp", "Mô hình hóa"],
+    "c": 0
+  },
+  {
+    "q": "Điền từ: “Đối tượng nghiên cứu của kinh tế chính trị Mác - Lênin là các (...1...) của sản xuất và trao đổi đặt trong sự liên hệ với (...2...) và kiến trúc thượng tầng tương ứng”.",
+    "a": ["(1) Quan hệ sản xuất / (2) lực lượng sản xuất", "(1) Quan hệ xã hội / (2) quan hệ sản xuất", "(1) Quan hệ sản xuất / (2) cơ sở hạ tầng", "(1) Quan hệ xã hội / (2) lực lượng sản xuất"],
+    "c": 0
+  },
+  {
+    "q": "Điểm tiến bộ của kinh tế chính trị Mác - Lênin trong phương pháp nghiên cứu là gì?",
+    "a": ["Đưa ra những cách tiếp cận hoàn toàn mới dựa trên quan điểm tư sản", "Phê phán và phủ định triệt để các học thuyết trước đó", "Vận dụng triệt để thế giới quan và phương pháp luận duy vật biện chứng", "Lần đầu tiên đưa nghiên cứu của giai cấp công nhân vào công trình"],
+    "c": 2
+  },
+  {
+    "q": "Điền từ vào chỗ trống: Chính sách kinh tế là sản phẩm chủ quan của con người được hình thành trên cơ sở vận dụng các [...].",
+    "a": ["Quy luật kinh tế", "Thể chế kinh tế", "Chính sách kinh tế", "Đường lối kinh tế"],
+    "c": 0
+  },
+  {
+    "q": "Muốn thực hiện các hoạt động kinh tế đạt hiệu quả tốt cần điều gì?",
+    "a": ["Cần một nguồn tài chính dồi dào", "Cần nắm chắc và vận dụng đúng các quy luật kinh tế cơ bản", "Cần có nhiều mối quan hệ kinh tế tốt", "Cần nắm bắt được đầy đủ các thông tin của thị trường"],
+    "c": 1
+  },
+  {
+    "q": "Đối tượng nghiên cứu của Kinh tế chính trị cổ điển Anh là các quan hệ kinh tế trong lĩnh vực nào?",
+    "a": ["Sản xuất", "Lưu thông", "Dịch vụ", "Tài chính"],
+    "c": 0
+  },
+  {
+    "q": "Nội dung nào sau đây không phải là quan hệ xã hội thuộc đối tượng nghiên cứu của kinh tế chính trị?",
+    "a": ["Quan hệ giữa các đảng phái chính trị", "Quan hệ sở hữu", "Quan hệ phân phối lợi ích kinh tế", "Quan hệ xã hội trong quản trị phát triển quốc gia"],
+    "c": 0
+  },
+  {
+    "q": "Kinh tế chính trị Mác - Lênin có giá trị như thế nào đối với giai cấp công nhân và người lao động?",
+    "a": ["Giúp hình thành phong trào công nhân ở châu Âu", "Giúp phong trào công nhân đấu tranh mạnh hơn ở các nước thuộc địa", "Giúp nắm được bản chất phương thức sản xuất TBCN, nhận diện rõ đường lối đấu tranh", "Khiến các nhà tư bản từ bỏ việc bóc lột sức lao động"],
+    "c": 2
+  },
+  {
+    "q": "Mục đích cao nhất của kinh tế chính trị Mác - Lênin không bao gồm điều này?",
+    "a": ["Phát hiện ra các quy luật chi phối quan hệ giữa người với người", "Giúp các chủ thể vận dụng quy luật kinh tế phát triển xã hội", "Góp phần thúc đẩy văn minh và sự phát triển toàn diện xã hội", "Chỉ rõ sự ưu việt của kinh tế hàng hóa TBCN để phát triển quốc gia giàu mạnh"],
+    "c": 3
+  },
+  {
+    "q": "Chức năng nhận thức của kinh tế chính trị Mác - Lênin cung cấp cho người học điều gì?",
+    "a": ["Những nội dung của các quy luật kinh tế khách quan", "Những tri thức mở về những quy luật, phạm trù kinh tế", "Xây dựng hệ tư tưởng khoa học và cách mạng", "Làm nền tảng nghiên cứu những môn khoa học kinh tế khác"],
+    "c": 0
+  },
+  {
+    "q": "Chức năng tư tưởng của kinh tế chính trị Mác - Lênin cung cấp cho người học điều gì?",
+    "a": ["Xây dựng hệ tư tưởng tư sản và tự do cá nhân", "Xây dựng hệ tư tưởng kinh tế hỗn hợp", "Xây dựng nền tảng tư tưởng mới cho những người lao động tiến bộ", "Xây dựng nền tảng tư tưởng theo xu hướng kinh tế thị trường"],
+    "c": 2
+  },
+  {
+    "q": "Một trong những vai trò quan trọng về tư tưởng mà kinh tế chính trị Mác - Lênin cung cấp cho người học là gì?",
+    "a": ["Cổ vũ, khuyến khích người học khởi nghiệp", "Xây dựng tư tưởng sống thực tế, tránh ảo tưởng", "Xây dựng tư tưởng tôn trọng lao động, hướng tới quan hệ sản xuất tiến bộ", "Cổ vũ hệ tư tưởng của chủ nghĩa tư bản"],
+    "c": 2
+  },
+  {
+    "q": "Kinh tế chính trị Mác - Lênin có các chức năng nào?",
+    "a": ["Nhận thức, thực tiễn, tư tưởng, giáo dục", "Nhận thức, thực tiễn, tư tưởng, phương pháp luận", "Nhận thức, thực tiễn, xã hội, phương pháp luận", "Nhận thức, thực tiễn, giáo dục, xã hội"],
+    "c": 1
+  },
+  {
+    "q": "Luận điểm: Chức năng nhận thức là lý do xuất hiện của mọi khoa học nghĩa là gì?",
+    "a": ["Tri thức khoa học được xây dựng để phục vụ nhu cầu nhận thức của con người", "Các ngành khoa học xuất phát từ thế giới ý niệm", "Khoa học được sinh ra do hoạt động tinh thần cao", "Khả năng nhận thức của nhà khoa học sinh ra ngành khoa học"],
+    "c": 0
+  },
+];
+
+let index = 0;
+let answered = false;
+
+function shuffle(array) {
+  return array
+    .map(v => ({ v, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ v }) => v);
+}
+
+function loadQuestion() {
+  answered = false;
+  const q = questions[index];
+  document.getElementById("question").innerText =
+    `Câu ${index + 1}: ` + q.q;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  const mixed = q.a.map((text, i) => ({ text, i }));
+  shuffle(mixed).forEach(ans => {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.innerText = ans.text;
+    div.onclick = () => checkAnswer(div, ans.i);
+    answersDiv.appendChild(div);
+  });
+}
+
+function checkAnswer(element, chosenIndex) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[index];
+  const all = document.querySelectorAll(".answer");
+
+  all.forEach(a => a.onclick = null);
+
+  if (chosenIndex === q.c) {
+    element.classList.add("correct");
+  } else {
+    element.classList.add("wrong");
+    all.forEach(a => {
+      if (a.innerText === q.a[q.c]) {
+        a.classList.add("correct");
+      }
+    });
+  }
+}
+
+function nextQuestion() {
+  index++;
+  if (index >= questions.length) {
+    alert("Bạn đã hoàn thành bài thi 🎉");
+    index = 0;
+  }
+  loadQuestion();
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
+
