@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thi trắc nghiệm</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 15px;
+  font-size: 18px;
+}
+
+.container {
+  max-width: 100%;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.answer {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.answer:active {
+  background: #eef;
+}
+
+.correct {
+  background: #c8f7c5;
+  border-color: green;
+}
+
+.wrong {
+  background: #f7c5c5;
+  border-color: red;
+}
+
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+}
+
+button:active {
+  background: #2980b9;
+}
+</style>
+</head>
+
+
+<body>
+<div class="container">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+  <button onclick="nextQuestion()">Câu tiếp theo</button>
+</div>
+
+<script>
+const questions = [
+
+  {
+    "q": "Tiền đề của cuộc Cách mạng công nghiệp lần thứ nhất được phát triển trước hết trong lĩnh vực nào? ",
+    "a": ["Cơ khí", "Điện", "Hóa chất", "Dệt vải"],
+    "c": 3
+  },
+  {
+    "q": "Nội dung nào sau đây KHÔNG phải là vai trò của cách mạng công nghiệp đối với phát triển? ",
+    "a": ["Thúc đẩy sự phát triển lực lượng sản xuất", "Thúc đẩy hoàn thiện quan hệ sản xuất", "Thúc đẩy phương thức phân phối công bằng hơn", "Thúc đẩy đổi mới phương thức quản trị phát triển"],
+    "c": 2
+  },
+  {
+    "q": "Quốc gia nào thuộc nhóm các nước công nghiệp mới (NICs)? ",
+    "a": ["Hoa Kỳ", "Singapore", "Việt Nam", "Trung Quốc"],
+    "c": 1
+  },
+  {
+    "q": "Quốc gia nào lựa chọn mô hình công nghiệp hoá rút ngắn? ",
+    "a": ["Anh", "Đức", "Liên Xô", "Hàn Quốc"],
+    "c": 3
+  },
+  {
+    "q": "Điền từ: “CMCN là những bước phát triển (1) về chất tư liệu lao động... tạo bước phát triển (3) cao hơn hẳn nhờ áp dụng tính năng mới vào đời sống”. ",
+    "a": ["(1) đột phá; (3) cường độ lao động", "(1) đột phá; (3) năng suất lao động", "(1) nhảy vọt; (3) cường độ lao động", "(1) nhảy vọt; (3) năng suất lao động"],
+    "c": 3
+  },
+  {
+    "q": "Cuộc cách mạng công nghiệp lần thứ nhất có đặc trưng nào? ",
+    "a": ["Sử dụng năng lượng nước và hơi nước để cơ khí hoá sản xuất", "Sử dụng năng lượng điện để tạo dây chuyền sản xuất hàng loạt", "Sử dụng công nghệ thông tin tự động hoá sản xuất", "Liên kết thế giới thực và ảo"],
+    "c": 0
+  },
+  {
+    "q": "Cuộc Cách mạng công nghiệp lần thứ hai có đặc trưng nào? ",
+    "a": ["Sử dụng năng lượng nước và hơi nước", "Sử dụng năng lượng điện tạo dây chuyền sản xuất hàng loạt", "Sử dụng máy tính tự động hoá sản xuất", "Sử dụng trí tuệ nhân tạo"],
+    "c": 1
+  },
+  {
+    "q": "Đặc trưng cơ bản của cuộc Cách mạng công nghiệp lần thứ ba là:",
+    "a": ["Sử dụng công nghệ thông tin và máy tính để tự động hoá sản xuất", "Sử dụng năng lượng hơi nước", "Sử dụng năng lượng điện", "Liên kết thế giới thực và ảo"],
+    "c": 0
+  },
+  {
+    "q": "Điền từ CMCN 2: Sử dụng năng lượng (1) để tạo ra các (2) chuyên môn hoá cao, chuyển sang giai đoạn (4) cục bộ. ",
+    "a": ["(1) nước; (4) cơ khí", "(1) điện; (4) tự động hoá", "(1) nước; (4) tự động hoá", "(1) điện; (4) cơ khí"],
+    "c": 1
+  },
+  {
+    "q": "Chuyển từ lao động thủ công sang lao động máy móc nhằm tạo ra năng suất lao động cao là khái niệm nào? ",
+    "a": ["Công nghiệp hoá", "Hiện đại hoá", "Tăng trưởng kinh tế", "Phát triển kinh tế"],
+    "c": 0
+  },
+  {
+    "q": "Quốc gia nào dưới đây tiêu biểu cho mô hình công nghiệp hoá cổ điển? ",
+    "a": ["Anh", "Nhật Bản", "Hàn Quốc", "Đức"],
+    "c": 0
+  },
+  {
+    "q": "Nguồn vốn chủ yếu để CNH ở các nước tư bản cổ điển KHÔNG đến từ nguồn nào dưới đây? ",
+    "a": ["Khai thác lao động làm thuê", "Làm phá sản người sản xuất nhỏ", "Nhận viện trợ từ các quốc gia phát triển", "Xâm chiếm thuộc địa"],
+    "c": 2
+  },
+  {
+    "q": "Mô hình công nghiệp hoá kiểu Liên Xô bắt đầu vào khoảng thời gian nào? ",
+    "a": ["Đầu những năm 1930 ở Liên Xô", "Đầu những năm 1945 ở Liên Xô", "Đầu những năm 1930 ở Đông Âu", "Đầu những năm 1945 ở Đông Âu"],
+    "c": 0
+  },
+  {
+    "q": "Con đường công nghiệp hoá kiểu Liên Xô thường ưu tiên phát triển ngành? ",
+    "a": ["Nông nghiệp", "Công nghiệp nặng", "Dịch vụ", "Công nghiệp nhẹ"],
+    "c": 1
+  },
+  {
+    "q": "Các nước công nghiệp mới (NICs) trung bình mất bao nhiêu năm để CNH, HĐH thành công? ",
+    "a": ["10 đến 15 năm", "20 đến 30 năm", "30 đến 40 năm", "60 đến 80 năm"],
+    "c": 1
+  },
+  {
+    "q": "Nhật Bản và các nước NICs đã sử dụng con đường nào để tiến hành CNH, HĐH? ",
+    "a": ["Đầu tư nghiên cứu từ thấp đến cao", "Tiếp nhận viện trợ hoàn toàn", "Chiến lược phát triển khoa học - công nghệ nhiều tầng", "Thực hiện CNH tách rời với HĐH"],
+    "c": 2
+  },
+  {
+    "q": "Nội dung của công nghiệp hoá, hiện đại hoá ở Việt Nam là... ",
+    "a": ["Tạo lập những điều kiện để chuyển đổi nền sản xuất lạc hậu sang hiện đại", "Tăng cường nhận viện trợ nước ngoài", "Chỉ dựa vào nguồn lực trong nước", "Từng bước hoàn thiện LLSX phù hợp QHSX"],
+    "c": 0
+  },
+  {
+    "q": "Điền từ: “CNH, HĐH là quá trình chuyển đổi căn bản (1) các hoạt động... nhằm tạo ra (4) xã hội cao”. ",
+    "a": ["(1) toàn diện; (4) năng suất lao động", "(1) chủ yếu; (4) năng suất lao động", "(1) toàn diện; (4) cường độ lao động", "(1) chủ yếu; (4) cường độ lao động"],
+    "c": 0
+  },
+  {
+    "q": "Nội dung nào KHÔNG phải là đặc điểm chủ yếu của quá trình CNH, HĐH ở Việt nam? ",
+    "a": ["CNH theo định hướng XHCN", "Gắn với phát triển kinh tế tri thức", "Trong điều kiện KTTT định hướng XHCN", "Trong bối cảnh hạn chế hợp tác quốc tế"],
+    "c": 3
+  },
+  {
+    "q": "Thực hiện cơ giới hoá sản xuất bằng việc sử dụng năng lượng nước và hơi nước là nội dung cuộc CMCN nào? ",
+    "a": ["Cách mạng công nghiệp lần thứ nhất", "Cách mạng công nghiệp lần thứ hai", "Cách mạng công nghiệp lần thứ ba", "Cách mạng công nghiệp lần thứ tư"],
+    "c": 0
+  },
+  {
+    "q": "Ba giai đoạn phát triển CMCN 1 mà C. Mác khái quát lần lượt là... ",
+    "a": ["Hiệp tác giản đơn - Đại công nghiệp - Công trường thủ công", "Công trường thủ công - Hiệp tác giản đơn - Đại công nghiệp", "Hiệp tác giản đơn - Công trường thủ công - Đại công nghiệp", "Đại công nghiệp - Hiệp tác giản đơn - Công trường thủ công"],
+    "c": 2
+  },
+  {
+    "q": "Internet kết nối vạn vật (IoT) là cơ sở hình thành của cuộc cách mạng nào? ",
+    "a": ["Cách mạng lần thứ nhất", "Cách mạng lần thứ hai", "Cách mạng lần thứ ba", "Cách mạng lần thứ tư"],
+    "c": 3
+  },
+  {
+    "q": "Quan điểm nào KHÔNG đúng khi lí giải về tính tất yếu của CNH, HĐH ở nước ta? ",
+    "a": ["Là quy luật phổ biến", "Xây dựng CSVC-KT cho CNXH", "Làm khối liên minh công - nông - trí thức mạnh lên", "Để hội nhập kinh tế quốc tế sâu rộng"],
+    "c": 2
+  },
+  {
+    "q": "Nhiệm vụ nào dưới đây KHÔNG phải là nhiệm vụ để chuyển đổi nền sản xuất lạc hậu sang hiện đại? ",
+    "a": ["Đẩy mạnh ứng dụng khoa học công nghệ", "Chuyển dịch cơ cấu kinh tế hiệu quả", "Từng bước hoàn thiện LLSX phù hợp với trình độ QHSX", "Thích ứng CMCN 4"],
+    "c": 2
+  },
+  {
+    "q": "Giải pháp cơ bản để nâng cao trình độ đào tạo, sử dụng nhân lực ở nước ta là... ",
+    "a": ["Coi trọng trang bị lý thuyết kiến thức", "Quy hoạch mạng lưới cơ sở giáo dục gắn với quy hoạch phát triển KT-XH", "Thắt chặt đầu tư cho giáo dục", "Tách rời nghiên cứu đào tạo với doanh nghiệp"],
+    "c": 1
+  },
+  {
+    "q": "Ý nghĩa lý luận và thực tiễn của việc nghiên cứu CNH, HĐH là gì? ",
+    "a": ["Làm rõ cơ sở khoa học cho việc hoạch định chính sách", "Hệ thống hóa quan điểm LLSX", "Nhận diện mâu thuẫn xã hội", "Cung cấp luận cứ ổn định chính trị"],
+    "c": 0
+  },
+  {
+    "q": "Internet ra đời vào khoảng thời gian nào của thế kỉ XX? ",
+    "a": ["Thập niên 60", "Thập niên 70", "Thập niên 80", "Thập niên 90"],
+    "c": 0
+  },
+  {
+    "q": "Cách mạng công nghiệp lần thứ tư có sự xuất hiện các công nghệ mới là... ",
+    "a": ["Máy tính", "Trí tuệ nhân tạo, Big data", "Động cơ điện", "Chế tạo ô tô"],
+    "c": 1
+  },
+  {
+    "q": "Trong quá trình CNH, yếu tố nào giữ vai trò quyết định nâng cao năng suất lao động xã hội? ",
+    "a": ["Khoa học - công nghệ và chất lượng nguồn nhân lực", "Tăng cường độ lao động", "Mở rộng quy mô sản xuất", "Sử dụng lao động trình độ cao"],
+    "c": 0
+  },
+  {
+    "q": "Các nước đi sau muốn rút ngắn thời gian CNH cần chú ý...",
+    "a": ["Khai thác lợi thế trong nước và tận dụng nguồn lực ngoài", "Khai thác triệt để nội lực, không nhận chuyển giao công nghệ", "Chỉ dựa vào nguồn lực nước ngoài", "Thực hiện tuần tự từ CNH rồi đến HĐH"],
+    "c": 0
+  },
+  {
+    "q": "“Chính phủ điện tử” là khái niệm xuất hiện từ cuộc cách mạng công nghiệp lần thứ mấy? ",
+    "a": ["Lần thứ nhất", "Lần thứ hai", "Lần thứ ba", "Lần thứ tư"],
+    "c": 2
+  },
+  {
+    "q": "“Đô thị thông minh” là khái niệm gắn với cuộc cách mạng lần thứ mấy? ",
+    "a": ["Lần thứ nhất", "Lần thứ hai", "Lần thứ ba", "Lần thứ tư"],
+    "c": 3
+  },
+  {
+    "q": "Mối quan hệ tỉ lệ giữa các ngành, các vùng và các thành phần kinh tế là nội dung khái niệm nào?  ",
+    "a": ["Phát triển kinh tế", "Cơ cấu kinh tế", "Thành phần kinh tế", "Tăng trưởng kinh tế"],
+    "c": 1
+  },
+  {
+    "q": "Cơ cấu kinh tế bao gồm: ",
+    "a": ["Cơ cấu ngành, vùng và nguồn lực", "Cơ cấu ngành, nguồn lực và thành phần", "Cơ cấu ngành, vùng và thành phần", "Cơ cấu nguồn lực, vùng và thành phần"],
+    "c": 2
+  },
+  {
+    "q": "Trong hệ thống cơ cấu kinh tế, cơ cấu nào giữ vị trí quan trọng nhất?",
+    "a": ["Cơ cấu ngành kinh tế", "Cơ cấu vùng kinh tế", "Cơ cấu nguồn lực kinh tế", "Cơ cấu thành phần kinh tế"],
+    "c": 0
+  },
+  {
+    "q": "Chuyển dịch cơ cấu ngành theo hướng nào được coi là hiện đại và hiệu quả? ",
+    "a": ["Tăng nông nghiệp và dịch vụ", "Tăng công nghiệp và dịch vụ, giảm nông nghiệp", "Tăng dịch vụ, giảm công nghiệp", "Tăng nông nghiệp, giảm công nghiệp"],
+    "c": 1
+  },
+  {
+    "q": "Đặc điểm chủ yếu của nền kinh tế tri thức là gì? ]",
+    "a": ["Dựa vào sức lao động thủ công", "Ưu tiên công nghiệp nặng", "Tri thức trở thành LLSX trực tiếp, nguồn lực quan trọng nhất", "AI thay thế hoàn toàn con người"],
+    "c": 2
+  },
+  {
+    "q": "Cơ cấu ngành giữ vị trí quan trọng nhất vì...",
+    "a": ["Phản ánh trình độ phát triển và kết quả CNH, HĐH", "Là biểu hiện duy nhất của cơ cấu kinh tế", "Tập trung mọi nguồn lực", "Không bị ảnh hưởng bởi cơ cấu khác"],
+    "c": 0
+  },
+  {
+    "q": "Nội dung có vai trò đặc biệt để thích ứng CMCN 4 ở Việt Nam là... ",
+    "a": ["Phát triển nguồn nhân lực chất lượng cao", "Chuyển đổi số quản trị xã hội", "Xây dựng hạ tầng CNTT", "CNH, HĐH nông thôn"],
+    "c": 0
+  },
+  {
+    "q": "Sự phát triển công nghệ số thúc đẩy chuyển biến kinh tế công nghiệp sang....",
+    "a": ["Nền kinh tế tri thức", "Nền kinh tế số hóa", "Nền kinh tế độc quyền", "Nền kinh tế thị trường"],
+    "c": 0
+  },
+  {
+    "q": "Nhiệm vụ nào KHÔNG phải để ứng phó tiêu cực từ CMCN 4? ",
+    "a": ["Thực hiện chuyển đổi số", "Huy động tối đa vốn viện trợ nước ngoài", "CNH, HĐH nông nghiệp", "Phát triển nhân lực chất lượng cao"],
+    "c": 1
+  },
+  {
+    "q": "Điền từ: “Hội nhập kinh tế quốc tế là quá trình quốc gia (1) kinh tế của mình với thế giới dựa trên (2) lợi ích, tuân thủ (3) quốc tế”. [cite: 2184]",
+    "a": ["(1) gắn kết; (2) chia sẻ; (3) chuẩn mực", "(1) hoà nhập; (2) hợp nhất; (3) chuẩn mực", "(1) gắn kết; (2) hợp nhất; (3) chuẩn mực", "(1) hoà nhập; (2) chia sẻ; (3) chuẩn mực"],
+    "c": 0
+  },
+  {
+    "q": "Một trong những tác động tiêu cực của hội nhập kinh tế quốc tế là...",
+    "a": ["Nâng cao chất lượng nhân lực", "Thúc đẩy hội nhập văn hoá", "Tiếp thu khoa học công nghệ", "Gia tăng sự phụ thuộc vào thị trường ngoài"],
+    "c": 3
+  },
+  {
+    "q": "Nội dung nào KHÔNG phải là tác động tích cực của hội nhập?",
+    "a": ["Mở rộng thị trường", "Gia tăng cạnh tranh gay gắt làm DN khó khăn", "Thúc đẩy hội nhập văn hoá", "Nâng cao chất lượng nhân lực"],
+    "c": 1
+  },
+  {
+    "q": "Nội dung nào KHÔNG phải là tác động tiêu cực của hội nhập? ",
+    "a": ["Gia tăng sự phụ thuộc", "Nhiều DN phá sản", "Thúc đẩy hội nhập chính trị, quốc phòng", "Thách thức quyền lực nhà nước"],
+    "c": 2
+  },
+  {
+    "q": "Việt Nam tham gia Khu vực Thương mại tự do ASEAN (AFTA) vào năm nào? ",
+    "a": ["1996", "1995", "1997", "1998"],
+    "c": 0
+  },
+  {
+    "q": "Việt Nam chính thức trở thành thành viên của WTO vào năm nào? ",
+    "a": ["2004", "2005", "2006", "2007"],
+    "c": 3
+  },
+  {
+    "q": "Hội nhập kinh tế quốc tế mang tính tất yếu khách quan vì... ",
+    "a": ["Là phương thức phát triển phổ biến", "Chỉ dành cho các nước lớn", "Hạn chế chủ quyền quốc gia", "Không giúp ích cho nước nghèo"],
+    "c": 0
+  },
+  {
+    "q": "Nội dung hội nhập kinh tế quốc tế ở nước ta là... ",
+    "a": ["Thực hiện đa phương hoá", "Chuẩn bị điều kiện và đa dạng mức độ hội nhập", "Phát huy nội lực là chính", "Chỉ thực hiện đa phương hoá đối ngoại"],
+    "c": 1
+  },
+  {
+    "q": "Toàn cầu hoá trên phương diện nào là xu thế nổi trội nhất? ",
+    "a": ["Văn hoá", "Xã hội", "Chính trị", "Kinh tế"],
+    "c": 3
+  },
+  {
+    "q": "Tác động tích cực của hội nhập đối với nước ta là... ",
+    "a": ["Mở rộng thị trường, chuyển dịch cơ cấu, nâng cao nhân lực", "Làm gia tăng phụ thuộc thị trường ngoài", "Khiến nhiều DN phá sản", "Tăng khoảng cách giàu - nghèo"],
+    "c": 0
+  },
+  {
+    "q": "Khẳng định nào là đúng khi nói về hội nhập kinh tế quốc tế? ",
+    "a": ["Chỉ nước phát triển mới tham gia", "Nước nghèo không nên tham gia", "Là xu hướng chung của tất cả các nước", "Chỉ là xu hướng riêng của nước đang phát triển"],
+    "c": 2
+  },
+  {
+    "q": "Biện pháp KHÔNG đúng để xây dựng kinh tế độc lập tự chủ? ",
+    "a": ["Hoàn thiện đường lối kinh tế", "Hợp tác với nước phát triển bằng mọi giá", "Chủ động hội nhập kinh tế quốc tế", "Nâng cao năng lực cạnh tranh"],
+    "c": 1
+  },
+  {
+    "q": "Đối với nước đang phát triển, hội nhập là cần thiết vì... ",
+    "a": ["Cơ hội tiếp cận tài chính, công nghệ và kinh nghiệm", "Tăng sự phụ thuộc vào nước ngoài", "Tạo ra khoảng cách giàu nghèo", "Chỉ để nhận viện trợ"],
+    "c": 0
+  },
+  {
+    "q": "Nội dung KHÔNG phải biện pháp xây dựng kinh tế độc lập tự chủ? ",
+    "a": ["Hoàn thiện đường lối chung", "Hợp tác quốc tế bằng mọi giá", "Đẩy mạnh kinh tế đối ngoại", "Tăng cường năng lực cạnh tranh"],
+    "c": 1
+  },
+  {
+    "q": "Nhiệm vụ trọng tâm giúp Việt Nam đi tắt đón đầu, tránh tụt hậu? ",
+    "a": ["Đẩy mạnh kinh tế đối ngoại", "Đẩy mạnh công nghiệp hoá, hiện đại hoá", "Kết hợp kinh tế với quốc phòng", "Đổi mới thể chế hành chính"],
+    "c": 1
+  },
+  {
+    "q": "Chủ thể nào được đặt vào vị trí trung tâm trong hội nhập kinh tế?",
+    "a": ["Nhà nước", "Người dân", "Đội ngũ trí thức", "Doanh nghiệp"],
+    "c": 3
+  },
+  {
+    "q": "Trong hội nhập quốc tế toàn diện, chủ thể nào là lực lượng nòng cốt? ",
+    "a": ["Nhà nước", "Người dân", "Doanh nghiệp và doanh nhân", "Trí thức"],
+    "c": 2
+  },
+  {
+    "q": "Nhận định nào KHÔNG đúng khi nói về hội nhập kinh tế quốc tế? ",
+    "a": ["Là phương thức phát triển phổ biến", "Là xu hướng riêng của các nước lớn", "Cơ hội giải quyết vấn đề toàn cầu", "Giúp nước nghèo thu hẹp khoảng cách"],
+    "c": 1
+  },
+  {
+    "q": "Điền từ độc lập tự chủ: Không bị (1), phụ thuộc... không bị (2) làm tổn hại (3) quốc gia và (4) cơ bản. ",
+    "a": ["(1) khống chế; (3) lợi ích", "(1) lệ thuộc; (3) chủ quyền", "(1) lệ thuộc; (3) chủ quyền; (4) lợi ích", "(1) khống chế; (3) lợi ích; (4) chủ quyền"],
+    "c": 2
+  },
+  {
+    "q": "Tiến trình hội nhập kinh tế quốc tế từ thấp đến cao là... ",
+    "a": ["FTA - PTA - CU - Thị trường chung", "PTA - FTA - CU - Thị trường chung - Liên minh kinh tế", "CU - PTA - FTA - Thị trường chung", "FTA - CU - Thị trường chung - PTA"],
+    "c": 1
+  },
+  {
+    "q": "Hiệu quả của hội nhập kinh tế quốc gia phụ thuộc nhiều vào: ",
+    "a": ["Năng lực cạnh tranh của nền kinh tế", "Nền kinh tế độc lập tự chủ", "Hoạt động xuất nhập khẩu", "Việc gia nhập tổ chức quốc tế"],
+    "c": 0
+  }
+];
+let index = 0;
+let answered = false;
+
+function shuffle(array) {
+  return array
+    .map(v => ({ v, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ v }) => v);
+}
+
+function loadQuestion() {
+  answered = false;
+  const q = questions[index];
+  document.getElementById("question").innerText =
+    `Câu ${index + 1}: ` + q.q;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  const mixed = q.a.map((text, i) => ({ text, i }));
+  shuffle(mixed).forEach(ans => {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.innerText = ans.text;
+    div.onclick = () => checkAnswer(div, ans.i);
+    answersDiv.appendChild(div);
+  });
+}
+
+function checkAnswer(element, chosenIndex) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[index];
+  const all = document.querySelectorAll(".answer");
+
+  all.forEach(a => a.onclick = null);
+
+  if (chosenIndex === q.c) {
+    element.classList.add("correct");
+  } else {
+    element.classList.add("wrong");
+    all.forEach(a => {
+      if (a.innerText === q.a[q.c]) {
+        a.classList.add("correct");
+      }
+    });
+  }
+}
+
+function nextQuestion() {
+  index++;
+  if (index >= questions.length) {
+    alert("Bạn đã hoàn thành bài thi 🎉");
+    index = 0;
+  }
+  loadQuestion();
+}
+
+loadQuestion();
+</script>
+</body>
+</html>

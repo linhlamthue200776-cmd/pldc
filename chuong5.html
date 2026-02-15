@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thi trắc nghiệm</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 15px;
+  font-size: 18px;
+}
+
+.container {
+  max-width: 100%;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.answer {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.answer:active {
+  background: #eef;
+}
+
+.correct {
+  background: #c8f7c5;
+  border-color: green;
+}
+
+.wrong {
+  background: #f7c5c5;
+  border-color: red;
+}
+
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+}
+
+button:active {
+  background: #2980b9;
+}
+</style>
+</head>
+
+
+<body>
+<div class="container">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+  <button onclick="nextQuestion()">Câu tiếp theo</button>
+</div>
+
+<script>
+const questions = [
+
+  {
+    "q": "Chọn đáp án đúng điền vào chỗ trống: “(...) là nền kinh tế vận hành theo các quy luật của thị trường, đồng thời góp phần hướng tới từng bước xác lập một xã hội mà ở đó dân giàu, nước mạnh, dân chủ, công bằng, văn minh; có sự điều tiết của Nhà nước do Đảng Cộng sản Việt Nam lãnh đạo”.",
+    "a": ["Kinh tế hàng hóa nhiều thành phần", "Kinh tế thị trường", "Kinh tế thị trường tư bản chủ nghĩa", "Kinh tế thị trường định hướng xã hội chủ nghĩa"],
+    "c": 3
+  },
+  {
+    "q": "Chọn đáp án đúng điền vào chỗ trống: “Kinh tế thị trường định hướng xã hội chủ nghĩa là (...), đồng thời góp phần hướng tới từng bước xác lập một xã hội mà ở đó dân giàu, nước mạnh, dân chủ, công bằng, văn minh; có sự điều tiết của Nhà nước do Đảng Cộng sản Việt Nam lãnh đạo”.",
+    "a": ["Nền kinh tế hàng hóa giản đơn", "Nền kinh tế tự nhiên, tự cấp, tự túc", "Nền kinh tế vận hành theo các quy luật của thị trường", "Nền kinh tế vận hành theo quy luật cạnh tranh"],
+    "c": 2
+  },
+  {
+    "q": "Chọn đáp án đúng điền vào chỗ trống: “Kinh tế thị trường định hướng xã hội chủ nghĩa là nền kinh tế vận hành theo các quy luật của thị trường, đồng thời góp phần hướng tới từng bước xác lập một xã hội mà ở đó dân giàu, nước mạnh, dân chủ, công bằng, văn minh; có sự điều tiết của (...)”.",
+    "a": ["Thị trường hàng hóa", "Nhà nước do Đảng Cộng sản Việt Nam lãnh đạo", "Nhà nước", "Nhà nước xã hội chủ nghĩa"],
+    "c": 1
+  },
+  {
+    "q": "Nền kinh tế mà trong các hoạt động kinh tế của các chủ thể, hướng tới góp phần từng bước xác lập giá trị xã hội “dân giàu, nước mạnh, dân chủ, công bằng, văn minh là nền kinh tế nào?",
+    "a": ["Nền kinh tế thị trường", "Nền kinh tế thị trường tư bản chủ nghĩa", "Nền kinh tế thị trường định hướng xã hội chủ nghĩa", "Nền kinh tế thị trường xã hội chủ nghĩa"],
+    "c": 2
+  },
+  {
+    "q": "Định hướng xã hội chủ nghĩa trong nền kinh tế thị trường thực chất là hướng tới:",
+    "a": ["Duy trì sự lãnh đạo toàn diện của Đảng Cộng sản", "Từng bước xác lập hệ giá trị xã hội “dân giàu, nước mạnh, dân chủ, công bằng, văn minh\"", "Xóa bỏ toàn bộ đặc điểm của nền sản xuất hàng hóa", "Nền kinh tế tư nhân là nòng cốt"],
+    "c": 1
+  },
+  {
+    "q": "Để đạt được hệ giá trị xã hội “dân giàu, nước mạnh, dân chủ, công bằng, văn minh thì nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam hiện nay cần nhất yếu tố nào?",
+    "a": ["Đảm bảo vai trò điều tiết của nhà nước dưới sự lãnh đạo của Đảng Cộng sản", "Sự hợp tác và hỗ trợ từ các nước trên thế giới", "Ngân sách nhà nước phải đủ mạnh để thực hiện các chính sách phúc lợi", "Trong xã hội không còn mâu thuẫn giữa các tầng lớp dân cư"],
+    "c": 0
+  },
+  {
+    "q": "Kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
+    "a": ["Nền kinh tế có nhiều hình thức sở hữu, nhiều thành phần kinh tế", "Nền kinh tế có kinh tế nhà nước là chủ đạo", "Nền kinh tế có nhiều hình thức sở hữu, nhiều thành phần kinh tế, trong đó kinh tế nhà nước giữ vai trò chủ đạo, kinh tế tư nhân là một động lực quan trọng...", "Nền kinh tế tư nhân là nòng cốt"],
+    "c": 2
+  },
+  {
+    "q": "Đại hội lần thứ XIII của Đảng đã khẳng định: Nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
+    "a": ["Mô hình kinh tế tổng quát của nước ta trong thời kỳ quá độ lên chủ nghĩa xã hội", "Nền kinh tế vận hành đầy đủ, đồng bộ theo các quy luật thị trường", "Nền kinh tế phù hợp với từng giai đoạn phát triển của đất nước", "Nền kinh tế nhằm xóa đói, giảm nghèo"],
+    "c": 0
+  },
+  {
+    "q": "Phát triển kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là tất yếu vì:",
+    "a": ["Phù hợp với xu hướng phát triển khách quan của Việt Nam", "Do tính ưu việt của kinh tế thị trường trong thúc đẩy phát triển", "Phù hợp với nguyện vọng của người dân", "Bao gồm tất cả các đáp án"],
+    "c": 3
+  },
+  {
+    "q": "Nguyên nhân chủ yếu khiến lợi ích cá nhân cần được điều chỉnh bằng pháp luật và chính sách là gì?",
+    "a": ["Vì lợi ích cá nhân có thể mâu thuẫn với lợi ích xã hội", "Vì lợi ích cá nhân luôn đồng nhất với tập thể", "Vì lợi ích cá nhân không tồn tại", "Vì lợi ích cá nhân tuyệt đối đúng đắn"],
+    "c": 0
+  },
+  {
+    "q": "Đâu không phải là lý do tất yếu khách quan của việc phát triển kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam?",
+    "a": ["Phù hợp với xu hướng phát triển khách quan", "Do tính ưu việt của kinh tế thị trường", "Phù hợp với nguyện vọng của nhân dân", "Phù hợp với đặc điểm của thời đại ngày nay"],
+    "c": 3
+  },
+  {
+    "q": "Mục tiêu của việc phát triển kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
+    "a": ["Phát triển LLSX, xây dựng CSVC – kỹ thuật của CNXH; nâng cao đời sống nhân dân...", "Nhằm tạo thuận lợi cho các thành phần kinh tế nhất là kinh tế tư nhân phát triển", "Nhằm đa dạng hóa các thành phần kinh tế để thu hút đầu tư nước ngoài", "Phát triển quan hệ sản xuất, xây dựng kiến trúc thượng tầng của chủ nghĩa xã hội"],
+    "c": 0
+  },
+  {
+    "q": "Một trong những mục tiêu phát triển kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
+    "a": ["Nhằm có lợi khi tham gia mậu dịch quốc tế", "Xây dựng cơ sở vật chất - kỹ thuật của chủ nghĩa xã hội", "Gia tăng ảnh hưởng của kinh tế Việt Nam đối với quốc tế", "Tạo sức hút của đầu tư nước ngoài"],
+    "c": 1
+  },
+  {
+    "q": "Đâu không phải là mục tiêu phát triển kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
+    "a": ["Thiết lập chế độ công hữu về tư liệu sản xuất", "Phát triển lực lượng sản xuất, xây dựng cơ sở vật chất – kỹ thuật của chủ nghĩa xã hội", "Nâng cao đời sống của nhân dân", "Thực hiện “dân giàu, nước mạnh, dân chủ, công bằng, văn minh\""],
+    "c": 0
+  },
+  {
+    "q": "Sự khác biệt cơ bản của kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam với kinh tế thị trường tư bản chủ nghĩa là:",
+    "a": ["Có sự điều tiết của nhà nước", "Phát triển LLSX, xây dựng CSVC – kỹ thuật của CNXH; thực hiện dân giàu, nước mạnh...", "Đa dạng hóa các thành phần kinh tế để thu hút đầu tư nước ngoài", "Phát triển quan hệ sản xuất, xây dựng kiến trúc thượng tầng của chủ nghĩa xã hội"],
+    "c": 1
+  },
+  {
+    "q": "Đặc trưng cơ bản của nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam được Đại hội Đảng khóa XII xác định là:",
+    "a": ["Vận hành đầy đủ, đồng bộ theo quy luật thị trường, đảm bảo định hướng XHCN", "Là nền kinh tế thị trường hiện đại và hội nhập quốc tế; có quản lý của nhà nước", "Nhằm mục tiêu “dân giàu, nước mạnh, dân chủ, công bằng, văn minh\"", "Tất cả các đáp án đều đúng"],
+    "c": 3
+  },
+  {
+    "q": "Sở hữu trong nền kinh tế được hiểu là gì?",
+    "a": ["Là quan hệ giữa người với người trong quá trình sản xuất trên cơ sở chiếm hữu nguồn lực...", "Là quan hệ giữa con người với tự nhiên trong quá trình sản xuất", "Là quan hệ của con người khi chiếm hữu các sản phẩm tự nhiên", "Là quan hệ giữa con người và những vật xung quanh mà con người chiếm đoạt"],
+    "c": 0
+  },
+  {
+    "q": "Cơ sở sâu xa cho sự hình thành sở hữu hiện thực xuất phát từ:",
+    "a": ["Sự xuất hiện của nhà nước của giai cấp bóc lột", "Quá trình sản xuất và tái sản xuất xã hội", "Mối quan hệ giữa con người và tự nhiên", "Sự xuất hiện giai cấp đối kháng trong xã hội"],
+    "c": 1
+  },
+  {
+    "q": "Yếu tố quyết định trình độ phát triển của sở hữu là gì?",
+    "a": ["Là trình độ phát triển của quan hệ sản xuất", "Là trình độ phát triển của lực lượng sản xuất", "Là trình độ phát triển của văn hóa – xã hội", "Là trình độ phát triển của kiến trúc thượng tầng"],
+    "c": 1
+  },
+  {
+    "q": "Nội dung kinh tế của sở hữu là:",
+    "a": ["Lợi ích kinh tế mà chủ sở hữu được hưởng", "Của cải vật chất được sản xuất ra", "Giá trị của các hàng hóa", "Sản phẩm hàng hóa của xã hội"],
+    "c": 0
+  },
+  {
+    "q": "Nội dung pháp lý của sở hữu là:",
+    "a": ["Là những quy định pháp luật về tài sản", "Là những quy định về sản xuất và tái sản xuất xã hội", "Là những quy định pháp luật về hàng hóa", "Là những quy định về quyền hạn, nghĩa vụ của chủ thể sở hữu"],
+    "c": 3
+  },
+  {
+    "q": "Chọn đáp án sai về mối quan hệ giữa nội dung kinh tế và nội dung pháp lý của sở hữu.",
+    "a": ["Hai nội dung này thống nhất biện chứng trong một chỉnh thể", "Cần chú ý tới cả nội dung pháp lý cũng như kinh tế của sở hữu", "Nội dung kinh tế và nội dung pháp lý là hai khía cạnh tách rời, không có mối quan hệ", "Nếu không xét nội dung kinh tế thì nội dung pháp lý chỉ mang giá trị hình thức"],
+    "c": 2
+  },
+  {
+    "q": "Xét từ góc độ quan hệ sở hữu và thành phần kinh tế, kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
+    "a": ["Nền kinh tế có nhiều hình thức sở hữu, nhiều thành phần kinh tế", "Nền kinh tế có kinh tế nhà nước, kinh tế hợp tác xã là chủ đạo", "Có nhiều hình thức sở hữu, nhiều thành phần; kinh tế nhà nước chủ đạo, kinh tế tư nhân là động lực quan trọng", "Kinh tế nhà nước cùng kinh tế tư nhân giữ vai trò chủ đạo"],
+    "c": 2
+  },
+  {
+    "q": "Thành phần kinh tế nào đóng vai trò chủ đạo và mở đường, hướng dẫn, hỗ trợ các thành phần kinh tế khác cùng phát triển?",
+    "a": ["Kinh tế nhà nước", "Kinh tế tư nhân", "Kinh tế liên doanh với nước ngoài", "Kinh tế cá thể, tiểu chủ, hộ gia đình"],
+    "c": 0
+  },
+  {
+    "q": "Thành phần kinh tế nhà nước giữ vai trò gì trong nền kinh tế thị trường định hướng xã hội chủ nghĩa?",
+    "a": ["Giữ vai trò quan trọng", "Giữ vai trò chủ đạo", "Giữ vai trò thống trị", "Giữ vai trò xúc tác"],
+    "c": 1
+  },
+  {
+    "q": "Thành phần kinh tế tư nhân giữ vai trò gì trong nền kinh tế thị trường định hướng xã hội chủ nghĩa?",
+    "a": ["Là yếu tố chủ đạo", "Là yếu tố quyết định", "Là một động lực quan trọng", "Là yếu tố nòng cốt"],
+    "c": 2
+  },
+  {
+    "q": "Nhà nước quản lý nền kinh tế thị trường định hướng xã hội chủ nghĩa bằng cách nào?",
+    "a": ["Thông qua pháp luật, chiến lược, kế hoạch, quy hoạch và chính sách...", "Chăm lo xây dựng và hoàn thiện thể chế kinh tế", "Quản lý vĩ mô, điều tiết, khắc phục khuyết tật của thị trường", "Tất cả các đáp án đều đúng"],
+    "c": 3
+  },
+  {
+    "q": "Quan hệ quản lý và cơ chế quản lý của nhà nước trong nền KTTT định hướng XHCN có đặc trưng riêng là:",
+    "a": ["Nhà nước quản lý bằng pháp luật", "Là nhà nước pháp quyền XHCN của nhân dân, do nhân dân, vì nhân dân dưới sự lãnh đạo của Đảng", "Can thiệp, điều tiết vào quá trình phát triển kinh tế", "Thông qua pháp luật, các chiến lược, kế hoạch, quy hoạch"],
+    "c": 1
+  },
+  {
+    "q": "Quan hệ phân phối trong nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam bị chi phối bởi yếu tố nào?",
+    "a": ["Quan hệ sở hữu về tư liệu sản xuất", "Quan hệ về tổ chức quản lý lao động", "Xu hướng hội nhập kinh tế quốc tế", "Sự phát triển của quan hệ hàng hóa tiền tệ"],
+    "c": 0
+  },
+  {
+    "q": "Hình thức phân phối nào phản ánh định hướng xã hội chủ nghĩa của nền kinh tế thị trường?",
+    "a": ["Phân phối theo lao động", "Phân phối theo vốn đầu tư", "Phân phối theo lao động, hiệu quả kinh tế và phân phối theo phúc lợi", "Phân phối theo lao động, hiệu quả kinh tế và theo góp vốn"],
+    "c": 2
+  },
+  {
+    "q": "Đâu là hình thức phân phối của kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam?",
+    "a": ["Phân phối theo lao động và hiệu quả lao động", "Phân phối theo nhu cầu", "Phân phối bình quân, công bằng", "Phân phối theo vốn đầu tư"],
+    "c": 0
+  },
+  {
+    "q": "Đâu không phải là hình thức phân phối của kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam?",
+    "a": ["Phân phối theo lao động và hiệu quả lao động", "Phân phối theo nhu cầu", "Phân phối theo lao động và phúc lợi", "Phân phối theo phúc lợi"],
+    "c": 1
+  },
+  {
+    "q": "Chọn đáp án đúng điền vào chỗ trống: “Nền KTTT định hướng XHCN thực hiện gắn tăng trưởng kinh tế (...); phát triển kinh tế đi đôi với văn hóa - xã hội”.",
+    "a": ["Với tiến bộ xã hội", "Với tiến hóa xã hội", "Với công bằng xã hội", "Với dân chủ xã hội"],
+    "c": 0
+  },
+  {
+    "q": "Nền KTTT định hướng XHCN thực hiện gắn tăng trưởng kinh tế với công bằng xã hội; thực hiện (...) ngay trong từng chính sách, chiến lược.",
+    "a": ["Tiến bộ và công bằng xã hội", "Tiến hóa và công bằng xã hội", "Dân chủ xã hội", "Văn hóa xã hội"],
+    "c": 0
+  },
+  {
+    "q": "Đặc trưng nào phản ánh thuộc tính quan trọng mang tính định hướng XHCN của nền KTTT ở Việt Nam?",
+    "a": ["Đặc trưng về quan hệ sở hữu và thành phần kinh tế", "Đặc trưng về quan hệ quản lý nền kinh tế", "Đặc trưng về quan hệ phân phối", "Đặc trưng về gắn tăng trưởng kinh tế với công bằng xã hội"],
+    "c": 3
+  },
+  {
+    "q": "Chọn nhận định đúng về nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam hiện nay.",
+    "a": ["Đã xây dựng thành công và không có bất kỳ hạn chế nào", "Đang trong quá trình hình thành và phát triển, tất yếu còn bộc lộ yếu kém", "Đã phát triển đạt các tiêu chí của nền kinh tế tri thức", "Tất cả các nhận định đều chưa đúng"],
+    "c": 1
+  },
+  {
+    "q": "Trong kinh tế thị trường định hướng xã hội chủ nghĩa, lợi ích quốc gia, dân tộc có ý nghĩa gì?",
+    "a": ["Là lợi ích cao nhất, chi phối và định hướng các lợi ích khác", "Là cơ sở thống nhất và điều hòa các lợi ích kinh tế trong xã hội", "Được hình thành trên cơ sở tổng hòa lợi ích cá nhân và tập thể", "Là lợi ích giữ vai trò định hướng lâu dài cho sự phát triển bền vững"],
+    "c": 0
+  },
+  {
+    "q": "Trong quan hệ lợi ích kinh tế, lợi ích nào có vai trò gắn kết cá nhân với cộng đồng?",
+    "a": ["Lợi ích tập thể", "Lợi ích cá nhân", "Lợi ích quốc tế", "Lợi ích chính trị"],
+    "c": 0
+  },
+  {
+    "q": "Mục tiêu cơ bản của việc phân phối theo lao động trong nền kinh tế thị trường định hướng xã hội chủ nghĩa là gì?",
+    "a": ["Bảo đảm công bằng, khuyến khích nâng cao năng suất", "Tạo ra sự bình quân tuyệt đối", "Gắn kết lợi ích cá nhân với lợi ích xã hội", "Hạn chế sự phân hóa thu nhập trong xã hội"],
+    "c": 0
+  },
+  {
+    "q": "Mục đích của thể chế kinh tế thị trường định hướng xã hội chủ nghĩa là nhằm:",
+    "a": ["Điều chỉnh hành vi của các chủ thể kinh tế", "Điều chỉnh chức năng, hoạt động... nhằm thúc đẩy dân giàu, nước mạnh, dân chủ, công bằng, văn minh", "Điều chỉnh các hành vi sản xuất kinh doanh và các quan hệ kinh tế", "Điều chỉnh các hoạt động của con người trong một chế độ xã hội"],
+    "c": 1
+  },
+  {
+    "q": "Sự cần thiết phải hoàn thiện thể chế kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
+    "a": ["Do thể chế còn chưa đồng bộ", "Hệ thống thể chế chưa đầy đủ", "Hệ thống thể chế còn kém hiệu lực, hiệu quả", "Bao gồm tất cả các đáp án"],
+    "c": 3
+  },
+  {
+    "q": "Đâu không phải là lý do cần phải hoàn thiện thể chế kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam?",
+    "a": ["Hệ thống thể chế chưa đầy đủ", "Thể chế còn chưa đồng bộ", "Hoàn thiện là do ý muốn chủ quan và để giao lưu quốc tế", "Thể chế còn kém hiệu lực, hiệu quả"],
+    "c": 2
+  },
+  {
+    "q": "Trình độ và năng lực tổ chức quản lý nền KTTT định hướng XHCN của Nhà nước thể hiện chủ yếu ở:",
+    "a": ["Sử dụng sức mạnh quân sự", "Năng lực xây dựng và thực thi thể chế", "Sử dụng sức mạnh chính trị", "Năng lực kinh tế"],
+    "c": 1
+  },
+  {
+    "q": "Đánh giá về hạn chế: “Thể chế đảm bảo thực hiện tiến bộ và công bằng xã hội còn bất cập. Bất bình đẳng xã hội, (...) có xu hướng gia tăng”.",
+    "a": ["Phân hóa giàu - nghèo", "Ô nhiễm môi trường", "Chảy máu chất xám", "Dịch bệnh"],
+    "c": 0
+  },
+  {
+    "q": "Đánh giá về hạn chế: “Thể chế đảm bảo thực hiện tiến bộ và (...) còn nhiều bất cập. Bất bình đẳng xã hội, phân hóa giàu nghèo gia tăng”.",
+    "a": ["Phát triển kinh tế", "Phát triển văn hóa", "Công bằng xã hội", "Dân chủ xã hội"],
+    "c": 2
+  },
+  {
+    "q": "Đánh giá về hạn chế: “Đổi mới phương thức lãnh đạo của Đảng trong thực hiện nhiệm vụ phát triển kinh tế - xã hội chưa (...)”.",
+    "a": ["Đáp ứng yêu cầu đổi mới về chính trị", "Đáp ứng yêu cầu đổi mới về văn hóa", "Đáp ứng yêu cầu đổi mới về kinh tế", "Bao gồm tất cả các đáp án"],
+    "c": 2
+  },
+  {
+    "q": "Trong kinh tế thị trường định hướng xã hội chủ nghĩa, lợi ích cá nhân có vai trò như thế nào?",
+    "a": ["Là động lực trực tiếp, nhưng phải hài hòa với lợi ích cộng đồng", "Là một bộ phận cấu thành của hệ thống lợi ích kinh tế", "Là điểm xuất phát trực tiếp của các hành vi kinh tế", "Luôn đối lập với lợi ích xã hội"],
+    "c": 0
+  },
+  {
+    "q": "Đâu không phải là nội dung hoàn thiện thể chế về sở hữu trong nền KTTT định hướng XHCN ở Việt Nam?",
+    "a": ["Hoàn thiện thể chế phát triển các thành phần kinh tế", "Thể chế hóa đầy đủ quyền tài sản của Nhà nước, tổ chức và cá nhân", "Tiếp tục hoàn thiện pháp luật về đất đai, tài nguyên...", "Hoàn thiện thể chế về sở hữu trí tuệ"],
+    "c": 2
+  },
+  {
+    "q": "Cần phải làm gì trong quản lý và phát triển các doanh nghiệp thuộc mọi thành phần kinh tế?",
+    "a": ["Quản lý chặt chẽ và ban hành quy định chi tiết", "Duy trì cách quản lý hiện tại", "Phát huy mặt tích cực; kiểm tra, giám sát, công khai, minh bạch, ngăn chặn mặt tiêu cực", "Áp dụng lý thuyết bàn tay vô hình của Adam Smith"],
+    "c": 2
+  },
+  {
+    "q": "Nội dung hoàn thiện thể chế phát triển đồng bộ các yếu tố thị trường là:",
+    "a": ["Các yếu tố như hàng hóa, giá cả, cạnh tranh... phải vận hành theo nguyên tắc thể chế KTTT", "Xây dựng chiến lược, quy hoạch, kế hoạch nâng cao quản trị quốc gia", "Hoàn thiện pháp luật về quản lý, khai thác tài nguyên", "Hoàn thiện thể chế về các mô hình sản xuất kinh doanh"],
+    "c": 0
+  },
+  {
+    "q": "Nội dung hoàn thiện thể chế để phát triển đồng bộ, vận hành thông suốt các loại thị trường là:",
+    "a": ["Xây dựng và thực thi pháp luật, quy hoạch quản trị quốc gia", "Các loại thị trường như hàng hóa, vốn, công nghệ, sức lao động... cần vận hành thông suốt", "Hoàn thiện pháp luật về khai thác tài nguyên thiên nhiên", "Hàng hóa, giá cả, cạnh tranh phải vận hành theo nguyên tắc thị trường"],
+    "c": 1
+  },
+  {
+    "q": "Nguyên tắc quan trọng bảo đảm phát triển kinh tế thị trường định hướng xã hội chủ nghĩa là gì?",
+    "a": ["Kết hợp tăng trưởng kinh tế với công bằng xã hội", "Thực hiện tăng trưởng kinh tế thuần túy theo cơ chế thị trường", "Ưu tiên mục tiêu kinh tế trước mắt hơn các mục tiêu xã hội", "Duy trì cơ cấu kinh tế ổn định, bền vững"],
+    "c": 0
+  },
+  {
+    "q": "Nhận định “Những nước phát triển nhanh đều biết mở cửa, hội nhập” nói đến nội dung hoàn thiện thể chế nào?",
+    "a": ["Hoàn thiện thể chế về sở hữu, thành phần kinh tế", "Hoàn thiện thể chế về phát triển đồng bộ các loại thị trường", "Hoàn thiện gắn kết tăng trưởng kinh tế với phát triển bền vững và hội nhập quốc tế", "Hoàn thiện nâng cao năng lực lãnh đạo của Đảng"],
+    "c": 2
+  },
+  {
+    "q": "Nhận định: “Phát huy sức mạnh trí tuệ, nguồn lực và đồng thuận của toàn dân tộc” là nội dung:",
+    "a": ["Hoàn thiện thể chế về sở hữu, thành phần kinh tế", "Hoàn thiện thể chế về phát triển đồng bộ các loại thị trường", "Hoàn thiện gắn kết tăng trưởng kinh tế với công bằng xã hội", "Hoàn thiện, nâng cao năng lực lãnh đạo của Đảng và hệ thống chính trị"],
+    "c": 3
+  },
+  {
+    "q": "Sự thống nhất các lợi ích kinh tế trong nền kinh tế nhiều thành phần ở Việt Nam được bảo đảm nhờ:",
+    "a": ["Chính sách kinh tế đúng đắn của Đảng và Nhà nước", "Cơ chế điều tiết tự phát của thị trường", "Sự thỏa thuận lợi ích giữa các chủ thể", "Theo đuổi lợi ích trước mắt của khu vực tư nhân"],
+    "c": 0
+  },
+  {
+    "q": "Chọn đáp án đúng điền vào chỗ trống: “(...) là lợi ích vật chất, lợi ích thu được khi thực hiện các hoạt động kinh tế”.",
+    "a": ["Lợi ích", "Lợi ích kinh tế", "Lợi ích văn hóa", "Lợi ích tinh thần"],
+    "c": 1
+  },
+  {
+    "q": "Về bản chất, lợi ích kinh tế phản ánh:",
+    "a": ["Nguyên tắc đảm bảo lợi ích phù hợp vai trò chủ thể", "Mục đích và động cơ của quan hệ giữa các chủ thể trong sản xuất xã hội", "Lợi ích khi con người được thỏa mãn nhu cầu", "Cả lợi ích tinh thần và văn hóa"],
+    "c": 1
+  },
+  {
+    "q": "Chọn đáp án đúng: “Quan hệ lợi ích kinh tế là tương tác giữa người với người... nhằm...”",
+    "a": ["Đảm bảo lợi ích phù hợp với vai trò của các chủ thể", "Gắn với chủ thể kinh tế khác nhau là những lợi ích tương ứng", "Xác lập các lợi ích trong mối liên hệ với trình độ phát triển LLSX", "Thúc đẩy sự phát triển các lợi ích khác"],
+    "c": 0
+  },
+  {
+    "q": "Các quan hệ lợi ích kinh tế có mối quan hệ như thế nào?",
+    "a": ["Luôn thống nhất với nhau", "Vừa thống nhất, vừa mâu thuẫn với nhau", "Luôn trái ngược nhau", "Luôn bổ sung cho nhau"],
+    "c": 1
+  },
+  {
+    "q": "Đâu không phải là nhân tố ảnh hưởng đến quan hệ lợi ích kinh tế ở Việt Nam?",
+    "a": ["Trình độ phát triển của lực lượng sản xuất", "Địa vị của chủ thể trong hệ thống quan hệ sản xuất", "Chính sách phân phối thu nhập và hội nhập quốc tế", "Thói quen và phong tục tập quán"],
+    "c": 3
+  },
+  {
+    "q": "Chủ thể nào có vai trò điều hòa các quan hệ lợi ích kinh tế ở Việt Nam?",
+    "a": ["Nhà nước", "Doanh nghiệp lớn", "Tập đoàn độc quyền", "Chủ thể trung gian"],
+    "c": 0
+  },
+  {
+    "q": "Vai trò của Nhà nước trong đảm bảo hài hòa các quan hệ lợi ích là:",
+    "a": ["Bảo vệ lợi ích hợp pháp, tạo môi trường thuận lợi cho hoạt động tìm kiếm lợi ích", "Điều hòa lợi ích giữa cá nhân - doanh nghiệp - xã hội", "Kiểm soát, ngăn ngừa các quan hệ lợi ích tiêu cực", "Tất cả các đáp án đều đúng"],
+    "c": 3
+  },
+  {
+    "q": "Trong quản lý và phát triển doanh nghiệp, cần phải làm gì?",
+    "a": ["Quản lý chặt chẽ và ban hành quy định chi tiết", "Duy trì cách quản lý hiện tại", "Phát huy mặt tích cực; kiểm tra, giám sát, công khai, minh bạch, ngăn chặn mặt tiêu cực", "Áp dụng lý thuyết bàn tay vô hình của Adam Smith"],
+    "c": 2
+  },
+  
+];
+let index = 0;
+let answered = false;
+
+function shuffle(array) {
+  return array
+    .map(v => ({ v, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ v }) => v);
+}
+
+function loadQuestion() {
+  answered = false;
+  const q = questions[index];
+  document.getElementById("question").innerText =
+    `Câu ${index + 1}: ` + q.q;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  const mixed = q.a.map((text, i) => ({ text, i }));
+  shuffle(mixed).forEach(ans => {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.innerText = ans.text;
+    div.onclick = () => checkAnswer(div, ans.i);
+    answersDiv.appendChild(div);
+  });
+}
+
+function checkAnswer(element, chosenIndex) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[index];
+  const all = document.querySelectorAll(".answer");
+
+  all.forEach(a => a.onclick = null);
+
+  if (chosenIndex === q.c) {
+    element.classList.add("correct");
+  } else {
+    element.classList.add("wrong");
+    all.forEach(a => {
+      if (a.innerText === q.a[q.c]) {
+        a.classList.add("correct");
+      }
+    });
+  }
+}
+
+function nextQuestion() {
+  index++;
+  if (index >= questions.length) {
+    alert("Bạn đã hoàn thành bài thi 🎉");
+    index = 0;
+  }
+  loadQuestion();
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
