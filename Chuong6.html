@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thi trắc nghiệm</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 15px;
+  font-size: 18px;
+}
+
+.container {
+  max-width: 100%;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.answer {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.answer:active {
+  background: #eef;
+}
+
+.correct {
+  background: #c8f7c5;
+  border-color: green;
+}
+
+.wrong {
+  background: #f7c5c5;
+  border-color: red;
+}
+
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+}
+
+button:active {
+  background: #2980b9;
+}
+</style>
+</head>
+
+
+<body>
+<div class="container">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+  <button onclick="nextQuestion()">Câu tiếp theo</button>
+</div>
+
+<script>
+const questions = [
+ {
+    "q": "Luật Dân sự là ngành luật điều chỉnh:",
+    "a": [
+      "Các quan hệ quản lý hành chính nhà nước",
+      "Các quan hệ tài sản và quan hệ nhân thân",
+      "Các quan hệ hình sự",
+      "Các quan hệ lao động"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Đối tượng điều chỉnh của Luật Dân sự là:",
+    "a": [
+      "Quan hệ xã hội phát sinh trong quản lý nhà nước",
+      "Quan hệ tài sản và quan hệ nhân thân trên cơ sở bình đẳng, tự do, tự nguyện",
+      "Quan hệ hình sự",
+      "Quan hệ kỷ luật"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Phương pháp điều chỉnh chủ yếu của Luật Dân sự là:",
+    "a": [
+      "Mệnh lệnh – quyền uy",
+      "Cưỡng chế",
+      "Bình đẳng – thỏa thuận",
+      "Khuyến khích – tuyên truyền"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Quan hệ pháp luật dân sự mang đặc điểm:",
+    "a": [
+      "Các bên không bình đẳng",
+      "Một bên luôn là cơ quan nhà nước",
+      "Các bên bình đẳng về quyền và nghĩa vụ",
+      "Chỉ phát sinh khi có tranh chấp"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Chủ thể của quan hệ pháp luật dân sự là:",
+    "a": [
+      "Chỉ có cá nhân",
+      "Chỉ có tổ chức",
+      "Cá nhân, pháp nhân và chủ thể khác theo quy định pháp luật",
+      "Chỉ có cơ quan nhà nước"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Khách thể của quan hệ pháp luật dân sự là:",
+    "a": [
+      "Quy phạm pháp luật",
+      "Quyền và nghĩa vụ pháp lý",
+      "Lợi ích vật chất và lợi ích tinh thần",
+      "Hành vi vi phạm pháp luật"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Nội dung của quan hệ pháp luật dân sự là:",
+    "a": [
+      "Hành vi của các chủ thể",
+      "Quyền và nghĩa vụ dân sự của các chủ thể",
+      "Tài sản",
+      "Quan hệ xã hội"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Nguyên tắc cơ bản của Luật Dân sự là:",
+    "a": [
+      "Tự do, tự nguyện cam kết, thỏa thuận nhưng không trái pháp luật và đạo đức xã hội",
+      "Bắt buộc tuyệt đối",
+      "Quyền lực nhà nước là tối cao",
+      "Không chịu trách nhiệm"
+    ],
+    "c": 0
+  },
+  {
+    "q": "Năng lực pháp luật dân sự của cá nhân là:",
+    "a": [
+      "Khả năng thực hiện quyền và nghĩa vụ dân sự",
+      "Khả năng có quyền và nghĩa vụ dân sự",
+      "Khả năng chịu trách nhiệm pháp lý",
+      "Khả năng lao động"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Năng lực hành vi dân sự của cá nhân là:",
+    "a": [
+      "Khả năng có quyền dân sự",
+      "Khả năng thực hiện quyền và nghĩa vụ dân sự bằng hành vi của mình",
+      "Khả năng chịu trách nhiệm hình sự",
+      "Khả năng tham gia quan hệ lao động"
+    ],
+    "c": 1
+  },
+{
+    "q": "Giao dịch dân sự là:",
+    "a": [
+      "Hành vi quản lý hành chính nhà nước",
+      "Hành vi pháp lý đơn phương hoặc hợp đồng làm phát sinh, thay đổi, chấm dứt quyền, nghĩa vụ dân sự",
+      "Hành vi vi phạm pháp luật",
+      "Hành vi xét xử"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Điều kiện có hiệu lực của giao dịch dân sự gồm:",
+    "a": [
+      "Chủ thể có năng lực pháp luật, nội dung hợp pháp, hình thức phù hợp",
+      "Chủ thể có năng lực pháp luật và năng lực hành vi, ý chí tự nguyện, mục đích và nội dung không trái pháp luật, hình thức phù hợp",
+      "Chỉ cần có sự thỏa thuận",
+      "Chỉ cần lập thành văn bản"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Hợp đồng dân sự là:",
+    "a": [
+      "Sự thỏa thuận giữa các bên về việc xác lập quyền và nghĩa vụ dân sự",
+      "Quyết định hành chính",
+      "Văn bản quy phạm pháp luật",
+      "Hành vi vi phạm pháp luật"
+    ],
+    "c": 0
+  },
+  {
+    "q": "Nguyên tắc giao kết hợp đồng dân sự là:",
+    "a": [
+      "Bắt buộc theo ý chí nhà nước",
+      "Tự do, tự nguyện, bình đẳng, thiện chí, trung thực",
+      "Chỉ cần lợi ích kinh tế",
+      "Không cần tuân thủ pháp luật"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Hình thức của hợp đồng dân sự có thể là:",
+    "a": [
+      "Chỉ bằng văn bản",
+      "Chỉ bằng lời nói",
+      "Bằng lời nói, bằng văn bản hoặc bằng hành vi cụ thể",
+      "Chỉ bằng hành vi"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Thời điểm có hiệu lực của hợp đồng dân sự là:",
+    "a": [
+      "Khi các bên ký kết",
+      "Khi các bên thỏa thuận hoặc theo quy định pháp luật",
+      "Khi công chứng",
+      "Khi thực hiện xong"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Trách nhiệm dân sự là:",
+    "a": [
+      "Trách nhiệm hình sự",
+      "Hậu quả pháp lý bất lợi mà chủ thể vi phạm nghĩa vụ dân sự phải gánh chịu",
+      "Biện pháp giáo dục",
+      "Biện pháp hành chính"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Căn cứ phát sinh trách nhiệm dân sự là:",
+    "a": [
+      "Có hành vi vi phạm pháp luật hình sự",
+      "Có vi phạm nghĩa vụ dân sự và gây thiệt hại",
+      "Có tranh chấp",
+      "Có yêu cầu của nhà nước"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Nguyên tắc bồi thường thiệt hại trong trách nhiệm dân sự là:",
+    "a": [
+      "Bồi thường toàn bộ và kịp thời",
+      "Bồi thường một phần",
+      "Không cần bồi thường",
+      "Bồi thường theo ý chí chủ quan"
+    ],
+    "c": 0
+  },
+  {
+    "q": "Các hình thức trách nhiệm dân sự gồm:",
+    "a": [
+      "Phạt tù",
+      "Cảnh cáo",
+      "Buộc thực hiện đúng nghĩa vụ, phạt vi phạm, bồi thường thiệt hại",
+      "Xử phạt hành chính"
+    ],
+    "c": 2
+  },
+];
+
+let index = 0;
+let answered = false;
+
+function shuffle(array) {
+  return array
+    .map(v => ({ v, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ v }) => v);
+}
+
+function loadQuestion() {
+  answered = false;
+  const q = questions[index];
+  document.getElementById("question").innerText =
+    `Câu ${index + 1}: ` + q.q;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  const mixed = q.a.map((text, i) => ({ text, i }));
+  shuffle(mixed).forEach(ans => {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.innerText = ans.text;
+    div.onclick = () => checkAnswer(div, ans.i);
+    answersDiv.appendChild(div);
+  });
+}
+
+function checkAnswer(element, chosenIndex) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[index];
+  const all = document.querySelectorAll(".answer");
+
+  all.forEach(a => a.onclick = null);
+
+  if (chosenIndex === q.c) {
+    element.classList.add("correct");
+  } else {
+    element.classList.add("wrong");
+    all.forEach(a => {
+      if (a.innerText === q.a[q.c]) {
+        a.classList.add("correct");
+      }
+    });
+  }
+}
+
+function nextQuestion() {
+  index++;
+  if (index >= questions.length) {
+    alert("Bạn đã hoàn thành bài thi 🎉");
+    index = 0;
+  }
+  loadQuestion();
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
