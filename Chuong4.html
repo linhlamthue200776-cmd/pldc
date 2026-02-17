@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thi trắc nghiệm</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 15px;
+  font-size: 18px;
+}
+
+.container {
+  max-width: 100%;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.answer {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.answer:active {
+  background: #eef;
+}
+
+.correct {
+  background: #c8f7c5;
+  border-color: green;
+}
+
+.wrong {
+  background: #f7c5c5;
+  border-color: red;
+}
+
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+}
+
+button:active {
+  background: #2980b9;
+}
+</style>
+</head>
+
+
+<body>
+<div class="container">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+  <button onclick="nextQuestion()">Câu tiếp theo</button>
+</div>
+
+<script>
+const questions = [
+{
+    "q": "Luật Hiến pháp là ngành luật điều chỉnh:",
+    "a": [
+      "Các quan hệ xã hội phát sinh trong quản lý hành chính nhà nước",
+      "Các quan hệ xã hội cơ bản nhất liên quan đến tổ chức và thực hiện quyền lực nhà nước, quyền và nghĩa vụ cơ bản của công dân",
+      "Các quan hệ tài sản và nhân thân",
+      "Các quan hệ lao động"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Đối tượng điều chỉnh của Luật Hiến pháp là:",
+    "a": [
+      "Quan hệ kinh tế",
+      "Quan hệ xã hội cơ bản nhất",
+      "Quan hệ dân sự",
+      "Quan hệ hình sự"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Phương pháp điều chỉnh chủ yếu của Luật Hiến pháp là:",
+    "a": [
+      "Bình đẳng – thỏa thuận",
+      "Mệnh lệnh – quyền uy",
+      "Cưỡng chế",
+      "Khuyến khích"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Hiến pháp có vị trí như thế nào trong hệ thống pháp luật Việt Nam?",
+    "a": [
+      "Là văn bản dưới luật",
+      "Là đạo luật thông thường",
+      "Là luật cơ bản, có hiệu lực pháp lý cao nhất",
+      "Là luật chuyên ngành"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Nội dung cơ bản của Hiến pháp bao gồm:",
+    "a": [
+      "Chế độ chính trị, kinh tế, văn hóa, xã hội; quyền và nghĩa vụ cơ bản của công dân; tổ chức bộ máy nhà nước",
+      "Chỉ quy định về tổ chức bộ máy nhà nước",
+      "Chỉ quy định về quyền con người",
+      "Chỉ quy định về kinh tế"
+    ],
+    "c": 0
+  },
+  {
+    "q": "Quyền con người trong Hiến pháp được hiểu là:",
+    "a": [
+      "Quyền do nhà nước ban phát",
+      "Quyền tự nhiên, vốn có của con người, được nhà nước ghi nhận, tôn trọng, bảo vệ và bảo đảm",
+      "Quyền của công dân Việt Nam",
+      "Quyền chỉ áp dụng cho người có quốc tịch"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Quyền và nghĩa vụ cơ bản của công dân được quy định chủ yếu trong:",
+    "a": [
+      "Luật Dân sự",
+      "Luật Hành chính",
+      "Hiến pháp",
+      "Luật Lao động"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Nguyên tắc tổ chức và hoạt động của bộ máy nhà nước Việt Nam là:",
+    "a": [
+      "Tập quyền tuyệt đối",
+      "Phân quyền cứng rắn",
+      "Quyền lực nhà nước là thống nhất, có sự phân công, phối hợp và kiểm soát",
+      "Chỉ phân quyền"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Cơ quan quyền lực nhà nước cao nhất ở Việt Nam là:",
+    "a": [
+      "Chính phủ",
+      "Chủ tịch nước",
+      "Quốc hội",
+      "Tòa án nhân dân tối cao"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Quốc hội có chức năng cơ bản nào sau đây?",
+    "a": [
+      "Hành pháp",
+      "Tư pháp",
+      "Lập hiến và lập pháp",
+      "Xét xử"
+    ],
+    "c": 2
+  },
+ {
+    "q": "Chủ tịch nước là:",
+    "a": [
+      "Người đứng đầu Chính phủ",
+      "Người đứng đầu Quốc hội",
+      "Người đứng đầu Nhà nước",
+      "Người đứng đầu Tòa án"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Chủ tịch nước do cơ quan nào bầu ra?",
+    "a": [
+      "Nhân dân",
+      "Chính phủ",
+      "Quốc hội",
+      "Ủy ban Thường vụ Quốc hội"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Chính phủ là:",
+    "a": [
+      "Cơ quan quyền lực nhà nước cao nhất",
+      "Cơ quan xét xử cao nhất",
+      "Cơ quan hành chính nhà nước cao nhất",
+      "Cơ quan lập pháp"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Chính phủ chịu trách nhiệm trước:",
+    "a": [
+      "Chủ tịch nước",
+      "Quốc hội",
+      "Tòa án nhân dân tối cao",
+      "Viện kiểm sát nhân dân tối cao"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Thủ tướng Chính phủ do cơ quan nào bầu hoặc phê chuẩn?",
+    "a": [
+      "Chủ tịch nước bổ nhiệm",
+      "Quốc hội bầu",
+      "Chính phủ bầu",
+      "Ủy ban Thường vụ Quốc hội phê chuẩn"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Tòa án nhân dân là:",
+    "a": [
+      "Cơ quan thực hiện quyền lập pháp",
+      "Cơ quan thực hiện quyền hành pháp",
+      "Cơ quan thực hiện quyền tư pháp",
+      "Cơ quan kiểm sát"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Cơ quan xét xử cao nhất của nước Cộng hòa xã hội chủ nghĩa Việt Nam là:",
+    "a": [
+      "Tòa án nhân dân cấp cao",
+      "Tòa án nhân dân tỉnh",
+      "Tòa án nhân dân tối cao",
+      "Tòa án quân sự"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Viện kiểm sát nhân dân có chức năng:",
+    "a": [
+      "Xét xử các vụ án",
+      "Thực hành quyền công tố và kiểm sát hoạt động tư pháp",
+      "Ban hành văn bản pháp luật",
+      "Quản lý hành chính nhà nước"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Hội đồng nhân dân là:",
+    "a": [
+      "Cơ quan hành chính nhà nước ở địa phương",
+      "Cơ quan quyền lực nhà nước ở địa phương",
+      "Cơ quan xét xử ở địa phương",
+      "Cơ quan kiểm sát ở địa phương"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Ủy ban nhân dân là:",
+    "a": [
+      "Cơ quan quyền lực nhà nước ở địa phương",
+      "Cơ quan hành chính nhà nước ở địa phương",
+      "Cơ quan lập pháp ở địa phương",
+      "Cơ quan tư pháp ở địa phương"
+    ],
+    "c": 1
+  },
+
+
+];
+
+let index = 0;
+let answered = false;
+
+function shuffle(array) {
+  return array
+    .map(v => ({ v, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ v }) => v);
+}
+
+function loadQuestion() {
+  answered = false;
+  const q = questions[index];
+  document.getElementById("question").innerText =
+    `Câu ${index + 1}: ` + q.q;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  const mixed = q.a.map((text, i) => ({ text, i }));
+  shuffle(mixed).forEach(ans => {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.innerText = ans.text;
+    div.onclick = () => checkAnswer(div, ans.i);
+    answersDiv.appendChild(div);
+  });
+}
+
+function checkAnswer(element, chosenIndex) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[index];
+  const all = document.querySelectorAll(".answer");
+
+  all.forEach(a => a.onclick = null);
+
+  if (chosenIndex === q.c) {
+    element.classList.add("correct");
+  } else {
+    element.classList.add("wrong");
+    all.forEach(a => {
+      if (a.innerText === q.a[q.c]) {
+        a.classList.add("correct");
+      }
+    });
+  }
+}
+
+function nextQuestion() {
+  index++;
+  if (index >= questions.length) {
+    alert("Bạn đã hoàn thành bài thi 🎉");
+    index = 0;
+  }
+  loadQuestion();
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
