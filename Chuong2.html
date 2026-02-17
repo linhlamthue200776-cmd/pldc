@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thi trắc nghiệm</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 15px;
+  font-size: 18px;
+}
+
+.container {
+  max-width: 100%;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.answer {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.answer:active {
+  background: #eef;
+}
+
+.correct {
+  background: #c8f7c5;
+  border-color: green;
+}
+
+.wrong {
+  background: #f7c5c5;
+  border-color: red;
+}
+
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+}
+
+button:active {
+  background: #2980b9;
+}
+</style>
+</head>
+
+
+<body>
+<div class="container">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+  <button onclick="nextQuestion()">Câu tiếp theo</button>
+</div>
+
+<script>
+const questions = [
+ {
+    "q": "Pháp luật là gì?",
+    "a": [
+      "Hệ thống các quy tắc xử sự do xã hội đặt ra",
+      "Hệ thống các quy tắc xử sự chung do Nhà nước ban hành và bảo đảm thực hiện",
+      "Những quy tắc đạo đức được mọi người tôn trọng",
+      "Những quy tắc xử sự mang tính tự nguyện"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Đặc điểm nào sau đây không phải là đặc điểm của pháp luật?",
+    "a": [
+      "Tính quy phạm phổ biến",
+      "Tính xác định chặt chẽ về hình thức",
+      "Tính cưỡng chế nhà nước",
+      "Tính tự nguyện tuyệt đối"
+    ],
+    "c": 3
+  },
+  {
+    "q": "Tính quy phạm phổ biến của pháp luật thể hiện ở chỗ:",
+    "a": [
+      "Áp dụng cho mọi cá nhân trong xã hội",
+      "Áp dụng nhiều lần, ở nhiều nơi, đối với mọi đối tượng trong phạm vi điều chỉnh",
+      "Áp dụng cho cơ quan nhà nước",
+      "Chỉ áp dụng trong những trường hợp cụ thể"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Pháp luật do chủ thể nào ban hành?",
+    "a": [
+      "Nhân dân",
+      "Các tổ chức chính trị – xã hội",
+      "Nhà nước",
+      "Các tổ chức xã hội"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Nội dung nào dưới đây thể hiện tính xác định chặt chẽ về hình thức của pháp luật?",
+    "a": [
+      "Được thể hiện bằng phong tục tập quán",
+      "Được thể hiện bằng các văn bản pháp luật có hình thức xác định",
+      "Được truyền miệng trong xã hội",
+      "Được ghi nhớ theo thói quen"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Tính cưỡng chế nhà nước của pháp luật được thể hiện ở:",
+    "a": [
+      "Việc mọi người tự giác thực hiện pháp luật",
+      "Việc nhà nước thuyết phục người dân tuân theo pháp luật",
+      "Việc nhà nước bảo đảm thực hiện pháp luật bằng các biện pháp cưỡng chế",
+      "Việc xã hội giám sát việc thực hiện pháp luật"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Bản chất giai cấp của pháp luật thể hiện ở:",
+    "a": [
+      "Ý chí của toàn xã hội",
+      "Ý chí của giai cấp thống trị được nhà nước nâng lên thành pháp luật",
+      "Ý chí của giai cấp bị trị",
+      "Ý chí của mọi tầng lớp nhân dân"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Bản chất xã hội của pháp luật thể hiện ở:",
+    "a": [
+      "Pháp luật chỉ phục vụ lợi ích của giai cấp thống trị",
+      "Pháp luật phản ánh nhu cầu và lợi ích chung của xã hội",
+      "Pháp luật không liên quan đến xã hội",
+      "Pháp luật chỉ điều chỉnh quan hệ kinh tế"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Chức năng cơ bản của pháp luật gồm:",
+    "a": [
+      "Chức năng quản lý và chức năng giáo dục",
+      "Chức năng điều chỉnh và chức năng bảo vệ",
+      "Chức năng kinh tế và chức năng chính trị",
+      "Chức năng cưỡng chế và chức năng tuyên truyền"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Chức năng điều chỉnh của pháp luật là:",
+    "a": [
+      "Bảo vệ trật tự pháp luật",
+      "Điều chỉnh các quan hệ xã hội theo định hướng của nhà nước",
+      "Xử phạt các hành vi vi phạm pháp luật",
+      "Giáo dục ý thức pháp luật cho công dân"
+    ],
+    "c": 1
+  },
+{
+    "q": "Vai trò của pháp luật trong đời sống xã hội là:",
+    "a": [
+      "Công cụ quản lý xã hội của nhà nước",
+      "Phương tiện duy nhất để điều chỉnh hành vi con người",
+      "Công cụ điều chỉnh quan hệ đạo đức",
+      "Công cụ tự nguyện của cá nhân"
+    ],
+    "c": 0
+  },
+  {
+    "q": "Quan hệ pháp luật là:",
+    "a": [
+      "Quan hệ xã hội được pháp luật điều chỉnh",
+      "Quan hệ kinh tế trong xã hội",
+      "Quan hệ chính trị giữa các giai cấp",
+      "Quan hệ đạo đức giữa các cá nhân"
+    ],
+    "c": 0
+  },
+  {
+    "q": "Quan hệ pháp luật bao gồm các yếu tố nào?",
+    "a": [
+      "Chủ thể, khách thể, nội dung",
+      "Chủ thể, đối tượng, hành vi",
+      "Chủ thể, mục đích, nội dung",
+      "Chủ thể, quyền lực, nghĩa vụ"
+    ],
+    "c": 0
+  },
+  {
+    "q": "Chủ thể của quan hệ pháp luật là:",
+    "a": [
+      "Nhà nước và các tổ chức chính trị",
+      "Cá nhân, tổ chức có năng lực pháp luật và năng lực hành vi",
+      "Mọi cá nhân trong xã hội",
+      "Chỉ các cơ quan nhà nước"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Khách thể của quan hệ pháp luật là:",
+    "a": [
+      "Các chủ thể tham gia quan hệ pháp luật",
+      "Hành vi xử sự của các chủ thể",
+      "Lợi ích vật chất và tinh thần mà các chủ thể hướng tới",
+      "Quyền và nghĩa vụ pháp lý"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Nội dung của quan hệ pháp luật là:",
+    "a": [
+      "Hành vi của các chủ thể",
+      "Quyền và nghĩa vụ pháp lý của các chủ thể",
+      "Lợi ích vật chất",
+      "Các quy phạm pháp luật"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Thực hiện pháp luật là:",
+    "a": [
+      "Hoạt động ban hành pháp luật",
+      "Hoạt động áp dụng pháp luật",
+      "Quá trình các chủ thể thực hiện quyền và nghĩa vụ pháp lý",
+      "Hoạt động giám sát pháp luật"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Hình thức thực hiện pháp luật nào áp dụng khi chủ thể không được thực hiện hành vi bị cấm?",
+    "a": [
+      "Tuân thủ pháp luật",
+      "Thi hành pháp luật",
+      "Sử dụng pháp luật",
+      "Áp dụng pháp luật"
+    ],
+    "c": 0
+  },
+  {
+    "q": "Hình thức thực hiện pháp luật nào áp dụng khi chủ thể thực hiện nghĩa vụ pháp lý của mình?",
+    "a": [
+      "Tuân thủ pháp luật",
+      "Thi hành pháp luật",
+      "Sử dụng pháp luật",
+      "Áp dụng pháp luật"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Hình thức thực hiện pháp luật nào áp dụng khi chủ thể lựa chọn thực hiện quyền pháp lý?",
+    "a": [
+      "Tuân thủ pháp luật",
+      "Thi hành pháp luật",
+      "Sử dụng pháp luật",
+      "Áp dụng pháp luật"
+    ],
+    "c": 2
+  },
+ {
+    "q": "Vi phạm pháp luật là gì?",
+    "a": [
+      "Hành vi trái đạo đức xã hội",
+      "Hành vi nguy hiểm cho xã hội",
+      "Hành vi trái pháp luật, có lỗi, do chủ thể có năng lực trách nhiệm pháp lý thực hiện",
+      "Hành vi gây thiệt hại cho nhà nước"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Các dấu hiệu của vi phạm pháp luật gồm:",
+    "a": [
+      "Hành vi trái pháp luật, có lỗi, gây thiệt hại và do chủ thể thực hiện",
+      "Hành vi trái pháp luật, có lỗi, do chủ thể có năng lực trách nhiệm pháp lý thực hiện và gây nguy hiểm cho xã hội",
+      "Hành vi có lỗi và gây thiệt hại",
+      "Hành vi trái pháp luật và bị xử phạt"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Yếu tố lỗi trong vi phạm pháp luật thể hiện ở:",
+    "a": [
+      "Hành vi gây thiệt hại",
+      "Thái độ tâm lý của chủ thể đối với hành vi và hậu quả của hành vi đó",
+      "Hành vi trái pháp luật",
+      "Hành vi bị xử phạt"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Các loại vi phạm pháp luật gồm:",
+    "a": [
+      "Vi phạm hình sự, vi phạm dân sự",
+      "Vi phạm hành chính, vi phạm kỷ luật",
+      "Vi phạm hình sự, hành chính, dân sự, kỷ luật",
+      "Vi phạm kinh tế và vi phạm xã hội"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Vi phạm pháp luật nguy hiểm nhất cho xã hội là:",
+    "a": [
+      "Vi phạm dân sự",
+      "Vi phạm hành chính",
+      "Vi phạm kỷ luật",
+      "Vi phạm hình sự"
+    ],
+    "c": 3
+  },
+  {
+    "q": "Trách nhiệm pháp lý là:",
+    "a": [
+      "Nghĩa vụ đạo đức của cá nhân",
+      "Hậu quả bất lợi mà chủ thể vi phạm pháp luật phải gánh chịu",
+      "Hình thức giáo dục của nhà nước",
+      "Biện pháp phòng ngừa vi phạm"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Căn cứ để phát sinh trách nhiệm pháp lý là:",
+    "a": [
+      "Có hành vi trái đạo đức",
+      "Có thiệt hại xảy ra",
+      "Có vi phạm pháp luật",
+      "Có yêu cầu của nhà nước"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Trách nhiệm hình sự được áp dụng đối với:",
+    "a": [
+      "Mọi hành vi vi phạm pháp luật",
+      "Hành vi vi phạm kỷ luật",
+      "Hành vi vi phạm hành chính",
+      "Hành vi phạm tội"
+    ],
+    "c": 3
+  },
+  {
+    "q": "Trách nhiệm hành chính được áp dụng khi:",
+    "a": [
+      "Có hành vi phạm tội",
+      "Có hành vi vi phạm pháp luật nhưng chưa đến mức truy cứu trách nhiệm hình sự",
+      "Có tranh chấp dân sự",
+      "Có vi phạm kỷ luật lao động"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Trách nhiệm kỷ luật được áp dụng chủ yếu trong:",
+    "a": [
+      "Quan hệ hình sự",
+      "Quan hệ hành chính",
+      "Quan hệ lao động và công vụ",
+      "Quan hệ dân sự"
+    ],
+    "c": 2
+  },
+];
+
+let index = 0;
+let answered = false;
+
+function shuffle(array) {
+  return array
+    .map(v => ({ v, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ v }) => v);
+}
+
+function loadQuestion() {
+  answered = false;
+  const q = questions[index];
+  document.getElementById("question").innerText =
+    `Câu ${index + 1}: ` + q.q;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  const mixed = q.a.map((text, i) => ({ text, i }));
+  shuffle(mixed).forEach(ans => {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.innerText = ans.text;
+    div.onclick = () => checkAnswer(div, ans.i);
+    answersDiv.appendChild(div);
+  });
+}
+
+function checkAnswer(element, chosenIndex) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[index];
+  const all = document.querySelectorAll(".answer");
+
+  all.forEach(a => a.onclick = null);
+
+  if (chosenIndex === q.c) {
+    element.classList.add("correct");
+  } else {
+    element.classList.add("wrong");
+    all.forEach(a => {
+      if (a.innerText === q.a[q.c]) {
+        a.classList.add("correct");
+      }
+    });
+  }
+}
+
+function nextQuestion() {
+  index++;
+  if (index >= questions.length) {
+    alert("Bạn đã hoàn thành bài thi 🎉");
+    index = 0;
+  }
+  loadQuestion();
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
+
