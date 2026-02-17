@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thi trắc nghiệm</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 15px;
+  font-size: 18px;
+}
+
+.container {
+  max-width: 100%;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.answer {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.answer:active {
+  background: #eef;
+}
+
+.correct {
+  background: #c8f7c5;
+  border-color: green;
+}
+
+.wrong {
+  background: #f7c5c5;
+  border-color: red;
+}
+
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+}
+
+button:active {
+  background: #2980b9;
+}
+</style>
+</head>
+
+
+<body>
+<div class="container">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+  <button onclick="nextQuestion()">Câu tiếp theo</button>
+</div>
+
+<script>
+const questions = [
+{
+    "q": "Luật Lao động là ngành luật điều chỉnh:",
+    "a": [
+      "Các quan hệ quản lý hành chính nhà nước",
+      "Các quan hệ lao động và các quan hệ xã hội liên quan trực tiếp đến quan hệ lao động",
+      "Các quan hệ hình sự",
+      "Các quan hệ dân sự"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Đối tượng điều chỉnh của Luật Lao động là:",
+    "a": [
+      "Quan hệ lao động giữa người lao động và người sử dụng lao động",
+      "Quan hệ tài sản",
+      "Quan hệ hình sự",
+      "Quan hệ hành chính"
+    ],
+    "c": 0
+  },
+  {
+    "q": "Phương pháp điều chỉnh chủ yếu của Luật Lao động là:",
+    "a": [
+      "Mệnh lệnh – quyền uy",
+      "Bình đẳng – thỏa thuận, kết hợp với mệnh lệnh",
+      "Cưỡng chế",
+      "Tự nguyện tuyệt đối"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Người lao động là:",
+    "a": [
+      "Người đủ 18 tuổi trở lên",
+      "Người làm việc cho người sử dụng lao động, có trả lương và chịu sự quản lý",
+      "Người làm việc tự do",
+      "Người làm việc không hưởng lương"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Người sử dụng lao động là:",
+    "a": [
+      "Cá nhân thuê mướn lao động",
+      "Cơ quan, tổ chức, cá nhân có thuê mướn, sử dụng lao động theo hợp đồng lao động",
+      "Chỉ có doanh nghiệp",
+      "Chỉ có cơ quan nhà nước"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Hợp đồng lao động là:",
+    "a": [
+      "Văn bản quy phạm pháp luật",
+      "Sự thỏa thuận giữa người lao động và người sử dụng lao động về việc làm có trả lương, điều kiện làm việc, quyền và nghĩa vụ của mỗi bên",
+      "Quyết định hành chính",
+      "Thỏa thuận miệng không ràng buộc"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Hình thức của hợp đồng lao động gồm:",
+    "a": [
+      "Chỉ bằng văn bản",
+      "Chỉ bằng lời nói",
+      "Bằng văn bản hoặc bằng lời nói theo quy định pháp luật",
+      "Chỉ bằng hành vi"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Nội dung chủ yếu của hợp đồng lao động gồm:",
+    "a": [
+      "Tiền lương, việc làm, thời giờ làm việc, quyền và nghĩa vụ của các bên",
+      "Chỉ tiền lương",
+      "Chỉ thời giờ làm việc",
+      "Chỉ quyền của người lao động"
+    ],
+    "c": 0
+  },
+  {
+    "q": "Tiền lương là:",
+    "a": [
+      "Khoản tiền thưởng",
+      "Khoản tiền do nhà nước trợ cấp",
+      "Khoản tiền người sử dụng lao động trả cho người lao động để thực hiện công việc theo thỏa thuận",
+      "Khoản tiền phạt"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Nguyên tắc trả lương là:",
+    "a": [
+      "Trả lương tùy ý",
+      "Trả lương theo thỏa thuận nhưng không thấp hơn mức lương tối thiểu",
+      "Trả lương không cần thỏa thuận",
+      "Trả lương theo ý chí nhà nước"
+    ],
+    "c": 1
+  },
+{
+    "q": "Thời giờ làm việc bình thường của người lao động là:",
+    "a": [
+      "Không quá 8 giờ trong 1 ngày và 48 giờ trong 1 tuần",
+      "Không quá 10 giờ trong 1 ngày",
+      "Không quá 48 giờ trong 1 tháng",
+      "Do người sử dụng lao động quyết định"
+    ],
+    "c": 0
+  },
+  {
+    "q": "Thời giờ nghỉ ngơi của người lao động bao gồm:",
+    "a": [
+      "Chỉ nghỉ giữa giờ",
+      "Chỉ nghỉ hằng tuần",
+      "Nghỉ giữa giờ, nghỉ hằng tuần, nghỉ lễ, tết và nghỉ hằng năm",
+      "Chỉ nghỉ lễ, tết"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Nghỉ hằng năm của người lao động làm việc đủ 12 tháng là:",
+    "a": [
+      "10 ngày",
+      "12 ngày",
+      "14 ngày",
+      "16 ngày"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Kỷ luật lao động là:",
+    "a": [
+      "Biện pháp xử phạt hành chính",
+      "Những quy định về việc tuân theo thời gian, điều hành sản xuất, kinh doanh",
+      "Biện pháp hình sự",
+      "Quy định đạo đức xã hội"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Các hình thức kỷ luật lao động gồm:",
+    "a": [
+      "Cảnh cáo, phạt tiền",
+      "Khiển trách, kéo dài thời hạn nâng lương, cách chức, sa thải",
+      "Phạt tiền, đình chỉ công việc",
+      "Sa thải và phạt tù"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Nguyên tắc xử lý kỷ luật lao động là:",
+    "a": [
+      "Xử lý tùy ý người sử dụng lao động",
+      "Mỗi hành vi vi phạm chỉ bị xử lý một hình thức kỷ luật",
+      "Có thể xử lý nhiều hình thức cho một hành vi",
+      "Không cần chứng minh lỗi"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Tranh chấp lao động là:",
+    "a": [
+      "Tranh chấp hình sự",
+      "Tranh chấp dân sự",
+      "Tranh chấp về quyền, nghĩa vụ và lợi ích phát sinh trong quan hệ lao động",
+      "Tranh chấp hành chính"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Tranh chấp lao động cá nhân là:",
+    "a": [
+      "Tranh chấp giữa tập thể lao động với người sử dụng lao động",
+      "Tranh chấp giữa các doanh nghiệp",
+      "Tranh chấp giữa một người lao động với người sử dụng lao động",
+      "Tranh chấp giữa các cơ quan nhà nước"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Tranh chấp lao động tập thể là:",
+    "a": [
+      "Tranh chấp giữa nhiều người lao động với nhau",
+      "Tranh chấp giữa tập thể lao động với người sử dụng lao động",
+      "Tranh chấp giữa doanh nghiệp với nhà nước",
+      "Tranh chấp giữa cá nhân với tập thể"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Đình công là:",
+    "a": [
+      "Hành vi vi phạm pháp luật",
+      "Sự ngừng việc tạm thời, tự nguyện và có tổ chức của tập thể lao động nhằm đạt yêu cầu trong tranh chấp lao động",
+      "Hành vi nghỉ việc cá nhân",
+      "Biện pháp hành chính"
+    ],
+    "c": 1
+  },
+];
+
+let index = 0;
+let answered = false;
+
+function shuffle(array) {
+  return array
+    .map(v => ({ v, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ v }) => v);
+}
+
+function loadQuestion() {
+  answered = false;
+  const q = questions[index];
+  document.getElementById("question").innerText =
+    `Câu ${index + 1}: ` + q.q;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  const mixed = q.a.map((text, i) => ({ text, i }));
+  shuffle(mixed).forEach(ans => {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.innerText = ans.text;
+    div.onclick = () => checkAnswer(div, ans.i);
+    answersDiv.appendChild(div);
+  });
+}
+
+function checkAnswer(element, chosenIndex) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[index];
+  const all = document.querySelectorAll(".answer");
+
+  all.forEach(a => a.onclick = null);
+
+  if (chosenIndex === q.c) {
+    element.classList.add("correct");
+  } else {
+    element.classList.add("wrong");
+    all.forEach(a => {
+      if (a.innerText === q.a[q.c]) {
+        a.classList.add("correct");
+      }
+    });
+  }
+}
+
+function nextQuestion() {
+  index++;
+  if (index >= questions.length) {
+    alert("Bạn đã hoàn thành bài thi 🎉");
+    index = 0;
+  }
+  loadQuestion();
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
