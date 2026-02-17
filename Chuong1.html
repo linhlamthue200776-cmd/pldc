@@ -20,11 +20,9 @@ body {
   background: #fff;
   padding: 20px;
   border-radius: 10px;
-  box-sizing: border-box;
 }
 
 h2 {
-  margin-bottom: 20px;
   font-size: 20px;
 }
 
@@ -34,7 +32,6 @@ h2 {
   margin: 12px 0;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 18px;
 }
 
 .answer:active {
@@ -68,8 +65,8 @@ button:active {
 </style>
 </head>
 
-
 <body>
+
 <div class="container">
   <h2 id="question"></h2>
   <div id="answers"></div>
@@ -77,182 +74,110 @@ button:active {
 </div>
 
 <script>
+// ================== DÁN CÂU HỎI VÀO ĐÂY ==================
 const questions = [
-{
-    "q": "Bản chất của nhà nước được đặc trưng bởi nội dung nào dưới đây?",
-    "a": [
-      "Nhà nước có tính giai cấp và tính xã hội",
-      "Nhà nước do giai cấp cầm quyền lập ra để bảo vệ quyền lợi giai cấp",
-      "Nhà nước thực hiện các chính sách phục vụ cho xã hội",
-      "Nhà nước chỉ bảo vệ quyền lợi của giai cấp cầm quyền"
-    ],
+  {
+    [cite_start]"q": "Bản chất của nhà nước được đặc trưng bởi nội dung nào dưới đây: [cite: 12]",
+    "a": ["Nhà nước có tính giai cấp và tính xã hội", "Nhà nước do giai cấp cầm quyền lập ra để bảo vệ quyền lợi giai cấp", "Nhà nước thực hiện các chính sách phục vụ cho xã hội.", "Nhà nước chỉ bảo vệ quyền lợi của giai cấp cầm quyền"],
     "c": 0
   },
   {
-    "q": "Đâu là sự khác biệt giữa Nhà nước và các tổ chức khác trong xã hội?",
-    "a": [
-      "Có lãnh thổ và phân chia các cơ quan nhà nước theo các đơn vị hành chính, lãnh thổ",
-      "Quản lý xã hội bằng hệ thống các quy phạm",
-      "Thiết lập quyền lực công cộng đặc biệt",
-      "Quy định và thu các loại phí dưới các hình thức bắt buộc"
-    ],
+    [cite_start]"q": "Đâu là sự khác biệt giữa Nhà nước và các tổ chức khác trong xã hội? [cite: 17]",
+    "a": ["Có lãnh thổ và phân chia các cơ quan nhà nước theo các đơn vị hành chính, lãnh thổ.", "Quản lý xã hội bằng hệ thống các quy phạm", "Thiết lập quyền lực công cộng đặc biệt", "Quy định và thu các loại phí dưới các hình thức bắt buộc."],
+    "c": 0
+  },
+  {
+    [cite_start]"q": "Hình thức của nhà nước được thể hiện qua các yếu tố nào? [cite: 22]",
+    "a": ["Hình thức nhà nước đơn nhất và hình thức nhà nước liên bang.", "Hình thức chính thể quân chủ và hình thức chính thể cộng hòa.", "Hình thức chính thể, hình thức cấu trúc nhà nước và chế độ chính trị.", "Chế độ dân chủ và chế độ phản dân chủ."],
     "c": 2
   },
   {
-    "q": "Hình thức của nhà nước được thể hiện qua các yếu tố nào?",
-    "a": [
-      "Hình thức nhà nước đơn nhất và hình thức nhà nước liên bang",
-      "Hình thức chính thể quân chủ và hình thức chính thể cộng hòa",
-      "Hình thức chính thể, hình thức cấu trúc nhà nước và chế độ chính trị",
-      "Chế độ dân chủ và chế độ phản dân chủ"
-    ],
-    "c": 2
-  },
-  {
-    "q": "Hình thức chính thể của nhà nước có hai dạng cơ bản là:",
-    "a": [
-      "Chính thể quân chủ và chính thể cộng hòa dân chủ",
-      "Chính thể cộng hòa dân chủ và chính thể cộng hòa quý tộc",
-      "Chính thể quân chủ chuyên chế và chính thể quân chủ lập hiến",
-      "Chính thể quân chủ và chính thể cộng hòa"
-    ],
+    [cite_start]"q": "Hình thức chính thể của nhà nước có hai dạng cơ bản là: [cite: 27]",
+    "a": ["Chính thể quân chủ và chính thể cộng hòa dân chủ.", "Chính thể cộng hòa dân chủ và chính thể cộng hòa quý tộc", "Chính thể quân chủ chuyên chế và chính thể quân chủ lập hiến", "Chính thể quân chủ và chính thể cộng hòa"],
     "c": 3
   },
   {
-    "q": "Các kiểu nhà nước trong lịch sử gồm:",
-    "a": [
-      "Nhà nước chủ nô, nhà nước phong kiến, nhà nước tư sản, nhà nước xã hội chủ nghĩa",
-      "Cộng sản nguyên thủy, chiếm hữu nô lệ, phong kiến, tư bản chủ nghĩa, xã hội chủ nghĩa",
-      "Nhà nước đơn nhất, nhà nước liên bang, nhà nước liên minh",
-      "Nhà nước chủ nô, nhà nước phong kiến, nhà nước tư sản, nhà nước cộng sản"
-    ],
+    [cite_start]"q": "Các kiểu nhà nước trong lịch sử gồm: [cite: 32]",
+    "a": ["Nhà nước chủ nô, nhà nước phong kiến, nhà nước tư sản, nhà nước xã hội chủ nghĩa", "Cộng sản nguyên thủy, chiếm hữu nô lệ, phong kiến, tư bản chủ nghĩa, xã hội chủ nghĩa", "Nhà nước đơn nhất, nhà nước liên bang, nhà nước liên minh, liên minh các nhà nước.", "Nhà nước chủ nô, nhà nước phong kiến, nhà nước tư sản, nhà nước cộng sản"],
     "c": 0
   },
   {
-    "q": "Sự tồn tại của nhà nước là:",
-    "a": [
-      "Do ý chí của mọi thành viên trong xã hội",
-      "Kết quả tất yếu của xã hội loài người",
-      "Kết quả tất yếu của xã hội có giai cấp",
-      "Do các thành viên xã hội ký kết khế ước"
-    ],
+    [cite_start]"q": "Sự tồn tại của nhà nước là: [cite: 37]",
+    "a": ["Là do ý chí của mọi thành viên trong xã hội với mong muốn là thành lập nên nhà nước để bảo vệ trật tự chung.", "Là kết quả tất yếu của xã hội loài người, ở đâu có xã hội thì ở đó tồn tại nhà nước.", "Là kết quả tất yếu của xã hội có giai cấp.", "Là do các thành viên trong xã hội cùng ký kết một khế ước chung."],
     "c": 2
   },
   {
-    "q": "Xét từ góc độ giai cấp, nhà nước ra đời vì:",
-    "a": [
-      "Sự xuất hiện của các giai cấp và quan hệ giai cấp",
-      "Sự xuất hiện của các giai cấp và đấu tranh giai cấp",
-      "Nhu cầu giải quyết các mối quan hệ giai cấp",
-      "Xuất hiện giai cấp bóc lột và giai cấp bị bóc lột"
-    ],
+    [cite_start]"q": "Xét từ góc độ giai cấp, nhà nước ra đời vì: [cite: 42]",
+    "a": ["Sự xuất hiện của các giai cấp và quan hệ giai cấp.", "Sự xuất hiện của các giai cấp và đấu tranh giai cấp.", "Nhu cầu giải quyết các mối quan hệ giai cấp.", "Xuất hiện giai cấp bóc lột và giai cấp bị bóc lột."],
     "c": 1
   },
- {
-    "q": "Học thuyết Mác – Lênin nhận định thế nào về bản chất nhà nước và tính chất giai cấp của Nhà nước?",
-    "a": [
-      "Tính chất giai cấp và bản chất nhà nước luôn luôn thay đổi",
-      "Tính chất giai cấp không thay đổi, bản chất nhà nước luôn thay đổi",
-      "Tính chất giai cấp và bản chất nhà nước không thay đổi",
-      "Tính chất giai cấp luôn thay đổi, bản chất nhà nước không thay đổi"
-    ],
+  {
+    [cite_start]"q": "Học thuyết Mác-Lênin nhận định thế nào về bản chất nhà nước và tính chất giai cấp của Nhà nước: [cite: 47]",
+    "a": ["Tính chất giai cấp và bản chất nhà nước luôn luôn thay đổi qua các kiểu nhà nước khác nhau.", "Tính chất giai cấp của nhà nước không thay đổi, còn bản chất nhà nước là luôn luôn thay đổi qua các kiểu nhà nước khác nhau.", "Tính chất giai cấp và bản chất nhà nước không thay đổi qua các kiểu nhà nước khác nhau.", "Tính chất giai cấp của nhà nước luôn luôn thay đổi, còn bản chất nhà nước là không thay đổi qua các kiểu nhà nước khác nhau."],
     "c": 0
   },
   {
-    "q": "Nhà nước khác tổ chức thị tộc, bộ lạc ở yếu tố nào sau đây?",
-    "a": [
-      "Quản lý xã hội bằng quy phạm xã hội",
-      "Phân chia dân cư theo đơn vị hành chính lãnh thổ",
-      "Thiết lập quyền lực chung hòa nhập với dân cư",
-      "Duy trì trật tự xã hội bằng uy tín của bô lão"
-    ],
+    [cite_start]"q": "Nhà nước khác tổ chức thị tộc, bộ lạc ở yếu tố nào sau đây: [cite: 52]",
+    "a": ["Quản lý xã hội bằng quy phạm xã hội.", "Phân chia dân cư theo đơn vị hành chính lãnh thổ", "Thiết lập quyền lực chung hòa nhập với dân cư.", "Duy trì trật tự xã hội bằng uy tín của bô lão, người cao tuổi trong thị tộc."],
     "c": 1
   },
   {
-    "q": "Điền vào chỗ trống: “Các ……… thể hiện tính chất độc tài cũng có nhiều loại, đáng chú ý nhất khi những phương pháp này phát triển đến độ cao sẽ trở thành những phương pháp tàn bạo, quân phiệt và phát xít.”",
-    "a": [
-      "Phương pháp dân chủ hạn chế",
-      "Phương pháp dân chủ giả hiệu",
-      "Phương pháp phản dân chủ",
-      "Phương pháp dân chủ gián tiếp"
-    ],
+    [cite_start]"q": "Điền vào chỗ trống: “Các......... thể hiện tính chất độc tài cũng có nhiều loại, đáng chú ý nhất khi những phương pháp này phát triển đến độ cao sẽ trở thành những phương pháp tàn bạo, quân phiệt và phát xít.” [cite: 57]",
+    "a": ["Phương pháp dân chủ hạn chế.", "Phương pháp dân chủ giả điệu.", "Phương pháp phản dân chủ.", "Phương pháp dân chủ gián tiếp."],
     "c": 2
   },
   {
-    "q": "Trong nhà nước quân chủ chuyên chế:",
-    "a": [
-      "Quyền lực nhà nước tối cao thuộc về một cơ quan tập thể",
-      "Quyền lực nhà nước thuộc về một người và được hình thành theo phương thức thừa kế",
-      "Quyền lực nhà nước tối cao thuộc về một người do bầu cử",
-      "Quyền lực nhà nước thuộc về một tập thể được thừa kế"
-    ],
+    [cite_start]"q": "Trong nhà nước quân chủ chuyên chế: [cite: 62]",
+    "a": ["Quyền lực nhà nước tối cao thuộc về một cơ quan tập thể và do bầu cử mà ra.", "Quyền lực nhà nước thuộc về một người và được hình thành theo phương thức thừa kế.", "Quyền lực nhà nước tối cao thuộc về một người và được hình thành do bầu cử.", "Quyền lực nhà nước thuộc về một tập thể, được hình thành theo phương thức thừa kế."],
     "c": 1
   },
   {
-    "q": "Đặc điểm nào dưới đây thể hiện đúng nhất về nhà nước liên bang?",
-    "a": [
-      "Có hai hệ thống cơ quan nhà nước và một chủ quyền",
-      "Có hai hệ thống cơ quan nhà nước, hai hệ thống pháp luật và công dân có hai quốc tịch",
-      "Có hai hệ thống cơ quan nhà nước, mỗi bang có thể tự tách ra",
-      "Có hai hệ thống cơ quan nhà nước, nhà nước có chủ quyền chung, các bang có chủ quyền riêng, công dân có hai quốc tịch và hai hệ thống pháp luật"
-    ],
+    [cite_start]"q": "Đặc điểm nào dưới đây thể hiện đúng nhất về nhà nước liên bang: [cite: 68]",
+    "a": ["Có hai hệ thống cơ quan nhà nước; Có hai hệ thống pháp luật; Nhà nước có chủ quyền chung.", "Có hai hệ thống cơ quan nhà nước, nhà nước có chủ quyền chung đồng thời mỗi nước thành viên cũng có chủ quyền riêng; Công dân có hai quốc tịch, có hai hệ thống pháp luật.", "Có hai hệ thống cơ quan nhà nước, nhà nước có chủ quyền chung đồng thời mỗi nước thành viên cũng có chủ quyền riêng có thể tự mình tách ra thành nhà nước độc lập;.", "Có hai hệ thống cơ quan nhà nước, nhà nước có chủ quyền chung đồng thời mỗi nước thành viên cũng có chủ quyền riêng có thể tự mình tách ra thành nhà nước độc lập; Công dân có hai quốc tịch, có hai hệ thống pháp luật."],
     "c": 3
   },
   {
-    "q": "Khẳng định nào dưới đây là sai?",
-    "a": [
-      "Các nhà nước tất yếu phải trải qua bốn kiểu nhà nước",
-      "Sự thay thế các kiểu nhà nước mang tính khách quan",
-      "Sự thay thế các kiểu nhà nước diễn ra bằng cách mạng",
-      "Kiểu nhà nước sau tiến bộ hơn kiểu nhà nước trước"
-    ],
+    [cite_start]"q": "Khẳng định nào dưới đây là sai? [cite: 76]",
+    "a": ["Các nhà nước tất yếu phải trải qua bốn kiểu nhà nước.", "Sự thay thế các kiểu nhà nước là mang tính khách quan;", "Sự thay thế các kiểu nhà nước diễn ra bằng một cuộc cách mạng.", "Kiểu nhà nước sau tiến bộ hơn kiểu nhà nước trước."],
     "c": 0
   },
   {
-    "q": "Nhà nước nào sau đây là nhà nước có chính thể quân chủ hạn chế?",
-    "a": [
-      "Pháp",
-      "Bỉ",
-      "Triều Tiên",
-      "Đức"
-    ],
+    [cite_start]"q": "Nhà nước nào sau đây là nhà nước có chính thể quân chủ hạn chế: [cite: 81]",
+    "a": ["Pháp", "Bỉ", "Triều Tiên", "Đức"],
     "c": 1
   },
   {
-    "q": "Nhà nước Trung Quốc có hình thức cấu trúc:",
-    "a": [
-      "Nhà nước liên bang",
-      "Nhà nước đơn nhất",
-      "Nhà nước liên minh",
-      "Nhà nước có các khu tự trị"
-    ],
+    [cite_start]"q": "Nhà nước Trung Quốc có hình thức cấu trúc: [cite: 86]",
+    "a": ["Nhà nước liên bang.", "Nhà nước đơn nhất.", "Nhà nước liên minh.", "Nhà nước có các khu tự trị."],
     "c": 1
   },
   {
-    "q": "Nguyên nhân dẫn đến sự thay thế các kiểu Nhà nước trong lịch sử là:",
-    "a": [
-      "Ý chí của giai cấp thống trị",
-      "Sự phát triển tự nhiên của xã hội",
-      "Mâu thuẫn giữa lực lượng sản xuất và quan hệ sản xuất",
-      "Sự vận động, phát triển và thay thế các hình thái kinh tế – xã hội thông qua cách mạng xã hội"
-    ],
+    [cite_start]"q": "Nguyên nhân dẫn đến sự thay thế các kiểu Nhà nước trong lịch sử là: [cite: 91]",
+    "a": ["Do ý chí của giai cấp thống trị xã hội", "Do sự phát triển tự nhiên của xã hội", "Do mâu thuẫn giữa lực lượng sản xuất và quan hệ sản xuất trong xã hội", "Do sự vận động, phát triển, thay thế các hình thái kinh tế - xã hội mà nhân tố làm nên sự thay thế đó là các cuộc cách mạng xã hội"],
     "c": 3
   },
   {
-    "q": "Lựa chọn quá trình đúng nhất về sự ra đời của nhà nước:",
-    "a": [
-      "Sản xuất phát triển → tư hữu hình thành → phân hóa giai cấp → xuất hiện nhà nước",
-      "Ba lần phân công lao động → tư hữu xuất hiện → phân hóa giai cấp → xuất hiện nhà nước",
-      "Sản xuất phát triển → tư hữu xuất hiện → đấu tranh giai cấp → xuất hiện nhà nước",
-      "Ba lần phân công lao động → xuất hiện tư tưởng → mâu thuẫn giai cấp → xuất hiện nhà nước"
-    ],
+    [cite_start]"q": "Khẳng định nào dưới đây là sai? [cite: 98]",
+    "a": ["Nhà nước tồn tại trong mọi hình thái kinh tế xã hội.", "Nhà nước chỉ sinh ra và tồn tại trong xã hội có giai cấp.", "Nhà nước là sản phẩm và biểu hiện của những mâu thuẫn giai cấp không thể điều hòa được.", "Nhà nước là công cụ để thể hiện ý chí, củng cố và bảo vệ lợi ích của giai cấp cầm quyền trong xã hội."],
+    "c": 0
+  },
+  {
+    [cite_start]"q": "Việc đưa ra các quan điểm, học thuyết về nhà nước là để: [cite: 103]",
+    "a": ["Che đậy bản chất giai cấp của nhà nước", "Giải thích về sự tồn tại và phát triển của nhà nước.", "Bảo vệ nhà nước của giai cấp thống trị.", "Lý giải một cách thiếu căn cứ khoa học về nhà nước."],
     "c": 1
+  },
+  {
+    [cite_start]"q": "Lựa chọn quá trình đúng nhất về sự ra đời của nhà nước: [cite: 109]",
+    "a": ["Sản xuất phát triển, tư hữu hình thành, phân hóa giai cấp, xuất hiện nhà nước.", "Ba lần phân công lao động, tư hữu xuất hiện; phân hóa giai cấp; xuất hiện nhà nước.", "Sản xuất phát triển, tư hữu xuất hiện, đấu tranh giai cấp, xuất hiện nhà nước.", "Ba lần phân công lao động, xuất hiện tư tưởng, mâu thuẫn giai cấp, xuất hiện nhà nước."],
+    "c": 2
   },
 ];
+// ========================================================
 
 let index = 0;
 let answered = false;
 
+// 🔀 Hàm trộn mảng
 function shuffle(array) {
   return array
     .map(v => ({ v, sort: Math.random() }))
@@ -260,17 +185,30 @@ function shuffle(array) {
     .map(({ v }) => v);
 }
 
+// 🔥 BẮT ĐẦU / LÀM LẠI BÀI THI
+function startQuiz() {
+  index = 0;
+  answered = false;
+  shuffle(questions); // đảo câu hỏi
+  loadQuestion();
+}
+
+// 🔥 LOAD CÂU HỎI
 function loadQuestion() {
   answered = false;
   const q = questions[index];
+
   document.getElementById("question").innerText =
-    `Câu ${index + 1}: ` + q.q;
+    `Câu ${index + 1}: ${q.q}`;
 
   const answersDiv = document.getElementById("answers");
   answersDiv.innerHTML = "";
 
-  const mixed = q.a.map((text, i) => ({ text, i }));
-  shuffle(mixed).forEach(ans => {
+  // tạo danh sách đáp án + chỉ số gốc
+  const mixedAnswers = q.a.map((text, i) => ({ text, i }));
+  shuffle(mixedAnswers); // đảo đáp án
+
+  mixedAnswers.forEach(ans => {
     const div = document.createElement("div");
     div.className = "answer";
     div.innerText = ans.text;
@@ -279,6 +217,7 @@ function loadQuestion() {
   });
 }
 
+// ✅ KIỂM TRA ĐÁP ÁN
 function checkAnswer(element, chosenIndex) {
   if (answered) return;
   answered = true;
@@ -300,17 +239,22 @@ function checkAnswer(element, chosenIndex) {
   }
 }
 
+// ▶️ CÂU TIẾP / LÀM LẠI
 function nextQuestion() {
   index++;
   if (index >= questions.length) {
-    alert("Bạn đã hoàn thành bài thi 🎉");
-    index = 0;
+    alert("Bạn đã hoàn thành bài thi 🎉\nLàm lại với câu hỏi mới!");
+    startQuiz(); // 🔥 làm lại → đảo lại toàn bộ
+    return;
   }
   loadQuestion();
 }
 
-loadQuestion();
+// 🚀 CHẠY LẦN ĐẦU
+startQuiz();
 </script>
+
 </body>
 </html>
+
 
