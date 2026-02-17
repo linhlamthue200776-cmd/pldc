@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thi trắc nghiệm</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 15px;
+  font-size: 18px;
+}
+
+.container {
+  max-width: 100%;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.answer {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.answer:active {
+  background: #eef;
+}
+
+.correct {
+  background: #c8f7c5;
+  border-color: green;
+}
+
+.wrong {
+  background: #f7c5c5;
+  border-color: red;
+}
+
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+}
+
+button:active {
+  background: #2980b9;
+}
+</style>
+</head>
+
+
+<body>
+<div class="container">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+  <button onclick="nextQuestion()">Câu tiếp theo</button>
+</div>
+
+<script>
+const questions = [
+{
+    "q": "Hệ thống pháp luật là gì?",
+    "a": [
+      "Tổng hợp các văn bản pháp luật",
+      "Tổng thể các quy phạm pháp luật có mối liên hệ nội tại, thống nhất",
+      "Toàn bộ các luật do nhà nước ban hành",
+      "Các quy định pháp luật được áp dụng trong xã hội"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Căn cứ để phân chia hệ thống pháp luật thành các ngành luật là:",
+    "a": [
+      "Chủ thể ban hành pháp luật",
+      "Hình thức văn bản pháp luật",
+      "Đối tượng điều chỉnh và phương pháp điều chỉnh",
+      "Phạm vi áp dụng pháp luật"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Đối tượng điều chỉnh của ngành luật là:",
+    "a": [
+      "Các quan hệ xã hội do pháp luật điều chỉnh",
+      "Các quan hệ xã hội cùng loại được pháp luật điều chỉnh",
+      "Các quy phạm pháp luật",
+      "Các hành vi hợp pháp"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Phương pháp điều chỉnh của ngành luật là:",
+    "a": [
+      "Cách thức tác động của pháp luật lên các quan hệ xã hội",
+      "Hình thức ban hành pháp luật",
+      "Biện pháp cưỡng chế nhà nước",
+      "Quyền lực của cơ quan nhà nước"
+    ],
+    "c": 0
+  },
+  {
+    "q": "Ngành luật nào sau đây điều chỉnh quan hệ tài sản và quan hệ nhân thân?",
+    "a": [
+      "Luật Hành chính",
+      "Luật Hình sự",
+      "Luật Dân sự",
+      "Luật Hiến pháp"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Ngành luật nào điều chỉnh các quan hệ xã hội phát sinh trong quá trình quản lý hành chính nhà nước?",
+    "a": [
+      "Luật Dân sự",
+      "Luật Hành chính",
+      "Luật Lao động",
+      "Luật Tài chính"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Ngành luật nào quy định tội phạm và hình phạt?",
+    "a": [
+      "Luật Tố tụng",
+      "Luật Dân sự",
+      "Luật Hình sự",
+      "Luật Hiến pháp"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Luật Hiến pháp có vị trí như thế nào trong hệ thống pháp luật Việt Nam?",
+    "a": [
+      "Là ngành luật quan trọng",
+      "Là ngành luật cơ bản, giữ vị trí chủ đạo",
+      "Là ngành luật áp dụng rộng rãi",
+      "Là ngành luật điều chỉnh quan hệ kinh tế"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Ngành luật nào điều chỉnh quan hệ lao động giữa người lao động và người sử dụng lao động?",
+    "a": [
+      "Luật Dân sự",
+      "Luật Hành chính",
+      "Luật Lao động",
+      "Luật Kinh tế"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Ngành luật nào điều chỉnh các quan hệ xã hội phát sinh trong lĩnh vực tài chính – ngân sách?",
+    "a": [
+      "Luật Tài chính",
+      "Luật Dân sự",
+      "Luật Hình sự",
+      "Luật Đất đai"
+    ],
+    "c": 0
+  },
+{
+    "q": "Văn bản quy phạm pháp luật là:",
+    "a": [
+      "Văn bản do cơ quan nhà nước ban hành",
+      "Văn bản chứa các quy phạm pháp luật, do cơ quan có thẩm quyền ban hành theo trình tự, thủ tục luật định",
+      "Văn bản áp dụng cho từng cá nhân",
+      "Văn bản hướng dẫn thực hiện pháp luật"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Hệ thống văn bản quy phạm pháp luật Việt Nam được ban hành theo nguyên tắc:",
+    "a": [
+      "Thống nhất, đồng bộ và có hiệu lực pháp lý khác nhau",
+      "Bình đẳng về hiệu lực pháp lý",
+      "Do một cơ quan duy nhất ban hành",
+      "Không có sự phân cấp"
+    ],
+    "c": 0
+  },
+  {
+    "q": "Văn bản nào có hiệu lực pháp lý cao nhất trong hệ thống pháp luật Việt Nam?",
+    "a": [
+      "Luật",
+      "Nghị quyết của Quốc hội",
+      "Hiến pháp",
+      "Pháp lệnh"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Hiệu lực của văn bản quy phạm pháp luật được xác định theo:",
+    "a": [
+      "Không gian và thời gian",
+      "Thời gian, không gian và đối tượng áp dụng",
+      "Đối tượng và phạm vi điều chỉnh",
+      "Thời gian và nội dung văn bản"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Hiệu lực về thời gian của văn bản quy phạm pháp luật được tính từ:",
+    "a": [
+      "Ngày ký ban hành",
+      "Ngày thông qua",
+      "Ngày có hiệu lực ghi trong văn bản",
+      "Ngày công bố"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Hiệu lực về không gian của văn bản quy phạm pháp luật là:",
+    "a": [
+      "Phạm vi đối tượng áp dụng",
+      "Phạm vi lãnh thổ áp dụng",
+      "Phạm vi thời gian áp dụng",
+      "Phạm vi ngành luật"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Áp dụng pháp luật là:",
+    "a": [
+      "Hoạt động ban hành pháp luật",
+      "Hoạt động thực hiện pháp luật của cá nhân",
+      "Hoạt động của cơ quan nhà nước có thẩm quyền căn cứ vào pháp luật để giải quyết vụ việc cụ thể",
+      "Hoạt động tuyên truyền pháp luật"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Đặc điểm nào sau đây thuộc về áp dụng pháp luật?",
+    "a": [
+      "Mang tính tự nguyện",
+      "Do mọi cá nhân thực hiện",
+      "Mang tính quyền lực nhà nước",
+      "Không cần căn cứ pháp luật"
+    ],
+    "c": 2
+  },
+  {
+    "q": "Văn bản áp dụng pháp luật là:",
+    "a": [
+      "Văn bản chứa quy phạm pháp luật",
+      "Văn bản do cơ quan nhà nước ban hành để giải quyết vụ việc cụ thể",
+      "Văn bản hướng dẫn chung",
+      "Văn bản mang tính tuyên truyền"
+    ],
+    "c": 1
+  },
+  {
+    "q": "Trong trường hợp các văn bản quy phạm pháp luật có hiệu lực pháp lý khác nhau quy định khác nhau về cùng một vấn đề thì áp dụng:",
+    "a": [
+      "Văn bản ban hành sau",
+      "Văn bản chuyên ngành",
+      "Văn bản có hiệu lực pháp lý cao hơn",
+      "Văn bản do cơ quan trung ương ban hành"
+    ],
+    "c": 2
+  },
+];
+
+let index = 0;
+let answered = false;
+
+function shuffle(array) {
+  return array
+    .map(v => ({ v, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ v }) => v);
+}
+
+function loadQuestion() {
+  answered = false;
+  const q = questions[index];
+  document.getElementById("question").innerText =
+    `Câu ${index + 1}: ` + q.q;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  const mixed = q.a.map((text, i) => ({ text, i }));
+  shuffle(mixed).forEach(ans => {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.innerText = ans.text;
+    div.onclick = () => checkAnswer(div, ans.i);
+    answersDiv.appendChild(div);
+  });
+}
+
+function checkAnswer(element, chosenIndex) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[index];
+  const all = document.querySelectorAll(".answer");
+
+  all.forEach(a => a.onclick = null);
+
+  if (chosenIndex === q.c) {
+    element.classList.add("correct");
+  } else {
+    element.classList.add("wrong");
+    all.forEach(a => {
+      if (a.innerText === q.a[q.c]) {
+        a.classList.add("correct");
+      }
+    });
+  }
+}
+
+function nextQuestion() {
+  index++;
+  if (index >= questions.length) {
+    alert("Bạn đã hoàn thành bài thi 🎉");
+    index = 0;
+  }
+  loadQuestion();
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
