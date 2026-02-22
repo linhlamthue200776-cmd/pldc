@@ -29,18 +29,36 @@ body {
   margin-bottom: 10px;
 }
 
+button {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  background: #3498db;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button.submit {
+  background: #e74c3c;
+}
+
+.hidden {
+  display: none;
+}
+
 .question-grid {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   gap: 6px;
-  margin-bottom: 15px;
+  margin: 10px 0 15px;
 }
 
 .qbox {
   padding: 8px 0;
   text-align: center;
-  border-radius: 5px;
   background: #ddd;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
 }
@@ -71,20 +89,6 @@ body {
   gap: 10px;
   margin-top: 15px;
 }
-
-button {
-  flex: 1;
-  padding: 14px;
-  font-size: 17px;
-  border-radius: 8px;
-  border: none;
-  background: #3498db;
-  color: white;
-}
-
-button.submit {
-  background: #e74c3c;
-}
 </style>
 </head>
 
@@ -96,8 +100,9 @@ button.submit {
     <div id="progress">Câu 1 / 50</div>
   </div>
 
-  <!-- BẢNG CHỌN CÂU -->
-  <div class="question-grid" id="questionGrid"></div>
+  <button onclick="toggleGrid()" id="toggleBtn">📋 Hiện bảng câu hỏi</button>
+
+  <div class="question-grid hidden" id="questionGrid"></div>
 
   <h2 id="question"></h2>
   <div id="answers"></div>
@@ -2486,9 +2491,7 @@ function startQuiz() {
   quizQuestions = shuffle([...questions]).slice(0, 50);
   quizQuestions = quizQuestions.map(q => ({
     ...q,
-    answers: shuffle(
-      q.a.map((t, i) => ({ text: t, correct: i === q.c }))
-    )
+    answers: shuffle(q.a.map((t, i) => ({ text: t, correct: i === q.c })))
   }));
 
   renderGrid();
@@ -2508,7 +2511,7 @@ function startTimer() {
   }, 1000);
 }
 
-// ================== BẢNG CHỌN CÂU ==================
+// ================== GRID ==================
 function renderGrid() {
   const grid = document.getElementById("questionGrid");
   grid.innerHTML = "";
@@ -2527,13 +2530,11 @@ function renderGrid() {
   });
 }
 
-// ================== LOAD CÂU ==================
+// ================== LOAD ==================
 function loadQuestion() {
   const q = quizQuestions[current];
-
   document.getElementById("question").innerText =
     `Câu ${current + 1}: ${q.q}`;
-
   document.getElementById("progress").innerText =
     `Câu ${current + 1} / ${quizQuestions.length}`;
 
@@ -2571,27 +2572,38 @@ function prevQuestion() {
   }
 }
 
+// ================== ẨN / HIỆN GRID ==================
+function toggleGrid() {
+  const grid = document.getElementById("questionGrid");
+  const btn = document.getElementById("toggleBtn");
+
+  grid.classList.toggle("hidden");
+  btn.innerText = grid.classList.contains("hidden")
+    ? "📋 Hiện bảng câu hỏi"
+    : "❌ Ẩn bảng câu hỏi";
+}
+
 // ================== NỘP BÀI ==================
 function submitQuiz() {
   if (!confirm("Bạn chắc chắn muốn nộp bài?")) return;
   finishQuiz();
 }
 
-// ================== CHẤM BÀI ==================
+// ================== CHẤM ==================
 function finishQuiz() {
   clearInterval(timer);
 
   let correct = 0;
   quizQuestions.forEach((q, i) => {
-    const choice = answers[i];
-    if (choice !== null && q.answers[choice].correct) correct++;
+    const c = answers[i];
+    if (c !== null && q.answers[c].correct) correct++;
   });
 
   const score10 = ((correct / quizQuestions.length) * 10).toFixed(2);
 
   alert(
     `📝 KẾT QUẢ\n\n` +
-    `Số câu đúng: ${correct}/${quizQuestions.length}\n` +
+    `Đúng: ${correct}/${quizQuestions.length}\n` +
     `Điểm (thang 10): ${score10}`
   );
 }
