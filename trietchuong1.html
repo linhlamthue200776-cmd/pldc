@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thi trắc nghiệm</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 15px;
+  font-size: 18px;
+}
+
+.container {
+  max-width: 100%;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+.answer {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.answer:active {
+  background: #eef;
+}
+
+.correct {
+  background: #c8f7c5;
+  border-color: green;
+}
+
+.wrong {
+  background: #f7c5c5;
+  border-color: red;
+}
+
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+}
+
+button:active {
+  background: #2980b9;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+  <button onclick="nextQuestion()">Câu tiếp theo</button>
+</div>
+
+<script>
+// ================== DỮ LIỆU CÂU HỎI ==================
+const questions = [
+  {
+    q: "Điền vào chỗ trống: “Triết học là… về thế giới và vị trí con người, trong thế giới đó, là khoa học về sự vận động, phát triển chung nhất của tự nhiên, xã hội và tư duy”.",
+    a: ["Hệ thống quan điểm duy nhất", "Hệ thống lý luận về quan điểm", "Hệ thống lý luận chung nhất", "Hệ thống luận điểm duy nhất"],
+    c: 2
+  },
+  {
+    q: "Điền vào chỗ trống: “… là hệ thống lý luận chung nhất về thế giới và vị trí con người, trong thế giới đó, là khoa học về sự vận động, phát triển chung nhất của tự nhiên, xã hội và tư duy”.",
+    a: ["Thế giới quan", "Triết học", "Phương pháp luận", "Chủ nghĩa duy vật biện chứng"],
+    c: 1
+  },
+  {
+    q: "Cụm từ “Chung nhất” trong định nghĩa triết học muốn nói đến điều gì?",
+    a: ["Triết học là lý luận về tất cả mọi lĩnh vực", "Triết học là lý luận mang tính khái quát cao", "Triết học là một lý luận duy nhất", "Triết học là một lý luận tốt nhất"],
+    c: 1
+  },
+  {
+    q: "Tư duy triết học bắt đầu từ đâu?",
+    a: ["Từ những lực lượng siêu nhiên bên ngoài", "Từ những cảm giác, nhận thức chủ quan", "Từ các triết lý, sự khôn ngoan, từ tình yêu sự thông thái dần hình thành hệ thống tri thức", "Cả ba phương án trên đều đúng"],
+    c: 2
+  },
+  {
+    q: "Tầng lớp trí thức có vai trò như thế nào đối với sự hình thành của triết học?",
+    a: ["Không có vai trò gì", "Chỉ truyền bá những tư tưởng trong nhân dân", "Sáng tác những câu chuyện thần thoại", "Khái quát những hiểu biết của con người về thế giới thành lý luận"],
+    c: 3
+  },
+  {
+    q: "Chọn nhận định đúng về vai trò của triết học đối với đời sống xã hội.",
+    a: ["Tạo ra của cải vật chất", "Tăng năng suất lao động", "Ổn định trật tự xã hội", "Tạo cơ sở đúng đắn cho việc thực hiện những điều trên"],
+    c: 3
+  },
+  {
+    q: "Điền vào chỗ trống: “… là khái niệm triết học dùng để chỉ hệ thống các tri thức, quan điểm, tình cảm, niềm tin, lý tưởng xác định về thế giới và vị trí con người trong thế giới đó”.",
+    a: ["Phương pháp luận", "Thế giới quan", "Chủ nghĩa duy vật", "Chủ nghĩa duy tâm"],
+    c: 1
+  },
+  {
+    q: "Điền vào chỗ trống: ‘Thế giới quan là khái niệm triết học dùng để chỉ hệ thống các tri thức, quan điểm, tình cảm, niềm tin, lý tưởng xác định về…trong thế giới đó”.",
+    a: ["Vũ trụ và tầm vóc của con người", "Xã hội và vai trò của con người", "Thế giới loài người và loài người", "Thế giới và vị trí của con người"],
+    c: 3
+  },
+  {
+    q: "Thế giới quan có thể được hiểu một cách ngắn gọn là:",
+    a: ["Hệ thống quan điểm của con người về thế giới", "Bức tranh chung về thế giới", "Cảm nhận về thế giới", "Nhận thức chung về cuộc đời"],
+    c: 0
+  },
+  {
+    q: "Thế giới quan quy định điều gì trong việc định hướng nhận thức và hoạt động thực tiễn của con người?",
+    a: ["Các nguyên tắc, thái độ, giá trị", "Các nguyên nhân, mức độ và giá trị", "Điều kiện, nền tảng và cách thức", "Điều kiện, giá trị và điều lệ"],
+    c: 0
+  },
+  {
+    q: "Sự hình thành các trường phái khác nhau trong triết học xuất phát từ sự khác biệt về:",
+    a: ["Trình độ tư duy", "Giai cấp", "Thế giới quan", "Vị trí địa lý"],
+    c: 2
+  },
+  {
+    q: "Thế giới quan đúng đắn là một thế giới quan như thế nào?",
+    a: ["Phù hợp với cách nghĩ của chủ thể", "Phù hợp với tâm lý chung của xã hội", "Đúng với đạo đức xã hội", "Phù hợp với hiện thực khách quan"],
+    c: 3
+  },
+  {
+    q: "Thế giới quan và nhân sinh quan có mối quan hệ như thế nào?",
+    a: ["Thế giới quan bao hàm cả nhân sinh quan", "Thế giới quan đối lập với nhân sinh quan", "Thế giới quan không liên hệ với nhân sinh quan", "Thế giới quan là một phần của nhân sinh quan"],
+    c: 0
+  },
+  {
+    q: "Triết học có vai trò như thế nào đối với thế giới quan?",
+    a: ["Là linh hồn của thế giới quan", "Là nguyên nhân – lý luận", "Là hạt nhân – lý luận", "Là vấn đề cơ bản"],
+    c: 2
+  },
+  {
+    q: "Triết học là hạt nhân của thế giới quan được hiểu là:",
+    a: ["Triết học có chức năng xây dựng thế giới quan", "Thế giới quan là giai đoạn phát triển cao", "Không thể có thế giới quan nếu không có triết học", "Thế giới quan bao trùm cả triết học"],
+    c: 0
+  },
+  {
+    q: "Theo F. Ăngghen, vấn đề cơ bản lớn của mọi triết học là:",
+    a: ["Quan hệ giữa mặt hạn chế và tồn tại", "Quan hệ giữa biện chứng và siêu hình", "Vấn đề quan hệ giữa tư duy với tồn tại", "Quan hệ giữa con người với thế giới"],
+    c: 2
+  },
+  {
+    q: "Mối quan hệ giữa tư duy và tồn tại là muốn nói đến mối quan hệ giữa hai yếu tố nào?",
+    a: ["Những vấn đề không tồn tại và đang tồn tại", "Ý thức và sự tồn vong", "Ý thức và vật chất", "Thế giới ảo và thế giới thực"],
+    c: 2
+  },
+  {
+    q: "Hai mặt trong vấn đề cơ bản của triết học là:",
+    a: ["Khả tri luận và bất khả tri luận", "Nhị nguyên luận và nhất nguyên luận", "Bản thể luận và nhận thức luận", "Hoài nghi luận và ý thức luận"],
+    c: 2
+  },
+  {
+    q: "Bản thể luận trong vấn đề cơ bản của triết học được hiểu là:",
+    a: ["Bàn luận về bản chất con người", "Bàn về bản chất của triết học", "Bàn về yếu tố đầu tiên hình thành và quyết định thế giới", "Bàn về thể thức nghiên cứu của triết học"],
+    c: 2
+  },
+  {
+    q: "Mặt bản thể luận trong vấn đề cơ bản của triết học giải quyết nội dung gì?",
+    a: ["Mối quan hệ giữa con người với thế giới", "Mối quan hệ giữa vật chất và ý thức", "Mối quan hệ giữa bản chất và hiện tượng", "Quan hệ giữa thực thể tự nhiên và xã hội"],
+    c: 1
+  },
+  {
+    q: "Mặt bản thể luận trả lời cho câu hỏi lớn nào?",
+    a: ["Giữa vật chất và ý thức cái nào có trước, có sau, cái nào phủ định?", "Cái nào quan trọng hơn?", "Cái nào quyết định cái còn lại?", "Giữa vật chất và ý thức cái nào có trước, có sau, cái nào quyết định cái nào?"],
+    c: 3
+  },
+  {
+    q: "Mặt nhận thức luận giải quyết nội dung gì?",
+    a: ["Luận giải nguồn gốc ý thức", "Khả năng tư duy trừu tượng", "Khả năng nhận thức của con người về thế giới", "Bàn luận nguồn gốc thế giới"],
+    c: 2
+  },
+  {
+    q: "Mặt nhận thức luận trả lời cho câu hỏi lớn nào?",
+    a: ["Con người có khả năng thâu tóm thế giới không?", "Con người có khả năng nhận thức được thế giới hay không?", "Con người có khả năng chế ngự tự nhiên không?", "Con người có khả năng tồn tại không?"],
+    c: 1
+  },
+  {
+    q: "Giải quyết vấn đề cơ bản ảnh hưởng như thế nào đến sự phát triển của triết học?",
+    a: ["Giải quyết xong mọi vấn đề", "Bàn luận khoa học cơ bản", "Giải quyết tranh cãi vật chất trước hay sau", "Tạo tiền đề cho việc hình thành các trường phái triết học"],
+    c: 3
+  },
+  {
+    q: "Chủ nghĩa duy tâm có những trường phái nào?",
+    a: ["Duy tâm thần bí và siêu hình", "Duy tâm khách quan và duy tâm chủ quan", "Duy tâm biện chứng và siêu hình", "Duy tâm thần thánh và con người"],
+    c: 1
+  },
+  {
+    q: "Quan niệm: “Sống chết có mệnh, giàu sang do trời” phản ánh trường phái nào?",
+    a: ["Duy tâm chủ quan", "Duy tâm khách quan", "Duy vật siêu hình", "Duy vật cổ đại"],
+    c: 1
+  },
+  {
+    q: "Chủ nghĩa duy vật có những trường phái nào?",
+    a: ["Duy vật siêu hình và biện chứng", "Duy vật chất phác và siêu hình", "Duy vật chất phác cổ đại, duy vật siêu hình và duy vật biện chứng", "Duy vật chất phác và biện chứng"],
+    c: 2
+  },
+  {
+    q: "Chủ nghĩa duy vật lịch sử là kết quả của hoạt động nào?",
+    a: ["Nghiên cứu sự phát triển duy vật", "Nghiên cứu quan điểm duy vật", "Vận dụng và mở rộng quan điểm duy vật biện chứng vào nghiên cứu lịch sử xã hội", "Vận dụng lịch sử nghiên cứu triết học"],
+    c: 2
+  },
+  {
+    q: "Câu thành ngữ “Phú quý sinh lễ nghĩa” phản ánh quan điểm trường phái nào?",
+    a: ["Chủ nghĩa duy vật", "Chủ nghĩa duy tâm", "Nhị nguyên luận", "Không thuộc trường phái nào"],
+    c: 0
+  },
+  {
+    q: "Chủ nghĩa duy tâm giải quyết mặt bản thể luận như thế nào?",
+    a: ["Vật chất và ý thức sinh ra đồng thời", "Thế giới tinh thần có trước và quyết định sự tồn tại của thế giới vật chất", "Tinh thần là sản phẩm vật chất", "Tinh thần tồn tại vĩnh hằng duy nhất"],
+    c: 1
+  },
+  {
+    q: "Chủ nghĩa duy vật giải quyết mặt bản thể luận như thế nào?",
+    a: ["Vật chất là cái có trước, vật chất quyết định ý thức", "Tinh thần có trước quyết định vật chất", "Sinh ra đồng thời", "Tinh thần duy nhất"],
+    c: 0
+  },
+  {
+    q: "Vì con người không thể nhận thức hết vũ trụ, giải quyết bản thể luận cần theo hướng nào?",
+    a: ["Làm rõ cái nào trước cái nào sau để tiếp tục nghiên cứu", "Thừa nhận cùng xuất hiện", "Không cần xác định cái nào trước", "Xác định tương đối"],
+    c: 0
+  },
+  {
+    q: "Nhận định đúng về khả năng nhận thức của con người đối với thế giới khách quan?",
+    a: ["Không thể nhận thức", "Có thể nhận thức đầy đủ", "Hiện tại chưa thể", "Con người hoàn toàn nhận thức được nhưng sẽ không đầy đủ"],
+    c: 3
+  },
+  {
+    q: "Câu thành ngữ “Ếch ngồi đáy giếng” thể hiện điều gì?",
+    a: ["Nhận thức sai lầm", "Nhận thức lệch lạc", "Ít hiểu biết, kiến thức nông cạn, ngông nghênh, tự phụ, phiến diện", "Nhận thức cảm tính"],
+    c: 2
+  },
+  {
+    q: "Lý luận khái quát các quan điểm để xác định phương pháp hoạt động cụ thể của nhận thức và thực tiễn là:",
+    a: ["Thế giới quan khoa học", "Phương pháp luận", "Thế giới quan triết học", "Phương pháp luận triết học"],
+    c: 3
+  },
+  {
+    q: "Trong triết học, có hai phương pháp tư duy chung nhất đối lập nhau đó là:",
+    a: ["Quy nạp và diễn dịch", "Chứng minh và phản chứng", "Trừu tượng và cụ thể", "Phương pháp biện chứng và phương pháp siêu hình"],
+    c: 3
+  },
+  {
+    q: "Phương pháp tư duy biện chứng ưu việt hơn siêu hình ở điểm nào?",
+    a: ["Cái nhìn một chiều sâu sắc", "Có cái nhìn đa chiều, đầy đủ hơn", "Đầy đủ chứng cứ", "Tính phản biện cao"],
+    c: 1
+  },
+  {
+    q: "Người học cần vận dụng phương pháp nào để đánh giá sự vật khách quan, khoa học?",
+    a: ["Tư duy trừu tượng", "Phương pháp tư duy siêu hình", "Tư duy phiến diện", "Phương pháp tư duy biện chứng"],
+    c: 3
+  },
+  {
+    q: "“Không thầy đố mày làm nên” và “Học thầy không tày học bạn” thể hiện tư duy:",
+    a: ["Siêu hình", "Biện chứng", "Duy tâm", "Duy vật"],
+    c: 1
+  },
+  {
+    q: "Các hình thức cơ bản của phép biện chứng trong lịch sử:",
+    a: ["Biện chứng tự phát, duy tâm và duy vật", "Biện chứng tự nhiên, xã hội và tư duy", "Khách quan, chủ quan và duy ý chí", "Toàn diện, cụ thể và lịch sử"],
+    c: 0
+  },
+  {
+    q: "Các nhà sáng lập triết học Mác kế thừa “hạt nhân hợp lý” từ Hegel để xây dựng lý luận:",
+    a: ["Chủ nghĩa duy vật biện chứng", "Chủ nghĩa duy vật lịch sử", "Phép biện chứng duy vật", "Tất cả sai"],
+    c: 2
+  },
+  {
+    q: "… là hệ thống quan điểm duy vật biện chứng về tự nhiên, xã hội và tư duy:",
+    a: ["Triết học", "Triết học hiện sinh", "Triết học Mác - Lênin", "Triết học cổ điển Anh"],
+    c: 2
+  },
+  {
+    q: "Bộ phận nào giữ vai trò là thế giới quan và phương pháp luận chung nhất trong chủ nghĩa Mác?",
+    a: ["Triết học Mác - Lênin", "Kinh tế chính trị Mác – Lênin", "Chủ nghĩa xã hội khoa học", "Chủ nghĩa duy vật lịch sử"],
+    c: 0
+  },
+  {
+    q: "Thành tựu KHTN (Năng lượng, tiến hóa, tế bào) cung cấp tiền đề gì?",
+    a: ["Làm rõ tính thống nhất vật chất của thế giới", "Làm rõ nguồn gốc loài người", "Chứng minh sự thống nhất KHTN và triết học", "Triết học là khoa học các khoa học"],
+    c: 0
+  },
+  {
+    q: "Sự ra đời triết học Mác dựa trên triết học Đức, kinh tế Anh, xã hội Pháp là kết quả của:",
+    a: ["Phủ định hoàn toàn", "Pha trộn", "Sự kế thừa có chọn lọc và phát triển sáng tạo", "Kế thừa nguyên vẹn"],
+    c: 2
+  },
+  {
+    q: "Thực tiễn cách mạng giai cấp vô sản là cơ sở ra đời triết học Mác, chứng tỏ:",
+    a: ["Vô sản cung cấp ý tưởng cho Mác", "Mọi triết học đều xuất phát từ nhu cầu thực tiễn và dùng để phục vụ thực tiễn", "Khái quát đấu tranh vô sản", "Cung cấp chất liệu sáng tạo"],
+    c: 1
+  },
+  {
+    q: "Vai trò của V.I. Lênin đối với triết học Mác là:",
+    a: ["Bảo vệ và phát triển sáng tạo", "Bảo tồn nguyên giá trị", "Bảo vệ và sử dụng", "Phản biện phủ định sai trái"],
+    c: 0
+  },
+  {
+    q: "Lý luận bổ sung từ Lênin đối với triết học Mác – Lênin dựa trên cơ sở nào?",
+    a: ["Ý tưởng Lênin", "Triết học Mác khuyết thiếu", "Mác đặt ra cho hậu thế", "Đòi hỏi khách quan của thời đại và thực tiễn cách mạng trong thời kỳ mới"],
+    c: 3
+  },
+  {
+    q: "“Chúng ta không coi lý luận của Mác như cái gì đã xong xuôi và bất khả xâm phạm” nhấn mạnh:",
+    a: ["Hạn chế không sửa được", "Còn dang dở nên bảo tồn", "Là học thuyết về sự phát triển luôn đòi hỏi được bổ sung, phát triển không ngừng", "Lạc hậu chỉ hợp lịch sử trước"],
+    c: 2
+  },
+  {
+    q: "Tại sao hiện nay việc phát triển lý luận triết học Mác là cấp thiết? Chọn đáp án SAI:",
+    a: ["Do mong muốn chủ quan của các nhà nghiên cứu", "Sự biến đổi năng động của đời sống", "Khủng hoảng chủ nghĩa xã hội", "Sự phát triển lý luận và đổi mới thực tiễn là thống nhất"],
+    c: 0
+  },
+  {
+    q: "Phát kiến vĩ đại thiên tài của Mác trong lĩnh vực triết học là:",
+    a: ["Giá trị thặng dư", "Chủ nghĩa duy vật lịch sử", "Sự mệnh giai cấp công nhân", "Không có"],
+    c: 1
+  },
+  {
+    q: "Triết học Mác là cơ sở thế giới quan, phương pháp luận khoa học dựa trên cơ sở:",
+    a: ["Chỉ ra quy luật vận động phát triển chung nhất của tự nhiên, xã hội và tư duy", "Chìa khóa vạn năng", "Dự báo chính xác tương lai", "Hoạch định chính sách"],
+    c: 0
+  },
+  {
+    q: "Tại sao sinh viên cần học Triết học Mác - Lênin? Chọn đáp án đúng nhất:",
+    a: ["Bắt buộc, ảnh hưởng việc làm", "Giúp sinh viên trang bị được thế giới quan và phương pháp luận khoa học, cách mạng", "Để người khác thán phục", "Là khoa học các khoa học"],
+    c: 1
+  },
+  {
+    q: "Để tiếp thu hiệu quả tri thức triết học, sinh viên cần nhất điều gì?",
+    a: ["Ghi nhớ tốt", "Tài liệu ngắn nhất", "Khả năng bẩm sinh", "Trải nghiệm thực tiễn phong phú và nền tảng kiến thức phổ thông vững chắc"],
+    c: 3
+  },
+  {
+    q: "Muốn hiệu quả trong làm việc nhóm, trước tiên cần phải:",
+    a: ["Thống nhất về thế giới quan và phương pháp luận", "Nhiệt tình, lạc quan", "Chọn người giỏi nhất", "Cần thủ lĩnh giỏi"],
+    c: 0
+  },
+  {
+    q: "Học triết học và khoa học khác cần nắm vững nguyên tắc:",
+    a: ["Học không ngắt quãng", "Theo năng lực", "Học tập lý luận gắn với vận dụng thực tiễn sinh động", "Tâm lý tốt"],
+    c: 2
+  },
+  {
+    q: "Thực chất cuộc cách mạng triết học do Mác và Ăngghen thực hiện?",
+    a: ["Khắc phục hạn chế lịch sử", "Sáng tạo duy vật lịch sử", "Sáng tạo triết học duy vật biện chứng", "Tất cả đáp án trên đều đúng"],
+    c: 3
+  },
+  {
+    q: "Để cải cách tư tưởng cá nhân và xã hội, nên dựa vào cơ sở khoa học nào là tốt nhất?",
+    a: ["Đạo đức học", "Tâm lý học", "Triết học Mác - Lênin", "Giáo dục học"],
+    c: 2
+  },
+  {
+    q: "Vai trò triết học Mác - Lênin với đổi mới ở Việt Nam?",
+    a: ["Nền tảng đổi mới tư duy", "Tìm lời giải con đường đi lên", "Bổ sung lý luận qua thực tiễn", "Giải quyết vấn đề xây dựng đất nước", "Tất cả đáp án trên đều đúng"],
+    c: 4
+  },
+  {
+    q: "Đường lối cách mạng của Đảng CSVN là vận dụng sáng tạo của:",
+    a: ["Chủ nghĩa Mác", "Chủ nghĩa Mác – Lênin", "Chủ nghĩa Mác – Lênin và tư tưởng Hồ Chí Minh", "Chủ nghĩa Mác và tư tưởng Hồ Chí Minh"],
+    c: 2
+  },
+  {
+    q: "Điền chỗ trống: Triết học Mác – Lênin là hệ thống quan điểm … về tự nhiên, xã hội và tư duy:",
+    a: ["Duy vật biện chứng", "Duy vật siêu hình", "Duy tâm khách quan", "Duy tâm chủ quan"],
+    c: 0
+  },
+  {
+    q: "Triết học Mác – Lênin là thế giới quan khoa học của:",
+    a: ["Trí thức", "Tư sản", "Quý tộc", "Giai cấp công nhân, nhân dân lao động"],
+    c: 3
+  },
+  {
+    q: "Yếu tố nào không phải điều kiện khách quan cho sự ra đời triết học Mác?",
+    a: ["Phong trào công nhân", "Triết học Đức", "Nền đại công nghiệp", "Sự thay đổi lập trường của Mác"],
+    c: 3
+  },
+  {
+    q: "“Chỉ thấy cây mà không thấy rừng” là biểu hiện của phương pháp:",
+    a: ["Biện chứng", "Siêu hình", "Trừu tượng", "Độc lập"],
+    c: 1
+  },
+  {
+    q: "“Không ai tắm hai lần trên một dòng sông” thể hiện phương pháp:",
+    a: ["Biện chứng", "Siêu hình", "Trừu tượng", "Độc lập"],
+    c: 0
+  },
+  {
+    q: "“Vẻ đẹp không nằm ở đôi má hồng... mà ở mắt kẻ si tình” là trường phái:",
+    a: ["Duy tâm chủ quan", "Duy tâm khách quan", "Duy vật siêu hình", "Duy vật biện chứng"],
+    c: 0
+  },
+  {
+    q: "Ý nghĩa lịch sử to lớn của triết học Mác – Lênin?",
+    a: ["Kết hợp 3 nhà tư tưởng", "Đứng trên lập trường người lao động", "Nghiên cứu vật chất và ý thức", "Xây dựng thế giới quan, phương pháp luận"],
+    c: 1
+  },
+  {
+    q: "Nhận định KHÔNG đúng về triết học Mác – Lênin?",
+    a: ["Kế thừa triết học Đức", "Công cụ cải tạo hiện thực", "Phủ định hoàn toàn dấu vết duy tâm của Hegel", "Quan hệ chặt chẽ với kinh tế, xã hội"],
+    c: 2
+  },
+  {
+    q: "Lý luận ảnh hưởng lớn đến hình thành triết học Mác là:",
+    a: ["Biện chứng Hegel và duy vật Feuerbach", "Siêu hình Kant", "Duy vật Duhring", "Đạo đức Socrate"],
+    c: 0
+  },
+  {
+    q: "Yếu tố ảnh hưởng lớn nhất đối với thế giới quan của con người là gì?",
+    a: ["Thẩm mỹ", "Đạo đức", "Đức tin", "Quan điểm triết học"],
+    c: 3
+  },
+  {
+    q: "Thế giới quan triết học khác thế giới quan thần thoại ở điểm nào?",
+    a: ["Giải thích dựa trên lý luận vs sự tưởng tượng", "Ngôn ngữ hình ảnh", "Dành cho quý tộc", "Ra đời sớm hơn"],
+    c: 0
+  },
+  {
+    q: "Vai trò cơ bản của thế giới quan đối với con người là gì?",
+    a: ["Hình thành quan hệ xã hội", "Định hướng cho nhận thức và hoạt động thực tiễn", "Lý giải dưới nhiều góc nhìn", "Trang bị hiểu biết"],
+    c: 1
+  },
+  {
+    q: "Quan điểm “Tồn tại là được tri giác” thuộc trường phái:",
+    a: ["Duy tâm khách quan", "Duy vật", "Duy tâm chủ quan", "Nhị nguyên"],
+    c: 2
+  },
+  {
+    q: "Phân tích thất bại từ nhiều phía (thị trường, nội bộ) phản ánh vai trò gì của triết học?",
+    a: ["Định hướng kinh tế", "Định hướng đạo đức", "Trang bị phương pháp luận biện chứng cho nhận thức và thực tiễn", "Năng lực tư duy cá nhân"],
+    c: 2
+  },
+  {
+    q: "Quy luật tự nhiên tồn tại khách quan dù con người có nhận thức hay không phản ánh:",
+    a: ["Vật chất có trước, ý thức có sau", "Ý thức quyết định", "Phủ nhận cả hai", "Tác động ngang nhau"],
+    c: 0
+  },
+  {
+    q: "“Thế giới chỉ tồn tại trong ý niệm con người” thể hiện lập trường:",
+    a: ["Duy tâm chủ quan", "Duy tâm khách quan", "Duy vật biện chứng", "Nhị nguyên"],
+    c: 0
+  },
+  {
+    q: "“Nhận thức là bất khả thi” thuộc lập trường:",
+    a: ["Duy tâm khách quan", "Thuyết bất khả tri", "Duy vật biện chứng", "Thuyết khả tri"],
+    c: 1
+  },
+  {
+    q: "“Triết học không chỉ để giải thích thế giới, mà còn nhằm cải tạo thế giới” phản ánh:",
+    a: ["Khoa học thuần túy", "Trung lập", "Vũ khí lý luận của giai cấp công nhân và nhân dân lao động", "Chỉ cải tạo tự nhiên"],
+    c: 2
+  },
+  {
+    q: "Bản chất cách mạng của triết học Mác - Lênin thể hiện ở:",
+    a: ["Chỉ tập trung giải thích", "Gắn liền với sự nghiệp giải phóng giai cấp, dân tộc và con người", "Phục vụ lợi ích mọi giai cấp", "Phủ nhận thực tiễn"],
+    c: 1
+  },
+  {
+    q: "Phát minh KHTN nào KHÔNG phải tiền đề trực tiếp của triết học Mác?",
+    a: ["Tế bào", "Tiến hóa", "Vạn vật hấp dẫn", "Năng lượng"],
+    c: 2
+  },
+  {
+    q: "Định luật bảo toàn và chuyển hóa năng lượng khẳng định điều gì?",
+    a: ["Nguồn gốc con người", "Tính thống nhất và sự vận động không ngừng của thế giới vật chất", "Cơ sở vi mô sự sống", "Vai trò tuyệt đối của ý thức"],
+    c: 1
+  }
+];
+// ================== BIẾN TOÀN CỤC ==================
+let index = 0;
+let answered = false;
+let quizQuestions = [];
+
+// ================== HÀM TRỘN ==================
+function shuffle(array) {
+  return array
+    .map(v => ({ v, r: Math.random() }))
+    .sort((a, b) => a.r - b.r)
+    .map(x => x.v);
+}
+
+// ================== BẮT ĐẦU / LÀM LẠI ==================
+function startQuiz() {
+  index = 0;
+  answered = false;
+
+  // 🔀 đảo câu hỏi
+  quizQuestions = shuffle([...questions]);
+
+  loadQuestion();
+}
+
+// ================== LOAD CÂU HỎI ==================
+function loadQuestion() {
+  answered = false;
+  const q = quizQuestions[index];
+
+  document.getElementById("question").innerText =
+    `Câu ${index + 1}: ${q.q}`;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  // 🔀 đảo đáp án nhưng giữ index đúng
+  const mixedAnswers = q.a.map((text, i) => ({
+    text,
+    isCorrect: i === q.c
+  }));
+
+  shuffle(mixedAnswers).forEach(ans => {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.innerText = ans.text;
+    div.onclick = () => checkAnswer(div, ans.isCorrect);
+    answersDiv.appendChild(div);
+  });
+}
+
+// ================== KIỂM TRA ĐÁP ÁN ==================
+function checkAnswer(element, isCorrect) {
+  if (answered) return;
+  answered = true;
+
+  const all = document.querySelectorAll(".answer");
+  all.forEach(a => a.onclick = null);
+
+  if (isCorrect) {
+    element.classList.add("correct");
+  } else {
+    element.classList.add("wrong");
+    all.forEach(a => {
+      if (a.innerText === quizQuestions[index].a[quizQuestions[index].c]) {
+        a.classList.add("correct");
+      }
+    });
+  }
+}
+
+// ================== CÂU TIẾP ==================
+function nextQuestion() {
+  index++;
+  if (index >= quizQuestions.length) {
+    alert("🎉 Bạn đã hoàn thành bài thi!\nBắt đầu lại với thứ tự mới.");
+    startQuiz();
+    return;
+  }
+  loadQuestion();
+}
+
+// ================== CHẠY LẦN ĐẦU ==================
+startQuiz();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thi trắc nghiệm</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 15px;
+  font-size: 18px;
+}
+
+.container {
+  max-width: 100%;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+.answer {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.answer:active {
+  background: #eef;
+}
+
+.correct {
+  background: #c8f7c5;
+  border-color: green;
+}
+
+.wrong {
+  background: #f7c5c5;
+  border-color: red;
+}
+
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+}
+
+button:active {
+  background: #2980b9;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+  <button onclick="nextQuestion()">Câu tiếp theo</button>
+</div>
+
+<script>
+// ================== DỮ LIỆU CÂU HỎI ==================
+const questions = [
+  {
+    q: "Đặc điểm chung của các quan niệm triết học duy vật thời kỳ cổ đại về vật chất là gì?",
+    a: ["Đồng nhất vật chất với nguyên tử", "Đồng nhất vật chất với dạng cụ thể của vật chất", "Đồng nhất vật chất với khối lượng", "Đồng nhất vật chất với ý thức"],
+    c: 1
+  },
+  {
+    q: "Đặc điểm chung của các quan niệm triết học duy vật thời kỳ cận đại về vật chất là gì?",
+    a: ["Đồng nhất vật chất với dạng cụ thể của vật chất", "Đồng nhất vật chất với khối lượng; giải thích sự vận động của thế giới vật chất trên nền tảng cơ học.", "Đồng nhất vật chất với nguyên tử", "Đồng nhất vật chất với ý thức"],
+    c: 1
+  },
+  {
+    q: "Ba phát minh khoa học nào dưới đây có vai trò to lớn cho sự ra đời của chủ nghĩa duy vật biện chứng?",
+    a: ["Định luật bảo toàn và chuyển hóa năng lượng; thuyết tế bào; thuyết tiến hóa", "Thuyết tế bào; định luật newton; thuyết tiến hóa", "Định luật bảo toàn và chuyển hóa năng lượng; thuyết nguyên tử; thuyết tế bào.", "Thuyết tiến hóa; định luật vạn vật hấp dẫn; thuyết tế bào."],
+    c: 0
+  },
+  {
+    q: "Điền vào chỗ trống: … là một phạm trù triết học dùng để chỉ thực tại khách quan được đem lại cho con người trong cảm giác, được cảm giác của chúng ta chép lại, chụp lại, phản ánh, và tồn tại không lệ thuộc vào cảm giác?",
+    a: ["Vật chất", "Ý thức", "Cảm giác", "Tri giác"],
+    c: 0
+  },
+  {
+    q: "Theo quan điểm của chủ nghĩa duy vật biện chứng, vật chất là:",
+    a: ["Thực tại khách quan và chủ quan, được ý thức phản ánh.", "Tồn tại ở các dạng vật chất cụ thể, có thể cảm nhận được.", "Thực tại khách quan độc lập với ý thức, không phụ thuộc vào ý thức", "Thực tại khách quan không nhận thức được."],
+    c: 2
+  },
+  {
+    q: "Thuộc tính cơ bản nhất, phổ biến nhất của vật chất là gì?",
+    a: ["Không tồn tại khách quan", "Tồn tại khách quan", "Thế giới khách quan", "Phụ thuộc vào ý thức con người"],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án đúng về phạm trù vật chất theo quan điểm của triết học Mác - Lênin?",
+    a: ["Vật chất là nguyên tử", "Vật chất là nước", "Vật chất là đất, nước, lửa, không khí", "Vật chất là hiện thực khách quan"],
+    c: 3
+  },
+  {
+    q: "Nội dung nào dưới đây trong định nghĩa vật chất của V.I. Lênin giải quyết được mặt thứ nhất của vấn đề cơ bản của triết học?",
+    a: ["Vật chất là một phạm trù triết học dùng để chỉ thực tại khách quan", "Vật chất phụ thuộc vào cảm giác của con người", "Thực tại khách quan được cảm giác chép lại, chụp lại, phản ảnh", "Thực tại khách quan tồn tại không lệ thuộc vào cảm giác"],
+    c: 3
+  },
+  {
+    q: "Chọn đáp án đúng về điểm đặc biệt và tính sáng tạo trong phương pháp định nghĩa vật chất của V.I. Lênin?",
+    a: ["Định nghĩa vật chất thông qua đối lập với ý thức", "Định nghĩa vật chất thông qua vận động", "Định nghĩa vật chất thông qua tồn tại", "Định nghĩa vật chất thông qua khái niệm"],
+    c: 0
+  },
+  {
+    q: "Hãy chỉ ra một đáp án sai khi phân tích về nội dung định nghĩa vật chất dưới đây?",
+    a: ["Vật chất là tất cả những gì tồn tại trong thế giới khách quan", "Vật chất là tất cả những cái gây nên cảm giác ở con người", "Vật chất là những vật cụ thể tồn tại trong thế giới khách quan", "Vật chất không có nghĩa gì khác hơn là thực tại khách quan tồn tại độc lập với ý thức"],
+    c: 2
+  },
+  {
+    q: "Theo Ph. Ăngghen, một trong những phương thức tồn tại cơ bản của vật chất là gì?",
+    a: ["Phát triển", "Vận động", "Chuyển hóa", "Vật thể hữu hình"],
+    c: 1
+  },
+  {
+    q: "Theo quan điểm của chủ nghĩa duy vật biện chứng, khẳng định nào sau đây là đúng?",
+    a: ["Vận động là tuyệt đối, đứng im là tương đối, tạm thời", "Vận động và đứng im phải được quan niệm là tuyệt đối", "Vận động và đứng im chỉ là tương đối, tạm thời", "Đứng im là tuyệt đối, vận động là tương đối"],
+    c: 0
+  },
+  {
+    q: "Chọn đáp án đúng về vận động của vật chất:",
+    a: ["Vật chất chỉ có một phương thức tồn tại là vận động.", "Vận động là sự dịch chuyển vị trí của các vật thể trong không gian.", "Vận động là do ngoại lực tác động.", "Vận động của vật chất là cố hữu, tuyệt đối, vô hạn."],
+    c: 3
+  },
+  {
+    q: "Nguồn gốc vận động của vật chất theo triết học Mác - Lênin là:",
+    a: ["Ở bên ngoài sự vật hiện tượng do sự tương tác hay do sự tác động.", "Do ý thức tinh thần tư tưởng quyết định", "Ở trong bản thân sự vật hiện tượng do sự tác động của các mặt đối lập", "Do các lực lượng siêu nhiên tạo ra"],
+    c: 2
+  },
+  {
+    q: "Theo quan niệm của Triết học Mác - Lênin, thế giới thống nhất ở cái gì?",
+    a: ["Thống nhất ở vật chất và tinh thần", "Ta cho nó thống nhất thì nó thống nhất", "Thống nhất ở tính vật chất của nó", "Thống nhất vì do Thượng đế sinh ra"],
+    c: 2
+  },
+  {
+    q: "Xã hội loài người có được coi là một bộ phận của thế giới vật chất không?",
+    a: ["Có, vì nó được xem là cấp độ cao nhất của cấu trúc vật chất.", "Không, vì xã hội loài người thuộc về ý thức.", "Có, vì trong xã hội nhân tố hoạt động là con người có ý thức nhưng không làm mất tính khách quan.", "Không, vì con người là sản phẩm cao nhất của tự nhiên."],
+    c: 2
+  },
+  {
+    q: "Theo quan niệm của Triết học Mác - Lênin, ý thức là gì?",
+    a: ["Hình ảnh của thế giới khách quan", "Hình ảnh phản ánh sự vận động và phát triển của thế giới khách quan", "Là một phần chức năng của bộ óc con người", "Là hình ảnh phản ánh sáng tạo lại hiện thực khách quan"],
+    c: 3
+  },
+  {
+    q: "Chọn đáp án đúng nhất về ý thức theo quan điểm của Triết học Mác - Lênin.",
+    a: ["Nguồn gốc trực tiếp quan trọng nhất là lao động, là thực tiễn xã hội.", "Ý thức phản ánh hiện thực khách quan thông qua lao động, ngôn ngữ.", "Ý thức là sản phẩm xã hội, là một hiện tượng xã hội", "Tất cả các đáp án trên đều đúng"],
+    c: 3
+  },
+  {
+    q: "Chọn đáp án đúng nhất về nguồn gốc tự nhiên của ý thức:",
+    a: ["Bộ óc người", "Thế giới bên ngoài", "Bộ óc người cùng với thế giới bên ngoài tác động lên bộ óc người", "Lao động và ngôn ngữ"],
+    c: 2
+  },
+  {
+    q: "Chọn đáp án đúng nhất về nguồn gốc xã hội của ý thức:",
+    a: ["Lao động", "Ngôn ngữ", "Lao động và ngôn ngữ", "Bộ óc người và thế giới khách quan"],
+    c: 2
+  },
+  {
+    q: "Điều kiện cần cho sự ra đời của ý thức là gì?",
+    a: ["Bộ não người", "Bộ não người và hiện thực khách quan tương tác với nó", "Năng lực chế tạo và sử dụng công cụ lao động", "Năng lực ngôn ngữ phát triển"],
+    c: 1
+  },
+  {
+    q: "Điều kiện đủ cho sự ra đời của ý thức là gì?",
+    a: ["Lao động và ngôn ngữ", "Bộ não người và hiện thực khách quan", "Năng lực chế tạo và sử dụng công cụ lao động", "Ngôn ngữ phát triển với cả tiếng nói và chữ viết"],
+    c: 0
+  },
+  {
+    q: "Ngôn ngữ có vai trò như thế nào đối với quá trình hình thành ý thức?",
+    a: ["Giúp con người khái quát, trừu tượng hoá, suy nghĩ độc lập, giao tiếp trao đổi tư tưởng, lưu giữ tri thức.", "Giúp con người giao tiếp, trao đổi tư tưởng.", "Giúp con người khái quát, trừu tượng hoá, suy nghĩ độc lập.", "Giúp con người trao đổi tư tưởng, lưu giữ tri thức phong phú."],
+    c: 0
+  },
+  {
+    q: "Nếu có bộ óc và thế giới khách quan nhưng không có hoạt động thực tiễn xã hội thì ý thức có ra đời không?",
+    a: ["Không, vì hoạt động thực tiễn làm cho ý thức phát triển", "Không, vì hoạt động thực tiễn xã hội là nguồn gốc trực tiếp của ý thức", "Có, vì bộ não con người là quan trọng nhất", "Có, vì bộ não và hiện thực là điều kiện cần"],
+    c: 1
+  },
+  {
+    q: "Điền vào chỗ trống: “Ý thức chẳng qua chỉ là ... được đem chuyển vào trong đầu óc con người và được cải biến đi trong đó\"?",
+    a: ["Vật chất", "Cảm giác", "Hình ảnh", "Suy nghĩ"],
+    c: 0
+  },
+  {
+    q: "Bản chất của ý thức theo quan điểm của chủ nghĩa duy vật biện chứng là gì?",
+    a: ["Hình ảnh của thế giới chủ quan và khách quan", "Quá trình vật chất vận động bên trong bộ não", "Sự phản ánh tích cực, năng động, sáng tạo thế giới khách quan vào trong đầu óc", "Tiếp nhận và xử lý các kích thích từ môi trường bên ngoài"],
+    c: 2
+  },
+  {
+    q: "Yếu tố căn bản phân biệt trình độ phản ánh ý thức của con người với tâm lý của động vật là gì?",
+    a: ["Tính tích cực, chủ động, năng động, sáng tạo", "Tính thích nghi", "Phản xạ có điều kiện", "Phản ánh vô điều kiện"],
+    c: 0
+  },
+  {
+    q: "Tại sao ý thức có khả năng tác động trở lại hiện thực khách quan?",
+    a: ["Ý thức là thuộc tính của một dạng vật chất đặc biệt", "Ý thức có thể phản ánh đúng hiện thực khách quan", "Ý thức có thể phản ánh sáng tạo ngoài giới hạn hiện thực", "Do hoạt động thực tiễn có ý thức của con người"],
+    c: 3
+  },
+  {
+    q: "Theo quan điểm của chủ nghĩa duy vật biện chứng, mệnh đề nào dưới đây là đúng?",
+    a: ["Ý thức là tồn tại duy nhất, tuyệt đối.", "Vật chất quyết định ý thức nhưng không chịu sự tác động gì từ ý thức.", "Vật chất và ý thức có mối quan hệ biện chứng, vật chất quyết định ý thức còn ý thức tác động trở lại vật chất.", "Vật chất tồn tại độc lập, riêng rẽ hoàn toàn với ý thức."],
+    c: 2
+  },
+  {
+    q: "Dựa trên cơ sở nào để cho rằng Vật chất và ý thức luôn có mối liên hệ biện chứng?",
+    a: ["Nhận thức đúng về nguồn gốc ra đời của ý thức", "Nhận thức đúng về mối quan hệ giữa vật chất và ý thức", "Nhận thức đúng về nguồn gốc ra đời của vật chất", "Nhận thức đúng về tính quyết định của vật chất với ý thức"],
+    c: 1
+  },
+  {
+    q: "Hãy xác định mệnh đề đúng về vai trò của ý thức?",
+    a: ["Ý thức cải biến hiện thực thông qua khoa học", "Ý thức tự nó cải tạo được hiện thực", "Ý thức cải biến hiện thực thông qua hoạt động thực tiễn của con người", "Ý thức phản ánh nhưng không thể cải biến hiện thực"],
+    c: 2
+  },
+  {
+    q: "Ý thức có thể tác động ngược trở lại vật chất thông qua hoạt động nào dưới đây?",
+    a: ["Nhận thức cảm tính", "Tự bản thân ý thức", "Thông qua lực lượng siêu nhiên", "Hoạt động thực tiễn"],
+    c: 3
+  },
+  {
+    q: "Chọn đáp án đúng về vai trò của vật chất đối với ý thức theo quan điểm duy vật biện chứng?",
+    a: ["Vật chất quyết định nguồn gốc và nội dung", "Vật chất quyết định sự biến đổi, phát triển", "Vật chất là nhân tố phát huy tính năng động sáng tạo của ý thức", "Tất cả các đáp án trên đều đúng"],
+    c: 3
+  },
+  {
+    q: "Câu tục ngữ nào sau đây phản ánh vai trò quyết định của vật chất đối với ý thức?",
+    a: ["Nước chảy đá mòn", "Có thực mới vực được đạo", "Tốt gỗ hơn tốt nước sơn", "Ở bầu thì tròn ở ống thì dài"],
+    c: 1
+  },
+  {
+    q: "Câu thành ngữ nào sau đây phản ánh sự tác động trở lại của ý thức đối với vật chất?",
+    a: ["Rút dây động rừng", "Có thực mới vực được đạo", "Thuận vợ thuận chồng tát biển Đông cũng cạn", "Đi một ngày đàng học một sàng khôn"],
+    c: 2
+  },
+  {
+    q: "Khi sinh viên không ngừng học tập để thay đổi hoàn cảnh, tương lai của mình, điều này phản ánh nội dung nào?",
+    a: ["Vật chất là cái có trước và giữ vai trò quyết định", "Vật chất tồn tại song song với ý thức", "Vai trò của ý thức trong sự tác động trở lại vật chất", "Vai trò của vật chất tác động trở lại ý thức"],
+    c: 2
+  },
+  {
+    q: "Đảng CSVN khẳng định: “Mọi chủ trương... phải xuất phát từ thực tế, tôn trọng quy luật khách quan\". Quan điểm này vận dụng từ nội dung nào?",
+    a: ["Nguyên lý về mối liên hệ phổ biến", "Vật chất quyết định ý thức", "Nguyên lý về sự phát triển", "Cơ sở hạ tầng quyết định kiến trúc thượng tầng"],
+    c: 1
+  },
+  {
+    q: "Vận dụng nội dung nào để giải thích: “Trẻ em ở thành thị thường năng động, thông minh hơn trẻ em ở nông thôn”?",
+    a: ["Mối quan hệ nguyên nhân, kết quả", "Nguyên lý về sự phát triển", "Mối quan hệ giữa vật chất và ý thức", "Nguyên lý mối liên hệ phổ biến"],
+    c: 3
+  },
+  {
+    q: "Vận dụng nội dung nào để giải thích việc VN thắng Pháp, Mỹ dù cơ sở vật chất chênh lệch lớn?",
+    a: ["Vật chất quyết định ý thức", "Tính độc lập tương đối của ý thức so với vật chất", "Nguyên lý mối liên hệ phổ biến", "Nguyên nhân và kết quả"],
+    c: 1
+  },
+  {
+    q: "Nguyên tắc phương pháp luận nào được rút ra từ mối quan hệ giữa vật chất và ý thức?",
+    a: ["Quan điểm toàn diện", "Quan điểm khách quan", "Quan điểm lịch sử - cụ thể", "Quan điểm phát triển"],
+    c: 1
+  },
+  {
+    q: "Điền vào chỗ trống: “… là sự thống nhất giữa thế giới quan duy vật biện chứng và phương pháp luận biện chứng duy vật...”",
+    a: ["Phép biện chứng", "Phép biện chứng duy tâm", "Phép biện chứng duy vật", "Phép biện chứng chất phác"],
+    c: 2
+  },
+  {
+    q: "Thế nào là biện chứng khách quan?",
+    a: ["Chỉ mối liên hệ biến đổi, phát triển khách quan vốn có của các sự vật hiện tượng", "Chỉ mối liên hệ vốn có của ý niệm", "Chỉ ra sự biến đổi của thế giới tinh thần", "Là kết quả của biện chứng chủ quan"],
+    c: 0
+  },
+  {
+    q: "Thế nào là biện chứng chủ quan?",
+    a: ["Là biện chứng của thế giới vật chất", "Là sự phản ánh biện chứng khách quan vào đầu óc con người, tư duy.", "Là bản chất của biện chứng khách quan.", "Là sự biến đổi do lực lượng siêu nhiên"],
+    c: 1
+  },
+  {
+    q: "“Mối liên hệ” là gì?",
+    a: ["Chỉ sự ràng buộc quy định lẫn nhau, đồng thời là sự tác động làm biến đổi lẫn nhau giữa các sự vật hiện tượng.", "Chỉ sự nương tựa vào nhau của thế giới tinh thần.", "Chỉ mối quan hệ một chiều giữa các sự vật.", "Chỉ sự tác động bên ngoài của các sự vật."],
+    c: 0
+  },
+  {
+    q: "Tính khách quan của mối liên hệ là gì?",
+    a: ["Mối liên hệ vốn có của thế giới các ý niệm", "Mối liên hệ vốn có của sự vật hiện tượng.", "Cơ sở của nó là tính thống nhất vật chất của thế giới.", "Phụ thuộc vào ý chí của con người"],
+    c: 1
+  },
+  {
+    q: "Câu thành ngữ “Một con ngựa đau, cả tàu bỏ cỏ” tương đồng với nội dung nào?",
+    a: ["Mối quan hệ nguyên nhân, kết quả", "Nguyên lý về sự phát triển", "Quy luật lượng - chất", "Nguyên lý mối liên hệ phổ biến"],
+    c: 3
+  },
+  {
+    q: "Câu thành ngữ nào dưới đây tương đồng với nguyên lý về mối liên hệ phổ biến?",
+    a: ["Gieo nhân nào, gặt quả ấy", "Đánh rắn động cỏ, rút dây động rừng", "Hổ phụ sinh hổ tử", "Mạnh vì gạo, bạo vì tiền"],
+    c: 1
+  },
+  {
+    q: "Điền cụm từ thích hợp: “Khi xem xét các sự vật hiện tượng, các quan điểm toàn diện, phát triển, lịch sử cụ thể phải...”.",
+    a: ["Tách rời nhau hoàn toàn.", "Không tách rời nhau.", "Có lúc tách rời nhau", "Hoán đổi cho nhau"],
+    c: 1
+  },
+  {
+    q: "Điền cụm từ thích hợp: “Nguyên lý về mối liên hệ phổ biến và nguyên lý về sự phát triển phải…”.",
+    a: ["Đồng nhất với nhau hoàn toàn.", "Độc lập với nhau hoàn toàn.", "Quan hệ chặt chẽ với nhau, nhưng không đồng nhất", "Phải thống nhất với nhau"],
+    c: 2
+  },
+  {
+    q: "Cơ sở khoa học của quan điểm phát triển là gì?",
+    a: ["Nguyên lý về mối liên hệ phổ biến.", "Nguyên lý về sự phát triển.", "Nguyên lý về tính thống nhất vật chất của thế giới", "Cả ba đáp án trên"],
+    c: 3
+  },
+  {
+    q: "Theo duy vật biện chứng, luận điểm nào đúng?",
+    a: ["Nguyện vọng con người tự nó tác động đến phát triển.", "Nguyện vọng con người không ảnh hưởng gì.", "Nguyện vọng con người có ảnh hưởng đến phát triển thông qua hoạt động thực tiễn", "Sự phát triển chỉ là sự tăng về số lượng"],
+    c: 2
+  },
+  {
+    q: "Trong xã hội sự phát triển biểu hiện ra như thế nào?",
+    a: ["Sự xuất hiện các hợp chất mới.", "Sự xuất hiện các giống loài động vật mới.", "Sự thay thế chế độ xã hội này bằng chế độ xã hội khác dân chủ, văn minh hơn.", "Tất cả đáp án trên"],
+    c: 2
+  },
+  {
+    q: "Điền cụm từ: “Phạm trù là những ... phản ánh những mặt, thuộc tính, mối liên hệ chung nhất của một lĩnh vực nhất định”.",
+    a: ["Khái niệm.", "Khái niệm rộng nhất.", "Khái niệm cơ bản nhất.", "Cả ba đáp án trên"],
+    c: 1
+  },
+  {
+    q: "“Cái riêng, Cái chung”; “Nguyên nhân, Kết quả”... đó là các … của triết học Mác - Lênin.",
+    a: ["Cặp khái niệm", "Thuật ngữ cơ bản", "Cặp phạm trù cơ bản", "Cặp phạm trù"],
+    c: 2
+  },
+  {
+    q: "Các phạm trù được hình thành do đâu?",
+    a: ["Bẩm sinh trong ý thức", "Sẵn có ở bên ngoài độc lập với ý thức", "Thông qua quá trình hoạt động, nhận thức và thực tiễn của con người", "Tất cả các đáp án trên"],
+    c: 2
+  },
+  {
+    q: "Điền vào chỗ trống: “Phạm trù triết học là những ...(1)... phản ánh mối liên hệ phổ biến nhất của ...(2)... hiện thực”.",
+    a: ["1- khái niệm, 2- các sự vật.", "1- Khái niệm rộng nhất, 2- một lĩnh vực.", "1- Khái niệm chung nhất, 2- toàn bộ thế giới", "1- Khái niệm, 2- toàn bộ thế giới"],
+    c: 2
+  },
+  {
+    q: "Cái riêng là một phạm trù triết học được hiểu là?",
+    a: ["Những thuộc tính chung của nhiều sự vật", "Một sự vật, hiện tượng, quá trình riêng lẻ nhất định", "Những thuộc tính chỉ có ở một sự vật", "Các yếu tố cấu thành một hệ thống"],
+    c: 1
+  },
+  {
+    q: "Cái đơn nhất là một phạm trù triết học được hiểu là?",
+    a: ["Tồn tại ở nhiều sự vật", "Tuyệt đối không lặp lại", "Tồn tại ở một sự vật, hiện tượng, trong một quan hệ xác định", "Không có phương án nào đúng"],
+    c: 2
+  },
+  {
+    q: "Phạm trù triết học chỉ những thuộc tính chung lặp lại trong nhiều sự vật riêng lẻ khác là?",
+    a: ["Cái riêng", "Cái chung", "Cái đơn nhất", "Tất cả đều sai"],
+    c: 1
+  },
+  {
+    q: "Điền vào dấu …: “Cái … chỉ tồn tại trong cái … thông qua cái riêng mà biểu hiện”.",
+    a: ["Chung / Riêng", "Riêng / Chung", "Chung / Đơn nhất", "Đơn nhất / Riêng"],
+    c: 0
+  },
+  {
+    q: "Điền vào dấu …: “Cái … chỉ tồn tại trong mối liên hệ với cái …”.",
+    a: ["Chung / Riêng", "Riêng / Chung", "Chung / Đơn nhất", "Đơn nhất / Riêng"],
+    c: 1
+  },
+  {
+    q: "Điền vào dấu …: “Cái … là cái toàn bộ, phong phú hơn cái …”.",
+    a: ["Chung / Riêng", "Riêng / Chung", "Chung / Đơn nhất", "Đơn nhất / Riêng"],
+    c: 1
+  },
+  {
+    q: "Điền vào dấu …: “Cái … là cái bộ phận, nhưng sâu sắc hơn cái …”.",
+    a: ["Chung / Riêng", "Riêng / Chung", "Chung / Đơn nhất", "Đơn nhất / Riêng"],
+    c: 0
+  },
+  {
+    q: "Điền vào dấu …: “Cái … và cái … có thể chuyển hóa lẫn nhau trong quá trình phát triển”.",
+    a: ["Chung / Riêng", "Riêng / Chung", "Chung / Đơn nhất", "Đơn nhất / Riêng"],
+    c: 2
+  },
+  {
+    q: "Xây dựng CNXH phải xuất phát từ tình hình cụ thể từng nước. Đây là bài học về vận dụng nội dung nào?",
+    a: ["Cái chung phải tùy theo từng cái riêng cụ thể để vận dụng.", "Cái chung phải tùy từng cái đơn nhất.", "Cái riêng phải dựa vào cái chung", "Cái đặc thù"],
+    c: 0
+  },
+  {
+    q: "Đảng CSVN ra đời kết hợp 3 yếu tố (Công nhân, Mác-Lênin, yêu nước) là vận dụng nội dung nào?",
+    a: ["Thống nhất lý luận và thực tiễn", "Vận dụng cái chung phải tính đến cái đặc thù, cái riêng", "Quan điểm toàn diện", "Không có đáp án nào đúng"],
+    c: 1
+  },
+  {
+    q: "Yếu tố đơn nhất để phân biệt giữa người này với người khác?",
+    a: ["Tên gọi", "Nhóm máu", "Dấu vân tay", "Ngoại hình"],
+    c: 2
+  },
+  {
+    q: "Phạm trù chỉ sự tác động giữa các mặt gây ra biến đổi gọi là?",
+    a: ["Nguyên nhân", "Kết quả", "Khả năng", "Không có đáp án nào"],
+    c: 0
+  },
+  {
+    q: "Phạm trù chỉ những biến đổi xuất hiện do tác động lẫn nhau gọi là gì?",
+    a: ["Nguyên nhân", "Kết quả", "Khả năng", "Hệ quả"],
+    c: 1
+  },
+  {
+    q: "Một kết quả có thể do nhiều loại nguyên nhân gây ra chứng tỏ điều gì?",
+    a: ["Kết quả chỉ do một loại nguyên nhân.", "Một kết quả có thể do nhiều loại nguyên nhân gây ra.", "Kết quả không cần nguyên nhân.", "Không thể nhận thức được quan hệ nhân quả"],
+    c: 1
+  },
+  {
+    q: "Hiện tượng “Đói nghèo” và “Dân trí thấp” thể hiện mối quan hệ nhân quả như thế nào?",
+    a: ["Đói nghèo là nguyên nhân.", "Dân trí thấp là nguyên nhân.", "Cả hai đều là nguyên nhân.", "Vừa là nguyên nhân vừa là kết quả của nhau."],
+    c: 3
+  },
+  {
+    q: "Vật rơi tự do g=9,8m/s2, nước sôi 100°C chứng tỏ điều gì?",
+    a: ["Có mối quan hệ sản sinh.", "Nguyên nhân có trước kết quả.", "Một nguyên nhân nhất định trong hoàn cảnh giống nhau tạo kết quả giống nhau.", "Lực lượng siêu nhiên chi phối"],
+    c: 2
+  },
+  {
+    q: "Hiện tượng tự nhiên nào thuộc mối quan hệ nhân quả?",
+    a: ["Chớp – Sấm", "Gà gáy – Trời sáng", "Xuân – Hạ - Thu - Đông", "Mưa, bão – chớp, sấm"],
+    c: 3
+  },
+  {
+    q: "Cái do nhân tố bên ngoài, sự ngẫu hợp hoàn cảnh bên ngoài quyết định là?",
+    a: ["Tất nhiên.", "Ngẫu nhiên.", "Khả năng.", "Không xác định"],
+    c: 1
+  },
+  {
+    q: "Điền vào chỗ trống: “Ngẫu nhiên không do ...(1)... quyết định mà do ...(2)... quyết định”.",
+    a: ["1- nguyên nhân, 2- hoàn cảnh.", "1- Mối liên hệ bản chất bên trong, 2- nhân tố bên ngoài.", "1- mối liên hệ bên ngoài, 2- bên trong", "1- mối liên hệ cơ bản, 2- không cơ bản"],
+    c: 1
+  },
+  {
+    q: "Theo duy vật biện chứng, luận điểm nào đúng về tất nhiên và ngẫu nhiên?",
+    a: ["Ngẫu nhiên và tất nhiên đều có nguyên nhân", "Hiện tượng chưa biết nguyên nhân là ngẫu nhiên.", "Hiện tượng biết nguyên nhân thành tất yếu", "Tất nhiên không thể nhận thức được"],
+    c: 0
+  },
+  {
+    q: "Theo duy vật biện chứng, luận điểm nào đúng?",
+    a: ["Chỉ tất nhiên mới quan trọng.", "Ngẫu nhiên không có vai trò gì.", "Cả tất yếu và ngẫu nhiên đều có vai trò quan trọng đối với phát triển", "Tất cả đáp án đúng"],
+    c: 2
+  },
+  {
+    q: "Theo duy vật biện chứng, luận điểm nào đúng về sự tồn tại của tất nhiên và ngẫu nhiên?",
+    a: ["Có tất nhiên thuần tuý.", "Có ngẫu nhiên thuần tuý.", "Không có cái tất nhiên và ngẫu nhiên thuần tuý tồn tại bên ngoài nhau", "Tất nhiên chỉ tồn tại khi được nhận thức"],
+    c: 2
+  },
+  {
+    q: "Theo duy vật biện chứng, luận điểm nào SAI?",
+    a: ["Tất nhiên biểu hiện qua vô vàn ngẫu nhiên.", "Ngẫu nhiên là hình thức biểu hiện tất nhiên.", "Có cái ngẫu nhiên thuần tuý không thể hiện cái tất nhiên", "Con người có thể không nhận thức được"],
+    c: 2
+  },
+  {
+    q: "Chọn đáp án thích hợp: “Nội dung là … những mặt, yếu tố tạo nên sự vật”.",
+    a: ["Sự tác động", "Sự kết hợp", "Tổng hợp tất cả", "Sự bao gồm"],
+    c: 2
+  },
+  {
+    q: "Chọn đáp án: “Hình thức là hệ thống … giữa các yếu tố của sự vật”.",
+    a: ["Mối liên hệ tương đối bền vững.", "Hệ thống các bước chuyển hoá", "Mặt đối lập", "Mâu thuẫn"],
+    c: 0
+  },
+  {
+    q: "Theo duy vật biện chứng, luận điểm nào SAI về nội dung và hình thức?",
+    a: ["Không tách rời nhau.", "Luôn luôn phù hợp với nhau.", "Không phải lúc nào cũng phù hợp", "Nội dung thông qua hình thức mà thể hiện"],
+    c: 1
+  },
+  {
+    q: "Điền từ: “Bản chất là tổng hợp những mối liên hệ ...(1)... bên trong, quy định sự ...(2)... của sự vật”.",
+    a: ["1- chung, 2- vận động.", "1- ngẫu nhiên, 2- tồn tại.", "1- tất nhiên, ổn định, 2- vận động và phát triển", "1- tất nhiên, ổn định, 2- tồn tại"],
+    c: 2
+  },
+  {
+    q: "Chọn đáp án: “Hiện tượng là … của bản chất”.",
+    a: ["Cơ sở.", "Nguyên nhân", "Biểu hiện ra bên ngoài", "Nguồn gốc"],
+    c: 2
+  },
+  {
+    q: "Luận điểm nào đúng về bản chất và hiện tượng?",
+    a: ["Bản chất tồn tại bên ngoài sự vật", "Hiện tượng là tổng hợp cảm giác", "Bản chất và hiện tượng đều tồn tại khách quan", "Luôn thống nhất với nhau"],
+    c: 2
+  },
+  {
+    q: "Theo duy vật biện chứng, đáp án nào đúng?",
+    a: ["Bản chất nào hiện tượng ấy, bản chất thay đổi hiện tượng thay đổi", "Bản chất không biểu hiện ở hiện tượng", "Bản chất hoàn toàn đồng nhất với hiện tượng.", "Bản chất tồn tại bên ngoài"],
+    c: 0
+  },
+  {
+    q: "Theo duy vật biện chứng, đáp án nào SAI?",
+    a: ["Bản chất và hiện tượng không hoàn toàn phù hợp.", "Một bản chất có thể biểu hiện ở nhiều hiện tượng", "Một bản chất không thể biểu hiện ở nhiều hiện tượng", "Một hiện tượng không thể nói hết bản chất"],
+    c: 2
+  },
+  {
+    q: "Câu “Người khôn dồn ra nét mặt...” tương đồng cặp phạm trù nào?",
+    a: ["Cái riêng, cái chung", "Nguyên nhân, kết quả", "Nội dung, hình thức", "Bản chất, hiện tượng"],
+    c: 3
+  },
+  {
+    q: "Chọn đáp án: “Khả năng là phạm trù chỉ ... khi có các điều kiện thích hợp”.",
+    a: ["Cái đang có", "Cái chưa có, nhưng sẽ có", "Cái không thể có", "Tiền đề tạo sự vật mới"],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án: “Hiện thực là phạm trù chỉ cái…”.",
+    a: ["Mối liên hệ", "Chưa có", "Đã từng tồn tại", "Hiện có đang tồn tại"],
+    c: 3
+  },
+  {
+    q: "Theo duy vật biện chứng, đáp án nào SAI về khả năng và hiện thực?",
+    a: ["Cái chưa có nhưng sẽ có là khả năng.", "Cái hiện có là hiện thực.", "Cái chưa cảm nhận được là khả năng", "Mọi khả năng đều có thể thành hiện thực"],
+    c: 2
+  },
+  {
+    q: "Theo duy vật biện chứng, luận điểm nào SAI?",
+    a: ["Sự vật tồn tại nhiều khả năng.", "Sự vật chỉ tồn tại một khả năng .", "Hiện thực thay đổi khả năng thay đổi", "Có mối quan hệ biện chứng"],
+    c: 1
+  },
+  {
+    q: "Theo duy vật biện chứng, đáp án nào đúng về hoạt động thực tiễn?",
+    a: ["Dựa vào khả năng.", "Dựa vào hiện thực, đồng thời tính đến khả năng", "Không cần tính đến khả năng.", "Dựa vào bản năng"],
+    c: 1
+  },
+  {
+    q: "Vai trò của quy luật lượng – chất là gì?",
+    a: ["Nguồn gốc, động lực.", "Chỉ ra phương thức, cách thức vận động, phát triển.", "Hạt nhân cơ bản.", "Xu hướng vận động."],
+    c: 1
+  },
+  {
+    q: "Điền từ: “Chất là phạm trù chỉ ...(1)... khách quan ...(2)... làm cho sự vật là nó chứ không là cái khác”.",
+    a: ["1- Tính quy định, 2- Vốn có.", "1- Mối liên hệ, 2- Của sự vật.", "1- Nguyên nhân, 2- Của sự vật", "1- Nguyên nhân, 2- Vốn có"],
+    c: 0
+  },
+  {
+    q: "Theo duy vật biện chứng, luận điểm nào SAI?",
+    a: ["Mỗi sự vật có nhiều thuộc tính.", "Mỗi thuộc tính biểu hiện một mặt chất.", "Mỗi thuộc tính có thể đóng vai trò chất.", "Mỗi sự vật chỉ có một tính quy định về chất"],
+    c: 3
+  },
+  {
+    q: "Điền từ: “Lượng chỉ ...(1)... về mặt ...(2)... của sự vận động”.",
+    a: ["1- tính quy định vốn có, 2- số lượng, quy mô, trình độ", "1- mối liên hệ, 2- bản chất.", "1- mức độ, 2- chất lượng", "1- tính quy định, 2- chất lượng"],
+    c: 0
+  },
+  {
+    q: "Theo duy vật biện chứng, đáp án nào SAI về lượng?",
+    a: ["Lượng là tính quy định vốn có.", "Lượng nói lên quy mô.", "Lượng tồn tại khách quan.", "Lượng phụ thuộc ý chí con người."],
+    c: 3
+  },
+  {
+    q: "Theo duy vật biện chứng, luận điểm nào SAI về chất và lượng?",
+    a: ["Sự phân biệt phụ thuộc ý chí.", "Đều tồn tại khách quan.", "Không có chất lượng thuần tuý ngoài sự vật.", "Sự phân biệt có tính tương đối."],
+    c: 0
+  },
+  {
+    q: "Theo duy vật biện chứng, luận điểm nào SAI?",
+    a: ["Biến đổi về chất là kết quả biến đổi về lượng.", "Không phải biến đổi về lượng nào cũng làm đổi chất ngay.", "Chất mới tác động lại lượng", "Chất mới không tác động gì đến lượng"],
+    c: 3
+  },
+{
+    q: "Khoảng giới hạn lớn hơn 0°C và nhỏ hơn 100°C của nước trong điều kiện áp suất bình thường được gọi là gì trong quy luật lượng - chất?",
+    a: ["Lượng", "Độ", "Bước nhảy", "Chất"],
+    c: 1
+  },
+  {
+    q: "Giới hạn 0°C và 100°C của nước trong điều kiện áp suất bình thường được gọi là gì trong quy luật lượng - chất?",
+    a: ["Lượng", "Độ", "Bước nhảy", "Điểm nút"],
+    c: 3
+  },
+  {
+    q: "Khi nước chuyển từ trạng thái lỏng sang trạng thái khí tại 100°C được gọi là gì trong quy luật lượng - chất?",
+    a: ["Độ", "Chuyển hoá", "Bước nhảy", "Tiệm tiến"],
+    c: 2
+  },
+  {
+    q: "Đâu là nội dung quy luật lượng – chất?",
+    a: ["Phát triển chỉ bao hàm thay đổi về lượng", "Phát triển chỉ bao hàm thay đổi về chất", "Phát triển là quá trình chuyển hoá từ thay đổi dần về lượng sang thay đổi về chất và ngược lại", "Chất không tác động gì đến lượng"],
+    c: 2
+  },
+  {
+    q: "Câu ca dao: “Một cây làm chẳng nên non. Ba cây chụm lại nên hòn núi cao” thể hiện nội dung quy luật nào của phép biện chứng duy vật?",
+    a: ["Quy luật mâu thuẫn", "Quy luật phủ định của phủ định", "Quy luật chuyển hoá từ những sự thay đổi về lượng dẫn đến sự thay đổi về chất và ngược lại", "Cả ba đáp án trên"],
+    c: 2
+  },
+  {
+    q: "Giải thích hiện tượng “quá mù ra mưa” trên cơ sở của nội dung triết học nào?",
+    a: ["Nguyên nhân, kết quả", "Lượng đổi chất đổi", "Nguyên lý mối liên hệ phổ biến", "Nội dung, hình thức"],
+    c: 1
+  },
+  {
+    q: "Câu thành ngữ “Có công mài sắt, có ngày nên kim” tương đồng với nội dung triết học nào dưới đây?",
+    a: ["Nguyên nhân, kết quả", "Quy luật lượng – chất", "Nguyên lý mối liên hệ phổ biến", "Nội dung, hình thức"],
+    c: 1
+  },
+  {
+    q: "Câu tục ngữ, thành ngữ: “Tốt quá hóa lốp”; “Mèo già hóa cáo” tương đồng với nội dung triết học nào?",
+    a: ["Quy luật phủ định của phủ định", "Nguyên nhân và kết quả", "Quy luật lượng chất", "Bản chất, hiện tượng"],
+    c: 2
+  },
+  {
+    q: "Vận dụng nội dung triết học nào để giải thích: Có những người tiêm vắc xin phòng bệnh lại bị mắc chính bệnh đó dù trước đó khỏe mạnh?",
+    a: ["Quy luật lượng – chất", "Quy luật phủ định của phủ định", "Khả năng, hiện thực", "Nội dung, hình thức"],
+    c: 0
+  },
+  {
+    q: "Trong hoạt động nhận thức và thực tiễn sai lầm của sự chủ quan, nóng vội là do không tôn trọng quy luật nào?",
+    a: ["Quy luật lượng - chất", "Quy luật phủ định của phủ định", "Quy luật mâu thuẫn", "Cả ba đáp án trên"],
+    c: 0
+  },
+  {
+    q: "Trong hoạt động nhận thức và thực tiễn, sai lầm của trì trệ bảo thủ là do không tôn trọng quy luật nào?",
+    a: ["Quy luật lượng - chất", "Quy luật phủ định của phủ định", "Quy luật mâu thuẫn", "Cả ba đáp án trên"],
+    c: 0
+  },
+  {
+    q: "Quy luật mâu thuẫn có vị trí, vai trò như thế nào trong phép biện chứng duy vật?",
+    a: ["Là hạt nhân của phép biện chứng duy vật, vạch ra nguồn gốc bên trong của sự phát triển", "Vạch ra xu hướng của sự phát triển", "Vạch ra cách thức của sự phát triển", "Cả a và c"],
+    c: 0
+  },
+  {
+    q: "Vai trò của quy luật thống nhất và đấu tranh của các mặt đối lập (quy luật mâu thuẫn)?",
+    a: ["Chỉ ra nguồn gốc, động lực của sự vận động, phát triển của sự vật, hiện tượng", "Chỉ ra phương thức, cách thức của sự phát triển", "Chỉ ra xu hướng, khuynh hướng vận động, phát triển", "Tất cả các đáp án trên"],
+    c: 0
+  },
+  {
+    q: "Mâu thuẫn nổi lên hàng đầu ở một giai đoạn phát triển nhất định, chi phối các mâu thuẫn khác được gọi là gì?",
+    a: ["Mâu thuẫn cơ bản", "Mâu thuẫn chủ yếu", "Mâu thuẫn thứ yếu", "Mâu thuẫn đối kháng"],
+    c: 1
+  },
+  {
+    q: "Trong mâu thuẫn biện chứng, các mặt đối lập quan hệ với nhau như thế nào?",
+    a: ["Chỉ thống nhất với nhau", "Chỉ có mặt đấu tranh với nhau", "Vừa thống nhất, vừa đấu tranh với nhau", "Tồn tại độc lập với nhau"],
+    c: 2
+  },
+  {
+    q: "Trong lý luận về mâu thuẫn người ta gọi hai cực dương và âm của thanh nam châm là gì?",
+    a: ["Hai mặt", "Hai mặt đối lập", "Hai yếu tố", "Hai thuộc tính"],
+    c: 1
+  },
+  {
+    q: "Vai trò của quy luật phủ định của phủ định?",
+    a: ["Chỉ ra nguồn gốc, động lực phát triển", "Chỉ ra phương thức, cách thức vận động", "Được coi là hạt nhân cơ bản của phép biện chứng", "Chỉ ra xu hướng, khuynh hướng vận động, phát triển"],
+    c: 3
+  },
+  {
+    q: "Trong quy luật phủ định của phủ định, sự thay thế sự vật này bằng sự vật kia được gọi là gì?",
+    a: ["Mâu thuẫn", "Tồn tại", "Vận động", "Phủ định"],
+    c: 3
+  },
+  {
+    q: "Con đường phát triển của sự vật mà quy luật phủ định của phủ định vạch ra là con đường nào?",
+    a: ["Đường thẳng đi lên", "Đường tròn khép kín", "Đường xoáy ốc đi lên", "Đường rích rắc"],
+    c: 2
+  },
+  {
+    q: "Theo quan điểm của chủ nghĩa duy vật biện chứng, luận điểm nào về phủ định biện chứng là sai?",
+    a: ["Phủ định biện chứng có tính khách quan", "Phủ định biện chứng là kết quả giải quyết mâu thuẫn bên trong", "Phủ định biện chứng phụ thuộc vào ý thức của con người", "Phủ định biện chứng có tính kế thừa"],
+    c: 2
+  },
+  {
+    q: "Theo quan điểm của chủ nghĩa duy vật biện chứng, luận điểm nào sau đây là sai?",
+    a: ["Phủ định của phủ định có tính khách quan và kế thừa", "Phủ định của phủ định hoàn toàn lặp lại cái ban đầu", "Phủ định của phủ định lặp lại cái ban đầu trên cơ sở mới cao hơn", "Phủ định biện chứng làm cho sự vật phát triển lên một tầm cao mới"],
+    c: 1
+  },
+  {
+    q: "Theo quan điểm của chủ nghĩa duy vật biện chứng, mục đích của nhận thức là gì?",
+    a: ["Thỏa mãn sự hiểu biết của con người", "Phục vụ nhu cầu thực tiễn của con người", "Phục vụ hoạt động lao động sản xuất", "Giúp con người hiểu bản chất của mình"],
+    c: 1
+  },
+  {
+    q: "Giai đoạn nhận thức diễn ra trên cơ sở sự tác động trực tiếp của các sự vật lên các giác quan là giai đoạn nào?",
+    a: ["Nhận thức lý tính", "Nhận thức khoa học", "Nhận thức lý luận", "Nhận thức cảm tính"],
+    c: 3
+  },
+  {
+    q: "Nhận thức cảm tính được thực hiện dưới các hình thức nào?",
+    a: ["Khái niệm và phán đoán", "Cảm giác, tri giác và khái niệm", "Cảm giác, tri giác và biểu tượng", "Cảm giác, Suy luận, Phán đoán"],
+    c: 2
+  },
+  {
+    q: "Hình thức nào là hình thức đầu tiên của giai đoạn nhận thức cảm tính?",
+    a: ["Khái niệm", "Biểu tượng", "Cảm giác", "Tri giác"],
+    c: 2
+  },
+  {
+    q: "Đặc điểm chung của các hình thức nhận thức cảm tính là gì?",
+    a: ["Trực tiếp, bề ngoài", "Gián tiếp, bề ngoài", "Trực tiếp, bản chất", "Gián tiếp, bản chất"],
+    c: 0
+  },
+  {
+    q: "Sự phản ánh trừu tượng, khái quát những đặc điểm chung, bản chất của các sự vật được gọi là giai đoạn nhận thức nào?",
+    a: ["Nhận thức cảm tính", "Nhận thức lý tính", "Nhận thức kinh nghiệm", "Nhận thức Khoa học"],
+    c: 1
+  },
+  {
+    q: "Tư duy trừu tượng được thể hiện dưới các hình thức cơ bản nào?",
+    a: ["Khái niệm, Biểu tượng, Tri giác", "Suy luận, Biểu tượng, Tri giác", "Khái niệm, Suy luận, Phán đoán", "Cảm giác, Suy luận, Phán đoán"],
+    c: 2
+  },
+  {
+    q: "Theo quan niệm của Triết học Mác - Lênin, thực tiễn là gì?",
+    a: ["Hoạt động của con người", "Hoạt động vật chất của con người", "Hoạt động vật chất của con người có tính mục đích", "Hoạt động vật chất có mục đích nhằm cải tạo tự nhiên theo yêu cầu của con người"],
+    c: 3
+  },
+  {
+    q: "Chọn đáp án điền vào chỗ trống: 'Thực tiễn là toàn bộ những ... có mục đích, mang tính lịch sử xã hội nhằm cải tạo tự nhiên và xã hội'.",
+    a: ["Hoạt động", "Hoạt động vật chất", "Hoạt động có mục đích", "Hoạt động vật chất có mục đích, mang tính lịch sử - xã hội"],
+    c: 3
+  },
+  {
+    q: "Hình thức hoạt động thực tiễn cơ bản nhất quy định đến các hình thức khác là hình thức nào?",
+    a: ["Hoạt động sản xuất vật chất", "Hoạt động chính trị xã hội", "Hoạt động quan sát và thực nghiệm khoa học", "Hoạt động tinh thần"],
+    c: 0
+  },
+  {
+    q: "Hoạt động thực tiễn là hoạt động chủ yếu, cơ bản dẫn đến sự ra đời của ý thức, vì:",
+    a: ["Lao động tác động vào đối tượng buộc chúng bộc lộ thuộc tính, qua đó con người nhận biết được nó", "Hoạt động thực tiễn là hoạt động cơ bản của con người", "Hoạt động thực tiễn giúp con người nhận thức thế giới", "Hoạt động thực tiễn cải tạo thế giới"],
+    c: 0
+  },
+  {
+    q: "Thực tiễn đóng vai trò gì đối với nhận thức?",
+    a: ["Là cơ sở, động lực, mục đích của nhận thức và là tiêu chuẩn để kiểm tra chân lý", "Là điểm khởi đầu của nhận thức", "Tồn tại song hành, hỗ trợ quá trình nhận thức", "Là đích đến của nhận thức"],
+    c: 0
+  },
+  {
+    q: "Câu thành ngữ nào dưới đây phản ánh mối quan hệ giữa nhận thức và thực tiễn?",
+    a: ["Có công mài sắt, có ngày nên kim", "Nước chảy, đá mòn", "Gieo gió, gặt bão", "Đi một ngày đàng học một sàng khôn"],
+    c: 3
+  },
+  {
+    q: "Theo quan điểm của chủ nghĩa duy vật biện chứng, bệnh giáo điều là do tuyệt đối hóa vai trò của yếu tố nào?",
+    a: ["Vai trò của cảm tính", "Vai trò của lý tính", "Vai trò của kinh nghiệm", "Vai trò của lý luận"],
+    c: 3
+  },
+  {
+    q: "Nguyên tắc thống nhất giữa lý luận với thực tiễn là nguyên tắc được rút ra trực tiếp từ nghiên cứu nội dung nào?",
+    a: ["Mối quan hệ giữa nhận thức và ý thức", "Lý luận về nhận thức", "Mối quan hệ giữa khả năng và hiện thực", "Mối quan hệ giữa nội dung và hình thức"],
+    c: 1
+  },
+  {
+    q: "Chân lý là gì?",
+    a: ["Suy luận của con người", "Tri thức đúng, phù hợp với hiện thực khách quan và được thực tiễn kiểm nghiệm", "Tri thức phù hợp với hiện thực", "Là cái được Thượng Đế định sẵn"],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án điền vào chỗ trống: “Chân lý là những tri thức ... với hiện thực khách quan và được thực tiễn kiểm nghiệm”.",
+    a: ["Đầy đủ", "Đúng đắn", "Hợp lý", "Phù hợp"],
+    c: 3
+  },
+  {
+    q: "Khái niệm nào chỉ sự phản ánh hiện thực khách quan vào bộ não người một cách tích cực, năng động dựa trên cơ sở thực tiễn và đưa ra tri thức đúng?",
+    a: ["Ý thức", "Nhận thức", "Chân lý", "Thực tiễn"],
+    c: 1
+  },
+  {
+    q: "Tiêu chuẩn để kiểm tra chân lý là gì?",
+    a: ["Tri thức được nhiều người công nhận", "Tri thức do các thế hệ trước để lại", "Lời nói của các vĩ nhân", "Thực tiễn"],
+    c: 3
+  },
+  {
+    q: "Tính thống nhất vật chất của thế giới được hiểu như thế nào?",
+    a: ["Chỉ có một thế giới tồn tại đó là thế giới vật chất", "Thế giới vật chất là một chỉnh thể vừa thống nhất, vừa đa dạng ở các hình thức tồn tại", "Lịch sử loài người là kết quả của sự tiến hoá giới tự nhiên", "Tất cả đáp án đều đúng"],
+    c: 3
+  },
+  {
+    q: "Nhà triết học nào coi lửa là thực thể đầu tiên của thế giới?",
+    a: ["Đê-mô-crít", "Hê-ra-clít", "Ana-ximen", "Thales"],
+    c: 1
+  },
+  {
+    q: "Lao động có vai trò như thế nào đối với quá trình hình thành và phát triển của ý thức?",
+    a: ["Làm cho tự nhiên bộc lộ thuộc tính, giúp con người nhận thức sâu sắc hơn", "Mài sắc những giác quan và giúp tích luỹ tri thức", "Giúp trao đổi tri thức, hiểu biết con người được nâng lên", "Tất cả đáp án đều đúng"],
+    c: 3
+  },
+  {
+    q: "Nội dung nào dưới đây phản ánh đầy đủ nhất về bản chất của ý thức?",
+    a: ["Ý thức có tính năng động, sáng tạo & mang bản chất xã hội", "Ý thức mang bản chất xã hội", "Ý thức mang bản chất tự nhiên", "Ý thức là sự phản ánh thụ động"],
+    c: 0
+  },
+  {
+    q: "Ý nghĩa phương pháp luận được rút ra từ Mối quan hệ giữa vật chất và ý thức là gì?",
+    a: ["Trong nhận thức và hoạt động phải có quan điểm khách quan", "Mục tiêu và phương pháp phải căn cứ vào điều kiện thực tế", "Cần Phát huy tính năng động sáng tạo của ý thức", "Tất cả đáp án đều đúng"],
+    c: 3
+  },
+  {
+    q: "Quan điểm nào cho rằng không gian, thời gian, vận động không liên quan với nhau và ở bên ngoài vật chất?",
+    a: ["Chủ nghĩa duy vật siêu hình", "Chủ nghĩa duy vật biện chứng", "Chủ nghĩa duy tâm khách quan", "Chủ nghĩa duy vật chất phác"],
+    c: 0
+  },
+  {
+    q: "Theo chủ nghĩa duy vật biện chứng, nguồn gốc 'duy nhất và cuối cùng' của nhận thức là gì?",
+    a: ["Thế giới tâm linh", "Thế giới khách quan", "Thế giới sự vật cảm tính", "Tư duy con người"],
+    c: 1
+  },
+  {
+    q: "Bổ sung để được khẳng định đúng: 'Định nghĩa về vật chất của V.I.Lênin...'?",
+    a: ["Thừa nhận vật chất tồn tại ngoài và độc lập với ý thức qua các dạng cụ thể", "Thừa nhận vật chất nói chung tồn tại vĩnh viễn, tách rời dạng cụ thể", "Đồng nhất vật chất với một dạng cụ thể", "Đồng nhất vật chất với khối lượng"],
+    c: 0
+  },
+  {
+    q: "Bổ sung để có nhận định đúng: 'Phát triển là xu hướng vận động ...'?",
+    a: ["Luôn tiến bộ của thế giới vật chất, xảy ra bên ngoài sự ổn định", "Từ thấp đến cao, từ chưa hoàn thiện đến hoàn thiện, xảy ra trong thế giới vật chất", "Xảy ra bên ngoài sự vận động cụ thể của các sự vật cá biệt", "Xảy ra bên trong một sự vật cá biệt"],
+    c: 1
+  },
+  {
+    q: "Theo phép biện chứng duy vật, luận điểm nào sau đây là sai?",
+    a: ["Về cơ bản, hiện tượng và bản chất thống nhất với nhau", "Có hiện tượng biểu hiện không đúng bản chất", "Để hành động hiệu quả, chúng ta trước tiên cần xuất phát từ hiện tượng", "Hiện tượng và bản chất là những cái đối lập nhau"],
+    c: 2
+  },
+  {
+    q: "Đỉnh cao nhất của tư tưởng duy vật cổ đại về vật chất là quan điểm nào?",
+    a: ["Quan niệm về lửa là bản nguyên", "Quan niệm thuyết nguyên tử của Đê-mô-crít", "Quan niệm về con số", "Quan niệm về nước"],
+    c: 1
+  },
+  {
+    q: "Định nghĩa về vật chất của Lênin được đề cập trong tác phẩm nào?",
+    a: ["Biện chứng của tự nhiên", "Chủ nghĩa duy vật và chủ nghĩa kinh nghiệm phê phán", "Bút ký triết học", "Nhà nước và cách mạng"],
+    c: 1
+  },
+  {
+    q: "Quan điểm sau thuộc trường phái nào: “Cái gì cảm giác được đều là vật chất”?",
+    a: ["Chủ nghĩa duy vật siêu hình", "Chủ nghĩa duy vật biện chứng", "Chủ nghĩa duy tâm khách quan", "Chủ nghĩa duy tâm chủ quan"],
+    c: 0
+  },
+  {
+    q: "Quy luật nào được V.I. Lênin gọi là hạt nhân của phép biện chứng duy vật?",
+    a: ["Quy luật lượng - chất", "Quy luật thống nhất và đấu tranh giữa các mặt đối lập", "Quy luật phủ định của phủ định", "Quy luật đấu tranh giai cấp"],
+    c: 1
+  },
+  {
+    q: "Ph. Ăngghen cho rằng: Đối với những ai phủ nhận (...) thì mọi quy luật tự nhiên đều là giả thuyết?",
+    a: ["Tính phổ biến", "Tính nhân quả", "Tính tất yếu", "Tính biện chứng"],
+    c: 1
+  },
+  {
+    q: "“Nếu không có ý thức con người thì thế giới không tồn tại.” Quan điểm này phủ nhận nội dung nào?",
+    a: ["Ý thức có tính sáng tạo", "Vật chất tồn tại khách quan, độc lập với ý thức", "Ý thức tác động trở lại vật chất", "Nhận thức mang tính lịch sử"],
+    c: 1
+  },
+  {
+    q: "Trong các yếu tố cấu thành của ý thức, yếu tố nào là quan trọng nhất và chi phối các yếu tố còn lại?",
+    a: ["Ý chí", "Tri thức", "Tình cảm", "Niềm tin"],
+    c: 1
+  },
+  {
+    q: "Hành động người nghèo khơi dậy ý chí thoát nghèo thông qua lao động, học tập thể hiện khía cạnh nào?",
+    a: ["Ý thức quyết định vật chất", "Vật chất và ý thức ngang nhau", "Ý thức tác động trở lại vật chất thông qua hoạt động thực tiễn", "Ý thức độc lập hoàn toàn"],
+    c: 2
+  },
+  {
+    q: "“Mọi sự vật, hiện tượng luôn gắn bó trong mối liên hệ phổ biến.” Phản ánh nguyên lý nào?",
+    a: ["Nguyên lý về sự phát triển", "Nguyên lý về mối liên hệ phổ biến", "Nguyên lý khách quan", "Nguyên lý thực tiễn"],
+    c: 1
+  },
+  {
+    q: "Sự thay đổi công nghệ từ 2G → 3G → 4G → 5G thấy rõ biểu hiện của nguyên lý nào?",
+    a: ["Nguyên lý về mối liên hệ phổ biến", "Nguyên lý phù hợp ý thức vật chất", "Nguyên lý về sự phát triển", "Nguyên lý khách quan"],
+    c: 2
+  },
+  {
+    q: "Việc Việt Nam coi giáo dục và đào tạo là “quốc sách hàng đầu” thể hiện:",
+    a: ["Xác định đúng nguyên nhân cơ bản để phát triển con người toàn diện", "Tuyệt đối hóa vai trò giáo dục", "Giáo dục vừa là động lực vừa là mục tiêu", "Thiếu thực tiễn"],
+    c: 0
+  },
+  {
+    q: "Hội nhập quốc tế tạo ra cơ hội và thách thức thể hiện:",
+    a: ["Mối quan hệ nhân quả tác động qua lại", "Một nguyên nhân có thể tạo ra nhiều kết quả khác nhau tùy điều kiện cụ thể", "Xuất hiện cả nguyên nhân tích cực và tiêu cực", "Kết quả phụ thuộc hoàn toàn hoàn cảnh"],
+    c: 1
+  },
+  {
+    q: "“Không có sự vật nào tồn tại mà không chứa đựng mâu thuẫn bên trong nó” phản ánh:",
+    a: ["Mâu thuẫn là ngẫu nhiên", "Mâu thuẫn là nguồn gốc bên ngoài", "Mâu thuẫn là nguồn gốc, động lực của sự phát triển", "Mâu thuẫn chỉ trong tư duy"],
+    c: 2
+  },
+  {
+    q: "Kim loại nung nóng đến điểm nhất định chuyển từ rắn sang lỏng là biểu hiện của:",
+    a: ["Quy luật nhân quả", "Quy luật lượng - chất", "Quy luật phủ định của phủ định", "Quy luật mâu thuẫn"],
+    c: 1
+  },
+  {
+    q: "Sự thay thế các hình thái kinh tế - xã hội (Công xã nguyên thủy → ... → Cộng sản chủ nghĩa) minh họa cho:",
+    a: ["Quy luật lượng - chất", "Quy luật mâu thuẫn", "Quy luật phủ định của phủ định", "Quy luật nhân quả"],
+    c: 2
+  },
+  {
+    q: "Một giả thuyết khoa học mới cần kiểm chứng bằng thực nghiệm thể hiện quan điểm:",
+    a: ["Tuyệt đối hóa vai trò thực tiễn", "Thực tiễn là tiêu chuẩn của chân lý", "Thực tiễn phụ thuộc lý luận", "Nhận thức không cần qua thực tiễn"],
+    c: 1
+  },
+  {
+    q: "Xử lý tốt mối quan hệ “Giữa tăng trưởng kinh tế và phát triển văn hóa, môi trường” thể hiện phương pháp luận:",
+    a: ["Siêu hình", "Biện chứng", "Chủ quan", "Toàn diện"],
+    c: 3
+  },
+  {
+    q: "Thế nào là phép biện chứng duy tâm?",
+    a: ["Xác lập trên lập trường duy tâm", "Là phép biện chứng của vật chất", "Giải thích nguồn gốc biến đổi dưới lập trường duy vật", "Chỉ thế giới quan duy tâm"],
+    c: 0
+  },
+  {
+    q: "Phương pháp siêu hình thống trị triết học vào thời kì nào?",
+    a: ["Thế kỉ XV - XVI", "Thế kỉ XVII - XVIII", "Thế kỉ XVIII - XIX", "Thế kỉ XIX - XX"],
+    c: 1
+  },
+  {
+    q: "Câu nói của Lênin về con đường biện chứng của nhận thức phản ánh:",
+    a: ["Vai trò quyết định của thực tiễn trong nhận thức và kiểm nghiệm chân lý", "Nhận thức thuần túy logic", "Sự phát triển nhận thức phụ thuộc hoàn toàn thực tiễn", "Nhận thức do kinh nghiệm"],
+    c: 0
+  },
+  {
+    q: "Sự phát triển AI ngày nay phản ánh khía cạnh nào của mối quan hệ vật chất - ý thức?",
+    a: ["Ý thức tồn tại độc lập", "Sự phản ánh năng động, sáng tạo của ý thức đối với hiện thực", "Vật chất là sản phẩm tư duy", "Ý thức quan trọng hơn vật chất"],
+    c: 1
+  },
+  {
+    q: "Khẳng định: “vật chất là phức hợp những cảm giác của con người” là quan điểm của:",
+    a: ["Chủ nghĩa duy tâm khách quan", "Chủ nghĩa duy tâm chủ quan", "Chủ nghĩa duy vật biện chứng", "Chủ nghĩa duy vật siêu hình"],
+    c: 1
+  },
+ ];
+
+// ================== BIẾN TOÀN CỤC ==================
+let index = 0;
+let answered = false;
+let quizQuestions = [];
+
+// ================== HÀM TRỘN ==================
+function shuffle(array) {
+  return array
+    .map(v => ({ v, r: Math.random() }))
+    .sort((a, b) => a.r - b.r)
+    .map(x => x.v);
+}
+
+// ================== BẮT ĐẦU / LÀM LẠI ==================
+function startQuiz() {
+  index = 0;
+  answered = false;
+
+  // 🔀 đảo câu hỏi
+  quizQuestions = shuffle([...questions]);
+
+  loadQuestion();
+}
+
+// ================== LOAD CÂU HỎI ==================
+function loadQuestion() {
+  answered = false;
+  const q = quizQuestions[index];
+
+  document.getElementById("question").innerText =
+    `Câu ${index + 1}: ${q.q}`;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  // 🔀 đảo đáp án nhưng giữ index đúng
+  const mixedAnswers = q.a.map((text, i) => ({
+    text,
+    isCorrect: i === q.c
+  }));
+
+  shuffle(mixedAnswers).forEach(ans => {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.innerText = ans.text;
+    div.onclick = () => checkAnswer(div, ans.isCorrect);
+    answersDiv.appendChild(div);
+  });
+}
+
+// ================== KIỂM TRA ĐÁP ÁN ==================
+function checkAnswer(element, isCorrect) {
+  if (answered) return;
+  answered = true;
+
+  const all = document.querySelectorAll(".answer");
+  all.forEach(a => a.onclick = null);
+
+  if (isCorrect) {
+    element.classList.add("correct");
+  } else {
+    element.classList.add("wrong");
+    all.forEach(a => {
+      if (a.innerText === quizQuestions[index].a[quizQuestions[index].c]) {
+        a.classList.add("correct");
+      }
+    });
+  }
+}
+
+// ================== CÂU TIẾP ==================
+function nextQuestion() {
+  index++;
+  if (index >= quizQuestions.length) {
+    alert("🎉 Bạn đã hoàn thành bài thi!\nBắt đầu lại với thứ tự mới.");
+    startQuiz();
+    return;
+  }
+  loadQuestion();
+}
+
+// ================== CHẠY LẦN ĐẦU ==================
+startQuiz();
+</script>
+
+</body>
+</html>

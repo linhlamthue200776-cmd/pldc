@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thi trắc nghiệm</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 15px;
+  font-size: 18px;
+}
+
+.container {
+  max-width: 100%;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+.answer {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.answer:active {
+  background: #eef;
+}
+
+.correct {
+  background: #c8f7c5;
+  border-color: green;
+}
+
+.wrong {
+  background: #f7c5c5;
+  border-color: red;
+}
+
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+}
+
+button:active {
+  background: #2980b9;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+  <button onclick="nextQuestion()">Câu tiếp theo</button>
+</div>
+
+<script>
+// ================== DỮ LIỆU CÂU HỎI ==================
+const questions = [
+  {
+    q: "Theo chủ nghĩa duy vật lịch sử, sản xuất là một loại hình hoạt động đặc trưng của con người và xã hội loài người, bao gồm:",
+    a: ["Sản xuất vật chất", "Sản xuất tinh thần", "Sản xuất ra bản thân con người", "Tất cả các đáp án trên đều đúng"],
+    c: 3
+  },
+  {
+    q: "Điền vào chỗ trống, khái niệm… là hoạt động không ngừng sáng tạo ra các giá trị vật chất và tinh thần nhằm mục đích thỏa mãn nhu cầu tồn tại và phát triển của con người.",
+    a: ["Sản xuất vật chất", "Sản xuất tinh thần", "Sản xuất", "Sản xuất ra bản thân con người"],
+    c: 2
+  },
+  {
+    q: "Vai trò quyết định của sản xuất vật chất được thể hiện :",
+    a: ["Là nhân tố quyết định sự tồn tại, phát triển của con người và xã hội", "Là hoạt động nền tảng làm phát sinh, phát triển những mối quan hệ xã hội", "Là cơ sở của sự hình thành, biến đổi và phát triển của xã hội loài người", "Tất cả các phương án đều đúng"],
+    c: 3
+  },
+  {
+    q: "Phương thức sản xuất bao gồm:",
+    a: ["Lực lượng sản xuất, quan hệ sản xuất và cơ sở hạ tầng", "Lực lượng sản xuất và quan hệ sản xuất", "Lực lượng sản xuất, quan hệ sản xuất, cơ sở hạ tầng và kiến trúc thượng tầng", "Tất cả các đáp án trên đều không đúng"],
+    c: 1
+  },
+  {
+    q: "Mối quan hệ nào sau đây được coi là mối quan hệ song trùng trong quá trình sản xuất?",
+    a: ["Nhận thức và thực tiễn", "Cơ sở hạ tầng và kiến trúc thượng tầng", "Lực lượng sản xuất và quan hệ sản xuất", "Tồn tại xã hội và ý thức xã hội"],
+    c: 2
+  },
+  {
+    q: "Phạm trù thể hiện mối quan hệ giữa con người với tự nhiên trong quá trình sản xuất là:",
+    a: ["Lực lượng sản xuất", "Quan hệ sản xuất", "Tư liệu sản xuất", "Phương thức sản xuất"],
+    c: 0
+  },
+  {
+    q: "Trong lực lượng sản xuất, nhân tố hàng đầu giữ vai trò quyết định là?",
+    a: ["Người lao động", "Công cụ lao động", "Tư liệu sản xuất", "Tư liệu lao động"],
+    c: 0
+  },
+  {
+    q: "Trong nền sản xuất Tư bản chủ nghĩa, bản chất mối quan hệ giữa người lao động với tư liệu sản xuất là gì?",
+    a: ["Người lao động làm chủ tư liệu sản xuất", "Người lao động phụ thuộc vào tư liệu sản xuất", "Người lao động và tư liệu sản xuất có quan hệ ngang bằng nhau", "Không có đáp án nào đúng"],
+    c: 1
+  },
+  {
+    q: "Trong tư liệu sản xuất, yếu tố nào được coi là yếu tố động nhất, cách mạng nhất?",
+    a: ["Con người và công cụ lao động", "Công cụ lao động", "Đối tượng lao động", "Tư liệu lao động"],
+    c: 1
+  },
+  {
+    q: "Yếu tố nào sau đây không thuộc lực lượng sản xuất?",
+    a: ["Quan hệ về sở hữu tư liệu sản xuất", "Người lao động", "Tư liệu sản xuất", "Khoa học và công nghệ"],
+    c: 0
+  },
+  {
+    q: "Theo chủ nghĩa duy vật lịch sử, trình độ của lực lượng sản xuất thể hiện ở:",
+    a: ["Trình độ công cụ lao động và người lao động", "Trình độ tổ chức và phân công lao động xã hội", "Trình độ ứng dụng khoa học và công nghệ vào sản xuất", "Tất cả các phương án trên đều đúng"],
+    c: 3
+  },
+  {
+    q: "Phạm trù thể hiện mối quan hệ giữa con người với con người trong quá trình sản xuất là:",
+    a: ["Lực lượng sản xuất", "Quan hệ sản xuất", "Tư liệu sản xuất", "Phương thức sản xuất"],
+    c: 1
+  },
+  {
+    q: "Trong quan hệ sản xuất, quan hệ nào giữ vai trò quyết định?",
+    a: ["Quan hệ về sở hữu đối với tư liệu sản xuất", "Quan hệ về tổ chức, quản lý quá trình sản xuất", "Quan hệ về phân phối kết quả của quá trình sản xuất", "Tất cả các phương án trên đều sai"],
+    c: 0
+  },
+  {
+    q: "Trong quan hệ sản xuất, quan hệ nào kích thích trực tiếp vào lợi ích của người lao động?",
+    a: ["Quan hệ về sở hữu đối với tư liệu sản xuất", "Quan hệ về tổ chức, quản lý quá trình sản xuất", "Quan hệ về phân phối kết quả của quá trình sản xuất", "Không có đáp án nào đúng"],
+    c: 2
+  },
+  {
+    q: "Sự hình thành, biến đổi và phát triển của quan hệ sản xuất bị quyết định bởi:",
+    a: ["Ý chí của con người", "Lực lượng siêu nhiên", "Trình độ phát triển của lực lượng sản xuất", "Trình độ phát triển của kiến trúc thượng tầng"],
+    c: 2
+  },
+  {
+    q: "Quan hệ sản xuất KHÔNG bao gồm quan hệ nào sau đây?",
+    a: ["Quan hệ về sở hữu đối với tư liệu sản xuất", "Quan hệ về tổ chức, quản lý quá trình sản xuất", "Quan hệ về phân phối kết quả của quá trình sản xuất", "Quan hệ mua – bán"],
+    c: 3
+  },
+  {
+    q: "Quy luật xã hội nào được coi là cơ bản nhất và giữ vai trò quyết định đối với sự vận động, phát triển của xã hội?",
+    a: ["Quy luật đấu tranh giai cấp", "Quy luật quan hệ sản xuất phù hợp với trình độ phát triển của lực lượng sản xuất", "Quy luật cơ sở hạ tầng quyết định kiến trúc thượng tầng", "Quy luật tồn tại xã hội quyết định ý thức xã hội"],
+    c: 1
+  },
+  {
+    q: "Nếu quan hệ sản xuất phù hợp với trình độ phát triển của lực lượng sản xuất, thì:",
+    a: ["Thúc đẩy sự phát triển của lực lượng sản xuất", "Kìm hãm sự phát triển của lực lượng sản xuất", "Không thay đổi sự phát triển của lực lượng sản xuất", "Vừa kìm hãm, vừa thúc đẩy sự phát triển của lực lượng sản xuất"],
+    c: 0
+  },
+  {
+    q: "Quan hệ sản xuất không phù hợp với trình độ phát triển của lực lượng sản xuất được biểu hiện ở:",
+    a: ["Quan hệ sản xuất lỗi thời, lạc hậu hơn", "Quan hệ sản xuất tiến bộ, vượt trước một cách giả tạo", "Xây dựng quan hệ sản xuất thiếu đồng bộ", "Tất cả các đáp án trên đều đúng"],
+    c: 3
+  },
+  {
+    q: "Xây dựng nền kinh tế thị trường định hướng xã hội chủ nghĩa là mô hình kinh tế tổng quát, là sự vận dụng quy luật xã hội nào trong phát triển kinh tế ở Việt Nam hiện nay?",
+    a: ["Cơ sở hạ tầng quyết định kiến trúc thượng tầng", "Quan hệ sản xuất phù hợp với trình độ phát triển của lực lượng sản xuất", "Tồn tại xã hội quyết định ý thức xã hội", "Đấu tranh giai cấp"],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án đúng điền vào chỗ trống: Khái niệm … dùng để chỉ toàn bộ những quan hệ sản xuất hợp thành cơ cấu kinh tế của xã hội.",
+    a: ["Kiến trúc thượng tầng", "Lực lượng sản xuất", "Tồn tại xã hội", "Cơ sở hạ tầng"],
+    c: 3
+  },
+  {
+    q: "Theo chủ nghĩa duy vật lịch sử, trong cơ sở hạ tầng của xã hội thì yếu tố nào giữ vai trò quyết định?",
+    a: ["Quan hệ sản xuất tàn dư", "Quan hệ sản xuất thống trị", "Quan hệ sản xuất mầm mống", "Tất cả các phương án đều đúng"],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án đúng điền vào chỗ trống: Theo chủ nghĩa duy vật lịch sử, cơ sở hạ tầng là phương diện … của xã hội.",
+    a: ["Kinh tế", "Chính trị", "Xã hội", "Văn hóa"],
+    c: 0
+  },
+  {
+    q: "Chọn đáp án đúng điền vào chỗ trống: Khái niệm … dùng để chỉ toàn bộ những tư tưởng xã hội cùng với các thiết chế chính trị - xã hội tương ứng, được hình thành trên một cơ sở hạ tầng nhất định.",
+    a: ["Cơ sở hạ tầng", "Kiến trúc thượng tầng", "Lực lượng sản xuất", "Tồn tại xã hội"],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án đúng điền vào chỗ trống: Theo chủ nghĩa duy vật lịch sử, kiến trúc thượng tầng là phương diện… của xã hội.",
+    a: ["Kinh tế", "Chính trị - xã hội", "Sản xuất", "Tiêu dùng"],
+    c: 1
+  },
+  {
+    q: "Trong kiến trúc thượng tầng, yếu tố nào thường biến đổi nhanh khi cơ sở hạ tầng thay đổi?",
+    a: ["Đạo đức", "Tôn giáo", "Nhà nước", "Tất cả các phương án trên đều sai"],
+    c: 2
+  },
+  {
+    q: "Thực chất của mối quan hệ biện chứng giữa cơ sở hạ tầng và kiến trúc thượng tầng là:",
+    a: ["Quan hệ giữa đời sống vật chất và đời sống tinh thần của xã hội", "Quan hệ giữa kinh tế và chính trị", "Quan hệ giữa vật chất và tinh thần", "Quan hệ giữa tồn tại xã hội với ý thức xã hội"],
+    c: 1
+  },
+  {
+    q: "Chủ nghĩa duy vật lịch sử khẳng định cơ sở hạ tầng quyết định kiến trúc thượng tầng, bởi vì:",
+    a: ["Quan hệ vật chất quyết định quan hệ tinh thần và thể chế", "Tính tất yếu kinh tế xét đến cùng quyết định tính tất yếu chính trị - xã hội", "Quan hệ vật chất quyết định quan hệ tinh thần và tính tất yếu kinh tế xét đến cùng quyết định tính tất yếu chính trị - xã hội", "Do vai trò sức mạnh vật chất của bộ máy tổ chức – thể chế"],
+    c: 2
+  },
+  {
+    q: "Vì sao kiến trúc thượng tầng tác động trở lại cơ sở hạ tầng?",
+    a: ["Do tính độc lập tương đối của kiến trúc thượng tầng", "Do tính năng động, sáng tạo, tích cực, tự giác của ý thức, tinh thần, tư tưởng", "Do vai trò sức mạnh vật chất của bộ máy tổ chức – thể chế", "Tất cả các đáp án trên"],
+    c: 3
+  },
+  {
+    q: "Kiến trúc thượng tầng tác động trở lại cơ sở hạ tầng nhằm:",
+    a: ["Củng cố, hoàn thiện và bảo vệ cơ sở hạ tầng sinh ra nó, thực chất là bảo vệ lợi ích kinh tế của giai cấp thống trị", "Ngăn chặn cơ sở hạ tầng mới, xoá bỏ tàn dư cơ sở hạ tầng cũ", "Định hướng, tổ chức, xây dựng chế độ kinh tế", "Tất cả các phương án nêu trên"],
+    c: 3
+  },
+  {
+    q: "Đâu không phải là nội dung cơ sở hạ tầng quyết định kiến trúc thượng tầng?",
+    a: ["Quyết định sự ra đời của kiến trúc thượng tầng", "Quyết định cơ cấu và tính chất của kiến trúc thượng tầng", "Quyết định sự vận động, phát triển của kiến trúc thượng tầng", "Quyết định tính độc lập tương đối của kiến trúc thượng tầng"],
+    c: 3
+  },
+  {
+    q: "Ý nghĩa của việc nghiên cứu biện chứng giữa cơ sở hạ tầng và kiến trúc thượng tầng trong đời sống xã hội ở Việt Nam hiện nay?",
+    a: ["Trong quá trình lãnh đạo cách mạng Việt Nam, Đảng ta đã rất quan tâm đến nhận thức và vận dụng quy luật này", "Đảng Cộng sản Việt Nam chủ trương đổi mới toàn diện cả kinh tế và chính trị", "Đảng Cộng sản Việt Nam chủ trương giải quyết tốt mối quan hệ giữa kinh tế và chính trị; mối quan hệ giữa đổi mới - ổn định - phát triển, giữ vững định hướng xã hội chủ nghĩa", "Tất cả các phương án nêu trên"],
+    c: 3
+  },
+  {
+    q: "Theo C.Mác: Sự phát triển của những hình thái kinh tế - xã hội là một quá trình…",
+    a: ["Lịch sử - tự nhiên", "Lịch sử - xã hội", "Lịch sử - khoa học", "Lịch sử - tôn giáo"],
+    c: 0
+  },
+  {
+    q: "Yếu tố nào sau đây không thuộc cấu trúc của hình thái kinh tế - xã hội?",
+    a: ["Lực lượng sản xuất", "Quan hệ sản xuất", "Điều kiện tự nhiên", "Kiến trúc thượng tầng"],
+    c: 2
+  },
+  {
+    q: "Theo chủ nghĩa duy vật lịch sử, nguyên nhân sâu xa của sự phát triển của các hình thái kinh tế - xã hội trong lịch sử là:",
+    a: ["Ý muốn chủ quan của con người", "Sự phát triển của quan hệ sản xuất", "Ý muốn của Thượng Đế", "Sự phát triển của lực lượng sản xuất"],
+    c: 3
+  },
+  {
+    q: "Thời đại đồ đồng tương ứng với hình thái kinh tế - xã hội nào trong lịch sử xã hội loài người?",
+    a: ["Hình thái kinh tế - xã hội Cộng sản nguyên thủy", "Hình thái kinh tế - xã hội Chiếm hữu nô lệ", "Hình thái kinh tế - xã hội Phong kiến", "Hình thái kinh tế - xã hội Tư bản"],
+    c: 1
+  },
+  {
+    q: "Theo quan điểm của C. Mác: lịch sử xã hội loài người là một tiến trình nối tiếp nhau từ thấp đến cao của các hình thái kinh tế - xã hội?",
+    a: ["Công xã nguyên thủy, chiếm hữu nô lệ, phong kiến, tư bản chủ nghĩa, xã hội chủ nghĩa", "Cộng sản nguyên thuỷ, chiếm hữu nô lệ, phong kiến, tư bản chủ nghĩa, cộng sản chủ nghĩa", "Công xã nguyên thủy, phong kiến, chiếm hữu nô lệ, chủ nghĩa tư bản, chủ nghĩa xã hội", "Cộng sản nguyên thủy, phong kiến, chiếm hữu nô lệ, tư bản chủ nghĩa, xã hội chủ nghĩa"],
+    c: 1
+  },
+  {
+    q: "Đâu không phải là nội dung giá trị khoa học bền vững và ý nghĩa cách mạng của học thuyết hình thái kinh tế - xã hội?",
+    a: ["Đem lại một cuộc cách mạng trong quan niệm và phân tích về lịch sử xã hội", "Là cơ sở phương pháp luận trong hoạt động nhận thức và cải tạo xã hội", "Là cơ sở khoa học quán triệt quan điểm của Đảng ta về con đường đi lên chủ nghĩa xã hội ở Việt Nam", "Là một học thuyết theo trường phái duy tâm"],
+    c: 3
+  },
+  {
+    q: "Con đường quá độ lên chủ nghĩa xã hội ở Việt Nam là con đường phát triển theo hình thức nào trong tiến trình lịch sử - tự nhiên của xã hội loài người ?",
+    a: ["Phát triển theo tuần tự qua các hình thái kinh tế - xã hội.", "Phát triển theo xu hướng chung, tuần tự.", "Phát triển theo hướng “bỏ qua” một vài hình thái kinh tế - xã hội để tiến lên hình thái kinh tế - xã hội cao hơn.", "Phát triển theo xu hướng không đồng đều."],
+    c: 2
+  },
+  {
+    q: "Xuất phát từ cơ sở lý luận nào của chủ nghĩa Mác – Lênin, Đảng Cộng sản Việt Nam khẳng định: Việt Nam thực hiện quá độ lên chủ nghĩa xã hội bỏ qua chế độ tư bản chủ nghĩa?",
+    a: ["Học thuyết về giai cấp và đấu tranh giai cấp", "Học thuyết hình thái kinh tế - xã hội", "Lý luận về cách mạng xã hội", "Tất cả các phương án trên đều sai"],
+    c: 1
+  },
+  {
+    q: "Tiến lên xây dựng chủ nghĩa xã hội bỏ qua chế độ tư bản chủ nghĩa ở Việt Nam là:",
+    a: ["Phù hợp với quá trình lịch sử - tự nhiên", "Không phù hợp với quá trình lịch sử - tự nhiên", "Sự vận dụng sáng tạo của Đảng Cộng sản Việt Nam", "Phù hợp với quy luật khách quan và sự vận dụng sáng tạo của Đảng Cộng sản Việt Nam"],
+    c: 3
+  },
+  {
+    q: "Điền cụm từ đúng vào chỗ trống: … là những tập đoàn to lớn gồm những người khác nhau về địa vị của họ trong một hệ thống sản xuất xã hội nhất định trong lịch sử, khác nhau về quan hệ của họ đối với tư liệu sản xuất...",
+    a: ["Giai tầng", "Giai cấp", "Tầng lớp", "Cơ cấu xã hội"],
+    c: 1
+  },
+  {
+    q: "Sự phân chia giai cấp trong xã hội bắt đầu từ hình thái kinh tế - xã hội nào?",
+    a: ["Cộng sản nguyên thủy", "Chiếm hữu nô lệ", "Phong kiến", "Tư bản chủ nghĩa"],
+    c: 1
+  },
+  {
+    q: "Nguyên nhân quyết định trực tiếp của sự ra đời giai cấp trong lịch sử xã hội là gì ?",
+    a: ["Do chiến tranh, thần linh, Thượng Đế tạo ra", "Do sự chênh lệch về khả năng của các tập đoàn người", "Do sự xuất hiện chế độ tư hữu về tư liệu sản xuất", "Do sự phân hóa giữa giàu và nghèo trong xã hội"],
+    c: 2
+  },
+  {
+    q: "Chọn đáp án đúng điền vào chỗ trống: Thực chất ... là cuộc đấu tranh của quần chúng lao động bị áp bức, bóc lột chống lại giai cấp áp bức, bóc lột nhằm lật đổ ách thống trị của chúng.",
+    a: ["Cải cách xã hội", "Đảo chính", "Đấu tranh giai cấp", "Liên minh giai cấp"],
+    c: 2
+  },
+  {
+    q: "Theo quan điểm của V.I.Lênin, “Đấu tranh giai cấp” được hiểu theo nghĩa chung nhất là:",
+    a: ["Là sự đấu tranh giữa giai cấp bị áp bức bóc lột với giai cấp áp bức bóc lột", "Cuộc đấu tranh của nông dân chống lại bọn địa chủ phong kiến có đặc quyền, đặc lợi, bọn áp bức và bọn ăn bám", "Là sự đấu tranh giữa giai cấp nô lệ với giai cấp chủ nô", "Là sự đấu tranh xóa bỏ cái cũ, lỗi thời, lạc hậu"],
+    c: 0
+  },
+  {
+    q: "Đâu không phải là đặc trưng cơ bản của một giai cấp?",
+    a: ["Giai cấp là những tập đoàn người có địa vị kinh tế - xã hội khác nhau...", "Dấu hiệu chủ yếu quy đinh địa vị kinh tế-xã hội của các giai cấp là các mối quan hệ kinh tế - vật chất...", "Thực chất của quan hệ giai cấp là quan hệ giữa bóc lột và bị bóc lột.", "Giai cấp là những tập đoàn người khác nhau về sở thích, ngôn ngữ"],
+    c: 3
+  },
+  {
+    q: "Trong các đặc trưng của giai cấp liệt kê dưới đây, đặc trưng nào đóng vai trò quan trọng nhất, chi phối các đặc trưng còn lại?",
+    a: ["Khác nhau về địa vị trong hệ thống tổ chức xã hội?", "Tập đoàn này có thể chiếm đoạt lao động của tập đoàn khác", "Khác nhau về quan hệ sở hữu tư liệu sản xuất xã hội", "Khác nhau về vai trò trong tổ chức xã hội"],
+    c: 2
+  },
+  {
+    q: "Mâu thuẫn đối kháng giữa các giai cấp là do:",
+    a: ["Sự khác nhau về tư tưởng, lối sống", "Sự đối lập về lợi ích cơ bản – lợi ích kinh tế", "Sự khác nhau giữa giàu và nghèo", "Sự khác nhau về mức thu nhập"],
+    c: 1
+  },
+  {
+    q: "Theo chủ nghĩa duy vật lịch sử, giai cấp nắm giữ quyền lực nhà nước là giai cấp nào?",
+    a: ["Có tư tưởng cách mạng và tiên tiến nhất", "Đại biểu cho ý chí của cộng đồng xã hội", "Nắm giữ tư liệu sinh hoạt chủ yếu của xã hội", "Nắm giữ tư liệu sản xuất chủ yếu của xã hội"],
+    c: 3
+  },
+{
+    q: "Vai trò của đấu tranh giai cấp trong lịch sử nhân loại:",
+    a: ["Là động lực cơ bản của sự phát triển xã hội", "Là một động lực trực tiếp, quan trọng của sự phát triển xã hội trong các xã hội có giai cấp", "Thay thế các hình thái kinh tế - xã hội từ thấp đến cao", "Lật đổ và thay đổi người cầm quyền"],
+    c: 1
+  },
+  {
+    q: "Nội dung nào dưới đây không phải là vai trò của đấu tranh giai cấp trong xã hội có giai cấp?",
+    a: ["Nhằm mục đích thay đổi người cầm quyền", "Đấu tranh giai cấp là động lực trực tiếp, quan trọng của lịch sử.", "Đấu tranh giai cấp là động lực để phát triển của xã hội có đối kháng giai cấp", "Đấu tranh giai cấp có tác dụng cải tạo xã hội, xoá bỏ các lực lượng xã hội phản động và cải tạo bản thân các giai cấp cách mạng."],
+    c: 0
+  },
+  {
+    q: "Đấu tranh giai cấp trong thời kỳ quá độ từ chủ nghĩa tư bản lên chủ nghĩa xã hội bao gồm những nội dung nào?",
+    a: ["Đấu tranh giai cấp diễn ra trong bối cảnh phức tạp", "Không cần đấu tranh giai cấp, xã hội sẽ tự phát triển", "Cuộc đấu tranh giai cấp của giai cấp vô sản diễn ra trong những điều kiện mới, với nội dung mới và có những hình thức mới", "Tất cả các đáp án đều đúng"],
+    c: 2
+  },
+  {
+    q: "Cuộc đấu tranh giai cấp của giai cấp vô sản là:",
+    a: ["Chống lại xã hội phong kiến, xã hội cũ", "Nhằm mục đích cuối cùng là thiết lập quyền thống trị của giai cấp vô sản, cải tạo xã hội cũ, xây dựng thành công xã hội mới", "Cuộc đấu tranh gay go, quyết liệt nhất nhằm thiết lập nền chuyên chính vô sản, cải tạo triệt để xã hội cũ, xoá bỏ mọi đối kháng giai cấp, xây dựng thành công xã hội cộng sản chủ nghĩa và đồng thời là cuộc đấu tranh giai cấp cuối cùng trong lịch sử", "Nhằm thay đổi người cầm quyền"],
+    c: 2
+  },
+  {
+    q: "Theo chủ nghĩa duy vật lịch sử, trong xã hội có giai cấp, giai cấp nào mới có thể làm cho hệ tư tưởng của nó trở thành hệ tư tưởng thống trị trong toàn xã hội?",
+    a: ["Bất cứ giai cấp nào trong xã hội", "Chỉ có đội ngũ trí thức", "Chỉ có giai cấp nắm quyền sở hữu tư liệu sản xuất chủ yếu", "Chỉ có giai cấp ưu tú trong xã hội"],
+    c: 2
+  },
+  {
+    q: "Đáp án nào dưới đây là hình thức đấu tranh cao nhất, có ý nghĩa quyết định đến thắng lợi của giai cấp vô sản?",
+    a: ["Đấu tranh kinh tế", "Đấu tranh chính trị", "Đấu tranh tư tưởng", "Tất cả các đáp án đều sai"],
+    c: 1
+  },
+  {
+    q: "Nhận định nào sau đây là SAI?",
+    a: ["Giai cấp bị trị chịu ảnh hưởng tư tưởng của giai cấp thống trị.", "Giai cấp thống trị không chịu ảnh hưởng tư tưởng của giai cấp bị trị.", "Giai cấp bị trị có thể có hệ tư tưởng riêng của mình.", "Giai cấp thống trị luôn tìm cách áp đặt hệ tư tưởng của mình cho các giai cấp khác."],
+    c: 1
+  },
+  {
+    q: "Nội dung của cuộc đấu tranh giai cấp trong thời kỳ quá độ lên chủ nghĩa xã hội ở Việt Nam hiện nay là:",
+    a: ["Thực hiện thắng lợi mục tiêu độc lập dân tộc và chủ nghĩa xã hội.", "Là cuộc đấu tranh giữa các nhân tố thúc đẩy đất nước theo định hướng xã hội chủ nghĩa với các nhân tố tác động nhằm cản trở đất nước theo mục tiêu độc lập dân tộc và chủ nghĩa xã hội.", "Xây dựng một xã hội dân giàu, nước mạnh, dân chủ, công bằng, văn minh.", "Tất cả các đáp án trên"],
+    c: 3
+  },
+  {
+    q: "Đâu không phải là nội dung chủ yếu của cuộc đấu tranh giai cấp ở Việt Nam hiện nay?",
+    a: ["Sử dụng các hình thức kinh tế trung gian, quá độ trong đấu tranh giai cấp", "Thực hiện thắng lợi sự nghiệp công nghiệp hoá, hiện đại hoá theo định hướng xã hội chủ nghĩa, khắc phục tình trạng nước kém phát triển", "Thực hiện công bằng xã hội, chống áp bức, bất công; đấu tranh ngăn chặn và khắc phục những tư tưởng và hành động tiêu cực, sai trái", "Đấu tranh làm thất bại mọi âm mưu và hành động chống phá của các thế lực thù địch và bảo vệ độc lập dân tộc, xây dựng thành công chủ nghĩa xã hội."],
+    c: 0
+  },
+  {
+    q: "Hình thức cộng đồng người nào hình thành khi xã hội bắt đầu có sự phân chia thành giai cấp ?",
+    a: ["Thị tộc", "Bộ lạc", "Bộ tộc", "Dân tộc"],
+    c: 2
+  },
+  {
+    q: "Sự hình thành dân tộc phổ biến trong lịch sử gắn với xã hội nào?",
+    a: ["Xã hội phong kiến", "Sự hình thành và phát triển của chủ nghĩa tư bản", "Phong trào công nhân và cách mạng vô sản", "Xã hội cổ đại"],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án đúng điền vào chỗ trống:… là một cộng đồng người ổn định được hình thành trong lịch sử trên cơ sở một lãnh thổ thống nhất, một ngôn ngữ thống nhất, một nền kinh tế thống nhất, một nền văn hóa và tâm lý, tính cách thống nhất, với một nhà nước và pháp luật thống nhất.",
+    a: ["Thị tộc", "Bộ lạc", "Bộ tộc", "Dân tộc"],
+    c: 3
+  },
+  {
+    q: "Đặc điểm hình thành Dân tộc ở Phương Tây:",
+    a: ["Giống như các dân tộc ở Phương Đông", "Gắn liền với sự hình thành và phát triển của chủ nghĩa tư bản", "Ra đời từ thời kỳ nguyên thủy", "Ra đời cùng với thời kỳ phong kiến"],
+    c: 1
+  },
+  {
+    q: "Đặc điểm hình thành Dân tộc ở Phương Đông :",
+    a: ["Ra đời sớm hơn ở Phương Tây và không gắn với sự ra đời của chủ nghĩa tư bản", "Ra đời giống như các dân tộc ở Phương Tây", "Ra đời từ thời kỳ nguyên thủy", "Ra đời cùng với sự hình thành và phát triển của chủ nghĩa tư bản"],
+    c: 0
+  },
+  {
+    q: "Đặc điểm nào sau đây đóng vai trò quan trọng nhất, quy định đặc trưng của cộng đồng dân tộc?",
+    a: ["Lãnh thổ và kinh tế", "Kinh tế và văn hóa", "Lãnh thổ và ngôn ngữ", "Kinh tế và ngôn ngữ"],
+    c: 1
+  },
+  {
+    q: "Chọn một phương án sai: Theo chủ nghĩa duy vật lịch sử, nhà nước…",
+    a: ["Xuất hiện và tồn tại trong những xã hội có đối kháng giai cấp", "Xuất hiện và tồn tại trong một giai đoạn phát triển nhất định của xã hội loài người", "Ra đời cùng sự xuất hiện của con người", "Là sản phẩm và biểu hiện của những mâu thuẫn đối kháng giai cấp không thể điều hòa được."],
+    c: 2
+  },
+  {
+    q: "Thứ tự sự phát triển các hình thức cộng đồng người trong lịch sử xã hội là?",
+    a: ["Thị tộc - Bộ lạc - Bộ tộc – Dân tộc", "Thị tộc – Bộ tộc – Bộ lạc – Dân tộc", "Bộ lạc – Thị tộc – Bộ tộc – Dân tộc", "Bộ lạc – Bộ tộc – Thị tộc – Dân tộc"],
+    c: 0
+  },
+  {
+    q: "Đâu không phải là đặc trưng cơ bản của quốc gia dân tộc?",
+    a: ["Là một cộng đồng người ổn định trên một lãnh thổ thống nhất", "Là một cộng đồng người có cùng tính chất về mặt sinh học", "Có ngôn ngữ, kinh tế và một nền văn hóa thống nhất", "Là một cộng đồng người có một nhà nước và pháp luật thống nhất"],
+    c: 1
+  },
+  {
+    q: "Đặc điểm dễ phân biệt nhất giữa quốc gia dân tộc và dân tộc tộc người là:",
+    a: ["Dựa vào lãnh thổ và văn hóa", "Dựa vào lãnh thổ và ngôn ngữ", "Dựa vào lãnh thổ và kinh tế", "Dựa vào lãnh thổ và nhà nước, pháp luật"],
+    c: 3
+  },
+  {
+    q: "Chọn đáp án SAI về mối quan hệ giữa giai cấp, dân tộc và nhân loại theo quan điểm của triết học Mác – Lênin.",
+    a: ["Trong xã hội có giai cấp, lợi ích nhân loại không tách rời với lợi ích giai cấp, lợi ích dân tộc và bị chi phối bởi lợi ích giai cấp và dân tộc", "Sự tồn tại của nhân loại là tiền đề, là điều kiện tất yếu thường xuyên của sự tồn tại dân tộc và giai cấp", "Sự phát triển về mọi mặt của nhân loại tạo ra những điều kiện thuận lợi cho cuộc đấu tranh giải phóng dân tộc và giai cấp.", "Nhân loại đứng trên giai cấp và dân tộc, còn giai cấp và dân tộc có mối quan hệ biện chứng tác động qua lại lẫn nhau"],
+    c: 3
+  },
+  {
+    q: "Chọn đáp án SAI về mối quan hệ giữa giai cấp và dân tộc.",
+    a: ["Giai cấp quyết định dân tộc nhưng đồng thời vấn đề dân tộc có ảnh hưởng lớn đến vấn đề giai cấp", "Đấu tranh giải phóng dân tộc là điều kiện, tiền đề cho đấu tranh giải phóng giai cấp", "Giai cấp và dân tộc có mối quan hệ biện chứng, tác động qua lại lẫn nhau", "Giai cấp và dân tộc là những phạm trù chỉ các quan hệ xã hội khác nhau nên không có quan hệ với nhau"],
+    c: 3
+  },
+  {
+    q: "Dân tộc Việt Nam được hình thành như thế nào?",
+    a: ["Hình thành từ thời kỳ phong kiến gắn liền với các đời vua Hùng Vương", "Hình thành từ thời kỳ nguyên thủy", "Hình thành rất sớm gắn liền với quá trình đấu tranh chống ngoại xâm, cải tạo thiên nhiên, bảo vệ nền văn hoá dân tộc, bắt đầu từ khi nước Đại Việt giành độc lập.", "Tất cả các đáp án trên đều chưa đúng"],
+    c: 2
+  },
+  {
+    q: "Đối với cách mạng Việt Nam, Chủ tịch Hồ Chí Minh khẳng định: “cách mạng giải phóng dân tộc không phải là nhân tố bị động... nắm vững thời cơ thì cách mạng ở nước thuộc địa có thể thành công trước cách mạng ở chính quốc”. Đây là nhận định của Bác vận dụng sáng tạo mối quan hệ nào trong nội dung của triết học Mác – Lênin?",
+    a: ["Mối quan hệ giữa giai cấp và dân tộc", "Mối quan hệ giữa nhà nước và cách mạng", "Mối quan hệ giữa tồn tại xã hội và ý thức xã hội", "Mối quan hệ giữa vật chất và ý thức"],
+    c: 0
+  },
+  {
+    q: "Điền cụm từ đúng vào chỗ trống sau: … là một tổ chức chính trị của một giai cấp thống trị về mặt kinh tế nhằm bảo vệ trật tự hiện hành và đàn áp sự phản kháng của các giai cấp khác.",
+    a: ["Tôn giáo", "Nhà nước", "Hệ thống chính trị", "Dân tộc"],
+    c: 1
+  },
+  {
+    q: "Nguyên nhân sâu xa của sự xuất hiện nhà nước là:",
+    a: ["Do sự phát triển của lực lượng sản xuất dẫn đến sự dư thừa tương đối của cải, xuất hiện chế độ tư hữu .", "Do mâu thuẫn giai cấp trong xã hội gay gắt không thể điều hòa được.", "Do sự phát triển tự nhiên của xã hội.", "Do Thượng đế tạo ra."],
+    c: 0
+  },
+  {
+    q: "Nguyên nhân trực tiếp của sự xuất hiện nhà nước là:",
+    a: ["Do sự phát triển của lực lượng sản xuất dẫn đến sự dư thừa tương đối của cải, xuất hiện chế độ tư hữu", "Do mâu thuẫn giai cấp trong xã hội gay gắt không thể điều hòa được", "Do sự phát triển tự nhiên của xã hội", "Do Thượng đế tạo ra"],
+    c: 1
+  },
+  {
+    q: "Sự ra đời và tồn tại của nhà nước là do:",
+    a: ["Nguyện vọng của giai cấp thống trị", "Nguyện vọng của mỗi quốc gia dân tộc", "Tất yếu khách quan và do nguyên nhân kinh tế", "Sự phát triển của xã hội"],
+    c: 2
+  },
+  {
+    q: "Theo triết học Mác – Lênin, sự ra đời và tồn tại của nhà nước nhằm:",
+    a: ["Điều hòa mâu thuẫn giai cấp", "Giải quyết mâu thuẫn giai cấp", "Bảo vệ lợi ích của mọi giai cấp trong xã hội", "Bảo vệ trật tự xã hội theo ý chí và lợi ích của giai cấp thống trị kinh tế"],
+    c: 3
+  },
+  {
+    q: "Theo triết học Mác – Lênin, về bản chất, nhà nước là:",
+    a: ["Của dân, do dân và vì dân", "Bộ máy tập trung quyền lực của giai cấp nắm quyền thống trị về kinh tế", "Chung của mọi giai cấp", "Tất cả các phương án đều sai"],
+    c: 1
+  },
+  {
+    q: "Đáp án nào sau đây nêu đúng nhất bản chất của nhà nước?",
+    a: ["Là cơ quan quyền lực của giai cấp", "Là bộ máy quản lý xã hội", "Công cụ thống trị áp bức của giai cấp thống trị đối với toàn bộ xã hội, cơ quan trọng tài phân xử, hòa giải các xung đột xã hội", "Công cụ thống trị áp bức của giai cấp thống trị đối với toàn bộ xã hội, cơ quan trọng tài phân xử, hòa giải các xung đột xã hội"],
+    c: 2
+  },
+  {
+    q: "Theo triết học Mác – Lênin, bộ máy tổ chức quyền lực và thực thi quyền lực đặc biệt của xã hội trong điều kiện xã hội có đối kháng giai cấp là:",
+    a: ["Nhà nước", "Giáo hội", "Các đảng phái", "Các đoàn thể xã hội"],
+    c: 0
+  },
+  {
+    q: "Đặc trưng cơ bản của nhà nước theo quan điểm của chủ nghĩa duy vật lịch sử là:",
+    a: ["Quản lý cư dân trên một vùng lãnh thổ nhất định", "Có hệ thống các cơ quan quyền lực chuyên nghiệp mang tính cưỡng chế đối với mọi thành viên", "Có hệ thống thuế khóa để nuôi bộ máy chính quyền", "Tất cả các đáp án trên"],
+    c: 3
+  },
+  {
+    q: "Chọn đáp án đúng nhất: Các chức năng cơ bản của nhà nước là:",
+    a: ["Chức năng thống trị chính trị giai cấp và chức năng xã hội; chức năng đối nội và chức năng đối ngoại.", "Chức năng đối nội và chức năng đối ngoại; chức năng kinh tế.", "Chức năng thống trị xã hội và chức năng xã hội; chức năng giáo dục.", "Tất cả các đáp án trên đều sai."],
+    c: 0
+  },
+  {
+    q: "Chọn một đáp án không phải là nội dung thuộc chức năng thống trị chính trị giai cấp của nhà nước?",
+    a: ["Chịu sự quy định bởi tính giai cấp của nhà nước", "Làm công cụ chuyên chính của giai cấp thống trị", "Bảo vệ sự thống trị của giai cấp thống trị", "Thực hiện các mối quan hệ với các nước trên thế giới"],
+    c: 3
+  },
+  {
+    q: "Chọn một đáp án không phải là nội dung thuộc chức năng xã hội của nhà nước?",
+    a: ["Quản lý, điều hành những hoạt động chung vì sự tồn tại của xã hội", "Thỏa mãn một số nhu cầu chung của cộng đồng dân cư", "Làm công cụ chuyên chính của giai cấp thống trị", "Nhà nước nhân danh xã hội làm nhiệm vụ quản lý nhà nước về xã hội"],
+    c: 2
+  },
+  {
+    q: "Chọn một đáp án không phải là nội dung thuộc chức năng đối nội của nhà nước?",
+    a: ["Thực hiện đường lối đối nội nhằm duy trì trật tự xã hội", "Xác lập vị trí chính thống những tư tưởng, ý chí của giai cấp thống trị", "Quản lý các hoạt động kinh tế, chính trị, xã hội… bằng pháp luật", "Thực hiện các mối quan hệ với các nước trên thế giới"],
+    c: 3
+  },
+  {
+    q: "Chọn một đáp án không phải là nội dung thuộc chức năng đối ngoại của nhà nước?",
+    a: ["Chịu sự quy định bởi tính giai cấp của nhà nước", "Đáp ứng nhu cầu giao lưu, trao đổi về kinh tế, văn hóa, khoa học kỹ thuật, y tế, giáo dục… với các nước trong khu vực và thế giới.", "Bảo vệ lãnh thổ quốc gia", "Thực hiện các mối quan hệ với các nước trên thế giới"],
+    c: 0
+  },
+  {
+    q: "Tìm đáp án sai: Theo chủ nghĩa duy vật lịch sử, mối quan hệ giữa chức năng thống trị chính trị của giai cấp và chức năng xã hội của nhà nước là?",
+    a: ["Chức năng thống trị chính trị của giai cấp thống trị giữ địa vị quyết định...", "Chức năng xã hội của nhà nước có vai trò rất quan trọng đối với sự duy trì trật tự xã hội.", "Nếu chính quyền nhà nước nào không chú ý tới chức năng xã hội thì sẽ nhanh chóng đi tới sự sụp đổ.", "Chức năng thống trị chính trị của giai cấp và chức năng xã hội của nhà nước chỉ có mối quan hệ bề ngoài, không bản chất"],
+    c: 3
+  },
+  {
+    q: "Đáp án nào không phải là đặc trưng cơ bản của nhà nước theo quan điểm của chủ nghĩa duy vật lịch sử?",
+    a: ["Quản lý cư dân trên một vùng lãnh thổ nhất định", "Đảm bảo lợi ích cho toàn thể các giai cấp và tầng lớp trong xã hội", "Có hệ thống các cơ quan quyền lực chuyên nghiệp mang tính cưỡng chế đối với mọi thành viên", "Có hệ thống thuế khóa để nuôi bộ máy chính quyền"],
+    c: 1
+  },
+  {
+    q: "Thứ tự các kiểu nhà nước tồn tại trong lịch sử xã hội:",
+    a: ["Nhà nước phong kiến, nhà nước chủ nô, nhà nước tư bản, nhà nước vô sản", "Nhà nước vô sản, nhà nước phong kiến, nhà nước chủ nô, nhà nước tư bản", "Nhà nước chủ nô, nhà nước phong kiến, nhà nước tư bản, nhà nước vô sản", "Nhà nước chủ nô, nhà nước phong kiến, nhà nước vô sản, nhà nước tư sản"],
+    c: 2
+  },
+  {
+    q: "Trong các kiểu nhà nước sau, nhà nước nào khác về bản chất so với các kiểu nhà nước còn lại?",
+    a: ["Nhà nước chiếm hữu nô lệ", "Nhà nước phong kiến", "Nhà nước tư bản", "Nhà nước vô sản"],
+    c: 3
+  },
+  {
+    q: "Trong các kiểu nhà nước sau, nhà nước nào được coi là nhà nước đặc biệt, nhà nước nửa nhà nước, nhà nước không còn nguyên nghĩa?",
+    a: ["Nhà nước chiếm hữu nô lệ", "Nhà nước vô sản", "Nhà nước phong kiến", "Nhà nước tư bản"],
+    c: 1
+  },
+  {
+    q: "Nền chuyên chính vô sản (nhà nước vô sản) có chức năng cơ bản là:",
+    a: ["Chống lại giai cấp phong kiến và chế độ cũ.", "Xây dựng một trật tự xã hội mới, thủ tiêu chế độ người áp bức bóc lột người, đập tan sự phản kháng của các thế lực phản động...", "Thực hiện trấn áp bạo lực với các giai cấp, tầng lớp khác trong xã hội.", "Chỉ thực hiện chức năng tổ chức xây dựng mà không cần thực hiện chức năng thống trị chính trị giai cấp."],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án đúng nhất: Thực chất của nhà nước vô sản là:",
+    a: ["Nhà nước do giai cấp nông dân và tầng lớp trí thức nắm quyền, lãnh đạo.", "Nhà nước do giai cấp vô sản nắm quyền, lãnh đạo.", "Nhà nước do giai cấp vô sản lãnh đạo, liên minh với giai cấp nông dân, tầng lớp trí thức tiến bộ... đại diện và bảo vệ quyền lợi của giai cấp và của toàn thể nhân dân lao động.", "Nhà nước do tầng lớp trí thức nắm quyền, lãnh đạo."],
+    c: 2
+  },
+  {
+    q: "Theo chủ nghĩa duy vật lịch sử, mối quan hệ giữa chức năng đối nội và chức năng đối ngoại của nhà nước là:",
+    a: ["Là hai mặt của một thực thể thống nhất, hỗ trợ và tác động lẫn nhau nhằm thực hiện đường lối đối nội và đường lối đối ngoại của giai cấp thống trị", "Chức năng đối nội và chức năng đối ngoại chỉ có mối quan hệ bề ngoài, không bản chất", "Chức năng đối ngoại quan trọng hơn và giữ vai trò chủ yếu", "Tất cả các đáp án trên đều không đúng"],
+    c: 0
+  },
+  {
+    q: "Hiện nay, Đảng ta chủ trương xây dựng Nhà nước Việt Nam phát triển theo hướng nào?",
+    a: ["Nhà nước tư sản", "Nhà nước pháp quyền", "Nhà nước pháp quyền xã hội chủ nghĩa", "Nhà nước quân chủ"],
+    c: 2
+  },
+  {
+    q: "Nhà nước Việt Nam thuộc hình thức nào trong các hình thức nhà nước liệt kê sau đây?",
+    a: ["Cộng hòa dân chủ", "Cộng hòa dân chủ nhân dân", "Xô Viết", "Cộng hòa đại nghị"],
+    c: 1
+  },
+  {
+    q: "Bộ máy cai trị của nhà nước bao gồm:",
+    a: ["Lực lượng vũ trang chuyên nghiệp và bộ máy hành chính", "Bộ máy hành chính và pháp luật của nó", "Quân đội, cảnh sát, tòa án", "Lực lượng vũ trang chuyên nghiệp và hệ thống pháp luật"],
+    c: 0
+  },
+  {
+    q: "Chọn đáp án đúng nhất điền vào chỗ trống: Theo nghĩa rộng, … là sự biến đổi có tính chất bước ngoặt và căn bản về chất trong mọi lĩnh vực đời sống xã hội...",
+    a: ["Cách mạng khoa học và công nghệ", "Cách mạng xã hội", "Đấu tranh giai cấp", "Tất cả các phương án trên đều sai"],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án đúng nhất điền vào chỗ trống: Theo nghĩa hẹp, … là việc lật đổ một chế độ chính trị đã lỗi thời và thiết lập một chế độ chính trị tiến bộ hơn của giai cấp cách mạng.",
+    a: ["Cách mạng xã hội", "Cách mạng khoa học và công nghệ", "Đấu tranh giai cấp", "Tất cả các phương án trên đều sai"],
+    c: 0
+  },
+{
+    q: "Nguồn gốc sâu xa của cách mạng xã hội là do:",
+    a: ["Mâu thuẫn giữa sự tiến bộ của lực lượng sản xuất với tính ổn định, lạc hậu của quan hệ sản xuất.", "Mâu thuẫn giai cấp và đấu tranh giai cấp", "Tự thân xã hội phát triển", "Do Thượng Đế sắp đặt"],
+    c: 0
+  },
+  {
+    q: "Nguồn gốc trực tiếp của cách mạng xã hội là do:",
+    a: ["Mâu thuẫn giữa sự tiến bộ của lực lượng sản xuất với tính ổn định, lạc hậu của quan hệ sản xuất.", "Mâu thuẫn giữa giai cấp thống trị và giai cấp bị thống trị trong xã hội, do đấu tranh giai cấp.", "Tự thân xã hội phát triển", "Do Thượng Đế sắp đặt"],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án đúng nhất điền vào chỗ trống: … là quá trình phát triển diễn ra một cách tuần tự, dần dần từng bộ phận, từng lĩnh vực của đời sống xã hội.",
+    a: ["Cách mạng xã hội", "Cải cách xã hội", "Tiến hóa xã hội", "Đảo chính"],
+    c: 2
+  },
+  {
+    q: "Chọn đáp án đúng nhất điền vào chỗ trống: … chỉ tạo nên những thay đổi bộ phận, lĩnh vực riêng lẻ của đời sống xã hội.",
+    a: ["Cách mạng xã hội", "Cải cách xã hội", "Tiến hóa xã hội", "Đảo chính"],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án đúng nhất điền vào chỗ trống: … là thủ đoạn giành quyền lực nhà nước bởi một cá nhân hoặc một nhóm người nhằm xác lập một chế độ xã hội có cùng bản chất .",
+    a: ["Cách mạng xã hội", "Cải cách xã hội", "Tiến hóa xã hội", "Đảo chính"],
+    c: 3
+  },
+  {
+    q: "Lực lượng cách mạng xã hội là:",
+    a: ["Tất cả các giai cấp, tầng lớp tồn tại trong xã hội.", "Những giai cấp, tầng lớp người có lợi ích ít nhiều gắn bó với cách mạng, tham gia vào các phong trào cách mạng đang thực hiện mục đích của cách mạng.", "Đáp án A và B đều đúng", "Đáp án A và B đều sai"],
+    c: 1
+  },
+  {
+    q: "Theo triết học Mác – Lênin, động lực cách mạng là:",
+    a: ["Những giai cấp và những lực lượng đối lập cần phải đánh đổ của cách mạng.", "Những giai cấp có lợi ích gắn bó chặt chẽ và lâu dài đối với cách mạng, có tính tự giác, tích cực, chủ động, kiên quyết, triệt để cách mạng...", "Giai cấp có hệ tư tưởng tiến bộ, đại diện cho xu hướng phát triển của xã hội, cho phương thức sản xuất tiến bộ.", "Tất cả các đáp án trên đều đúng"],
+    c: 1
+  },
+  {
+    q: "Theo triết học Mác – Lênin, đối tượng của cách mạng xã hội là:",
+    a: ["Những giai cấp và những lực lượng đối lập cần phải đánh đổ của cách mạng.", "Những giai cấp có lợi ích gắn bó chặt chẽ và lâu dài đối với cách mạng, có tính tự giác, tích cực, chủ động, kiên quyết, triệt để cách mạng...", "Giai cấp có hệ tư tưởng tiến bộ, đại diện cho xu hướng phát triển của xã hội, cho phương thức sản xuất tiến bộ.", "Tất cả các đáp án trên đều đúng"],
+    c: 0
+  },
+  {
+    q: "Tính chất của cách mạng xã hội được xác định bởi:",
+    a: ["Mâu thuẫn cơ bản và nhiệm vụ giải quyết mâu thuẫn kinh tế với mâu thuẫn chính trị xã hội tương ứng.", "Giai cấp cầm quyền xác định", "Thượng đế, thần linh", "Sự phát triển tự nhiên của xã hội"],
+    c: 0
+  },
+  {
+    q: "Điều kiện khách quan để cách mạng xã hội diễn ra là:",
+    a: ["Năng lực tổ chức thực hiện nhiệm vụ cách mạng, khả năng tập hợp lực lượng cách mạng của giai cấp lãnh đạo cách mạng.", "Thời điểm đặc biệt khi điều kiện khách quan và nhân tố chủ quan của cách mạng xã hội đã chín muồi...", "Điều kiện, hoàn cảnh kinh tế - xã hội, chính trị bên ngoài tác động đến, là tiền đề diễn ra các cuộc cách mạng xã hội.", "Khi ý chí, niềm tin, trình độ giác ngộ và nhận thức của lực lượng cách mạng một lòng hướng vào thực hiện mục tiêu và nhiệm vụ cách mạng."],
+    c: 2
+  },
+  {
+    q: "Đâu không phải là điều kiện chủ quan để cách mạng xã hội diễn ra?",
+    a: ["Năng lực tổ chức thực hiện nhiệm vụ cách mạng, khả năng tập hợp lực lượng cách mạng của giai cấp lãnh đạo cách mạng đã đạt đến độ chin muồi.", "Khi ý chí, niềm tin, trình độ giác ngộ và nhận thức của lực lượng cách mạng một lòng hướng vào thực hiện mục tiêu và nhiệm vụ cách mạng.", "Lực lượng và những yếu tố của xã hội cũ đang suy yếu", "Tất cả các đáp án nêu trên"],
+    c: 2
+  },
+  {
+    q: "Các phương pháp cách mạng được sử dụng trong cách mạng xã hội là:",
+    a: ["Diễn biến hòa bình", "Đảo chính", "Bạo lực cách mạng và phương pháp hòa bình", "Tự diễn biến, tự chuyển hóa"],
+    c: 2
+  },
+  {
+    q: "Tại sao sử dụng phương pháp bạo lực cách mạng được coi là tất yếu trong xã hội có đối kháng giai cấp?",
+    a: ["Vì có lợi, ít gây đau khổ cho con người", "Vì giai cấp thống trị lỗi thời không bao giờ tự nguyện từ bỏ địa vị thống trị của mình.", "Vì có lợi cho giai cấp cầm quyền đàn áp giai cấp bị thống trị", "Tất cả các đáp án trên đều sai"],
+    c: 1
+  },
+  {
+    q: "Muốn cho cách mạng xã hội nổ ra và giành thắng lợi, ngoài tình thế cách mạng cần phải có:",
+    a: ["Sự khủng hoảng trong xã hội", "Nhân tố chủ quan", "Sự giác ngộ và tích cực của quần chúng nhân dân", "Sự chín muồi của nhân tố chủ quan và sự kết hợp đúng đắn giữa nhân tố chủ quan với nhân tố khách quan."],
+    c: 3
+  },
+  {
+    q: "Xu hướng của cách mạng xã hội trên thế giới hiện nay là?",
+    a: ["Xu hướng đối thoại, hòa giải đang là xu hướng chủ đạo hiện nay.", "Xu hướng giữ vững độc lập tự chủ của quốc gia dân tộc... đấu tranh cho dân chủ, hòa bình và tiến bộ xã hội đang diễn ra mạnh mẽ.", "Các quốc gia, dân tộc sẽ đi tới một xã hội dân chủ... thông qua các chính sách phát triển kinh tế - xã hội.", "Tất cả các đáp án trên đều đúng"],
+    c: 3
+  },
+  {
+    q: "Điền đáp án đúng vào chỗ trống sau: Khái niệm … dùng để chỉ phương diện sinh hoạt vật chất và các điều kiện sinh hoạt vật chất của xã hội.",
+    a: ["Lực lượng sản xuất", "Kiến trúc thượng tầng", "Tồn tại xã hội", "Quan hệ sản xuất"],
+    c: 2
+  },
+  {
+    q: "Các yếu tố cấu thành tồn tại xã hội bao gồm:",
+    a: ["Phương thức sản xuất và điều kiện tự nhiên – hoàn cảnh địa lý.", "Phương thức sản xuất, điều kiện tự nhiên – hoàn cảnh địa lý và dân cư.", "Phương thức sản xuất, xã hội và dân cư.", "Điều kiện tự nhiên - hoàn cảnh địa lý và dân cư."],
+    c: 1
+  },
+  {
+    q: "Khái niệm ý thức xã hội dùng để chỉ:",
+    a: ["Phương diện sinh hoạt vật chất của xã hội.", "Phương diện sinh hoạt tinh thần của một giai cấp.", "Phương diện sinh hoạt tinh thần của đời sống xã hội, nảy sinh từ tồn tại xã hội và phản ánh tôn tại xã hội trong những giai đoạn nhất định.", "Những đặc trưng về tâm lý, tính cách của một cộng đồng dân tộc"],
+    c: 2
+  },
+  {
+    q: "Hình thái ý thức xã hội nào sau đây ra ra đời từ khi xã hội chưa phân chia giai cấp?",
+    a: ["Ý thức triết học.", "Ý thức tôn giáo.", "Ý thức chính trị.", "Ý thức pháp quyền."],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án đúng theo quan điểm triết học Mác - Lênin về đặc điểm tâm lý xã hội.",
+    a: ["Tâm lý xã hội là sự phản ánh mang tính kinh nghiệm, yếu tố trí tuệ và đan xen yếu tố tình cảm.", "Tâm lý xã hội là sự phản ánh gián tiếp có tính tự phát, thường ghi lại những mặt bề ngoài tồn tại xã hội.", "Tâm lý xã hội mang tính phong phú và phức tạp, nhưng không tuân theo các quy luật tâm lý.", "Tâm lý xã hội không có vai trò quan trọng trong ý thức xã hội."],
+    c: 0
+  },
+  {
+    q: "Chọn đáp án đúng nhất về tâm lý xã hội.",
+    a: ["Tâm lý xã hội cho biết những mối liên hệ khách quan, bản chất, tất yếu mang tính quy luật của các sự vật và quá trình xã hội.", "Tâm lý xã hội phản ánh một cách trực tiếp và tự phát những điều kiện sinh hoạt hằng ngày của con người.", "Tâm lý xã hội phản ánh một cách trực tiếp và tự giác những điều kiện sinh hoạt hằng ngày của con người .", "Tâm lý xã hội không bao gồm tư tưởng của xã hội hình thành dưới tác động trực tiếp của cuộc sống hằng ngày."],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án đúng về đặc điểm hệ tư tưởng.",
+    a: ["Hệ tư tưởng ra đời trực tiếp từ tâm lý xã hội.", "Hệ tư tưởng là hệ thống những quan điểm, hệ thống hóa, khái quát hóa thành lý luận... phản ánh lợi ích của một giai cấp nhất định.", "Trong xã hội có giai cấp thì chỉ có hệ tư tưởng biểu hiện tính giai cấp của ý thức xã hội.", "Hệ tư tưởng không ảnh hưởng đến sự phát triển của khoa học."],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án đúng về vai trò của tồn tại xã hội trong quan hệ biện chứng với ý thức xã hội.",
+    a: ["Ý thức xã hội hoàn toàn phụ thuộc một cách thụ động vào tồn tại xã hội.", "Tồn tại xã hội quyết định ý thức xã hội.", "Khi tồn tại xã hội đã thay đổi thì toàn bộ các yếu tố cấu thành ý thức xã hội biến đổi theo cùng tồn tại xã hội.", "Tồn tại xã hội có vai trò quyết định đối với các hình thái ý thức xã hội một cách đơn giản, trực tiếp."],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án đúng nhất về tính độc lập tương đối của ý thức xã hội.",
+    a: ["Các hình thái ý thức xã hội trong quá trình phản ánh hiện thực có tác động trở lại tồn tại xã hội như nhau.", "Ý thức xã hội luôn luôn lạc hậu hơn so với tồn tại xã hội vì không phản ánh kịp hoạt động thực tiễn.", "Không thể giải thích một tư tưởng nào đó nếu chỉ dựa vào những quan hệ kinh tế hiện có mà không chú ý đến các giai đoạn phát triển tư tướng đó.", "Ý thức xã hội tác động trở lại tồn tại xã hội theo hai chiều hướng hoặc thúc đẩy hoặc kìm hãm..."],
+    c: 2
+  },
+  {
+    q: "Chọn đáp án đúng nhất về tính độc lập tương đối của ý thức xã hội.",
+    a: ["Những tư tưởng khoa học tiên tiến có thể vượt trước sự phát triển của tồn tại xã hội nên có thể thoát ly tồn tại xã hội.", "Tồn tại xã hội thay đổi nhưng có một số bộ phận của ý thức xã hội chưa thay đổi ngay cùng với tồn tại xã hội.", "Các hình thái ý thức xã hội trong sự phát triển không thể tác động qua lại lẫn nhau.", "Trong xã hội có giai cấp, tính chất kế thừa của ý thức xã hội không gắn liền với tính giai cấp của nó."],
+    c: 1
+  },
+  {
+    q: "Yếu tố nào sau đây là yếu tố cơ bản nhất của tồn tại xã hội?",
+    a: ["Điều kiện tự nhiên.", "Dân số.", "Phương thức sản xuất vật chất.", "Năng suất lao động"],
+    c: 2
+  },
+  {
+    q: "Ý thức xã hội bao gồm các hình thái ý thức xã hội cơ bản nào?",
+    a: ["Ý thức chính trị, ý thức pháp quyền, ý thức đạo đức, ý thức văn hóa, ý thức tôn giáo, ý thức khoa học, ý thức triết học.", "Ý thức chính trị, ý thức pháp quyền, ý thức đạo đức, ý thức thẩm mỹ, ý thức tôn giáo, ý thức khoa học, ý thức triết học.", "Ý thức chính trị, ý thức pháp quyền, ý thức đạo đức, ý thức dân tộc, ý thức tôn giáo, ý thức khoa học, ý thức triết học.", "Ý thức chính trị, ý thức pháp quyền, ý thức văn hóa, ý thức môi trường, ý thức tôn giáo, ý thức khoa học, ý thức triết học."],
+    c: 1
+  },
+  {
+    q: "Khi tồn tại xã hội thay đổi thì:",
+    a: ["Ý thức tôn giáo sẽ không thay đổi.", "triết học sẽ thay đổi triệt để", "Ý thức xã hội sớm hay muộn cũng sẽ có những thay đổi nhất định .", "Ý thức xã hội sẽ thay đổi một cách hệ thống và đồng bộ."],
+    c: 2
+  },
+  {
+    q: "Trong xã hội có giai cấp, hình thái ý thức xã hội nào quyết định đến các hình thái ý thức xã hội còn lại?",
+    a: ["Ý thức đạo đức", "Ý thức chính trị", "Ý thức thẩm mỹ", "Ý thức pháp quyền"],
+    c: 1
+  },
+  {
+    q: "Ý thức xã hội không phụ thuộc vào tồn tại xã hội một cách thụ động mà còn có tác động tích cực trở lại tồn tại xã hội, đó là sự thể hiện:",
+    a: ["Tính độc lập tương đối của ý thức xã hội", "Tính định hướng của ý thức xã hội", "Ý thức xã hội luôn có tính vượt trước", "Tất cả các đáp án trên"],
+    c: 0
+  },
+  {
+    q: "Điều kiện cơ bản để ý thức xã hội tác động trở lại tồn tại xã hội là:",
+    a: ["Ý thức xã hội phải phù hợp với tồn tại xã hội", "Hoạt động thực tiễn của con người", "Điều kiện vật chất bảo đảm", "Ý thức xã hội phải “vượt trước” tồn tại xã hội"],
+    c: 1
+  },
+  {
+    q: "Mối quan hệ giữa tồn tại xã hội và ý thức xã hội thực chất là biểu hiện của mối quan hệ giữa:",
+    a: ["Kinh tế và chính trị.", "Vật chất và ý thức.", "Thực tiễn và lý luận.", "Kinh tế và văn hóa."],
+    c: 1
+  },
+  {
+    q: "Nhận định nào sau đây là SAI về ý thức xã hội:",
+    a: ["Ý thức xã hội là sự phản ánh tồn tại xã hội.", "Ý thức xã hội có tính độc lập tương đối trong quan hệ với tồn tại với xã hội.", "Ý thức xã hội là đời sống chính trị của xã hội.", "Ý thức xã hội không đồng nhất với ý thức cá nhân."],
+    c: 2
+  },
+  {
+    q: "Đâu là nhận định nào SAI về ý thức xã hội?",
+    a: ["Ý thức xã hội luôn lạc hậu hơn tồn tại xã hội.", "Ý thức xã hội có thể vượt trước tồn tại xã hội.", "Ý thức xã hội có thể tác động trở lại tồn tại xã hội.", "Ý thức xã hội có tính độc lập tương đối với tồn tại xã hội."],
+    c: 0
+  },
+  {
+    q: "Đảng ta đã dựa trên cơ sở lý luận nào để phát huy vai trò của con người trong sự nghiệp cách mạng và đổi với ở Việt Nam hiện nay?",
+    a: ["Lý luận về con người của Nho giáo", "Lý luận về con người của thời kỳ Phục Hưng", "Lý luận về con người của Chủ nghĩa Mác-Lênin", "Cả 3 đáp án trên"],
+    c: 2
+  },
+  {
+    q: "Vận dụng kiến thức nào của chủ nghĩa duy vật lịch sử để giải thích trong giai đoạn hiện nay vẫn còn tồn tại tư tưởng “trọng nam, khinh nữ”?",
+    a: ["Ý thức xã hội có tính vượt trước so với tồn tại xã hội", "Ý thức xã hội có tính kế thừa trong sự phát triển", "Có sự tác động qua lại giữa các hình thái ý thức xã hội khác nhau", "Ý thức xã hội thường lạc hậu hơn so với tồn tại xã hội"],
+    c: 3
+  },
+  {
+    q: "Vận dụng kiến thức nào của chủ nghĩa duy vật lịch sử để giải thích câu nói: “sức mạnh của thói quen, của phong tục, tập quán là sức mạnh bảo thủ ghê gớm nhất”?",
+    a: ["Quan hệ sản xuất tác động ngược trở lại lực lượng sản xuất.", "Tính độc lập tương đối của ý thức xã hội so với tồn tại xã hội.", "Cơ sở hạ tầng quyết định kiến trúc thượng tầng", "Không có đáp án nào"],
+    c: 1
+  },
+  {
+    q: "Tâm lý tiểu nông của người Việt Nam truyền thống căn bản là do:",
+    a: ["Bản tính cố hữu của người Việt", "Bị đế quốc, phong kiến nhiều thế kỷ áp bức, bóc lột", "Phương thức sản xuất tiểu nông, manh mún, lạc hậu", "Tất cả các phương án đều sai"],
+    c: 2
+  },
+  {
+    q: "Lối sống, phong tục tập quán của con người ở những vùng miền khác nhau là do:",
+    a: ["Tồn tại xã hội quyết định", "Sở thích theo nhóm người", "Sự khác nhau của ngôn ngữ", "Sự khác nhau về nhà nước và pháp luật"],
+    c: 0
+  },
+  {
+    q: "“Điều kiện sinh hoạt vật chất của xã hội biến đổi đến đâu thì ngay lập tức tâm lý xã hội và hệ tư tưởng xã hội cũng lập tức biến đổi đến đó”. Nhận định này đúng hay sai?",
+    a: ["Sai. Vì ý thức xã hội phụ thuộc vào tồn tại xã hội nhưng nó có tính độc lập tương đối", "Đúng. Vì tồn tại xã hội nào thì ý thức xã hội đó", "Đúng. Vì ý thức xã hội luôn luôn vượt trước tồn tại xã hội", "Sai. Vì ý thức xã hội luôn luôn lạc hậu hơn so với tồn tại xã hội"],
+    c: 0
+  },
+  {
+    q: "Trong các định nghĩa sau đây, định nghĩa nào là của triết học Mác – Lênin về con người?",
+    a: ["Con người là động vật biết tư duy.", "Con người là động vật hai chân, không có lông vũ", "Con người là thực thể xã hội.", "Con người là một thực thể thống nhất sinh học - xã hội."],
+    c: 3
+  },
+  {
+    q: "Quan niệm của triết học Mác-Lênin về bản chất con người?",
+    a: ["Con người là một thực thể thống nhất giữa mặt sinh vật với mặt xã hội", "Trong tính hiện thực của nó con người là tổng hòa những quan hệ xã hội trên nền tảng sinh học.", "Con người là chủ thể và là sản phẩm của lịch sử.", "Bao gồm ba đáp án trên."],
+    c: 3
+  },
+  {
+    q: "Chủ nghĩa duy vật lịch sử coi con người là một bộ phận của giới tự nhiên, còn giới tự nhiên là...",
+    a: ["Đối tượng chinh phục của con người.", "Đối tượng cải tạo của con người.", "Thân thể vô cơ của con người.", "Đối tượng vô cơ của con người."],
+    c: 2
+  },
+  {
+    q: "Cơ sở khoa học tự nhiên của quan niệm “con người là sản phẩm của quá trình phát triển lâu dài của giới tự nhiên” là gì?",
+    a: ["Thuyết tế bào.", "Thuyết tiến hóa.", "Thuyết di truyền", "Thuyết biến dị"],
+    c: 1
+  },
+  {
+    q: "Con người mà triết học Mác – Lênin nghiên cứu là:",
+    a: ["Con người cụ thể.", "Con người trừu tượng.", "Con người hiện thực .", "Con người lý tưởng."],
+    c: 2
+  },
+  {
+    q: "Quan niệm của triết học Mác - Lênin cho rằng: muốn nhận thức bản chất con người cần phải:",
+    a: ["Thông qua tư tưởng của con người.", "Thông qua hoạt động sản xuất vật chất của con người.", "Thông qua các quan hệ hiện thực của con người.", "Thông qua cống hiến xã hội của con người."],
+    c: 2
+  },
+  {
+    q: "Theo quan điểm của chủ nghĩa Mác - Lênin: Trong tính hiện thực của nó, bản chất con người là...?",
+    a: ["Tính thiện.", "Tính ác.", "Tổng hòa những quan hệ xã hội.", "Tổng hòa các quan hệ kinh tế"],
+    c: 2
+  },
+  {
+    q: "Điền vào chỗ trống: “Bản chất con người không phải là một cái trừu tượng của cá nhân riêng biệt. Trong...(1)... của nó bản chất con người là...(2)... những quan hệ xã hội”.",
+    a: ["1) tính vật chất, 2) tổng hòa.", "1) tính vật chất, 2) tổng hợp.", "1) tính hiện thực, 2) tổng số.", "1) tính hiện thực, 2) tổng hòa ."],
+    c: 3
+  },
+  {
+    q: "Chủ nghĩa duy vật lịch sử cho rằng:",
+    a: ["Con người là chủ thể sáng tạo ra lịch sử theo ý mình.", "Lịch sử sáng tạo ra con người, con người không thể sáng tạo ra lịch sử.", "Con người sáng tạo ra lịch sử trong phạm vi những điều kiện khách quan mà chính lịch sử trước đó đã tạo ra cho nó.", "Con người và lịch sử đều là kết quả ngẫu nhiên."],
+    c: 2
+  },
+  {
+    q: "Nội dung nào thể hiện đúng nhất quan điểm của chủ nghĩa duy vật lịch sử về con người?",
+    a: ["Con người là sản phẩm của lịch sử, luôn chịu tác động của lịch sử.", "Con người vừa là chủ thể của lịch sử, vừa là sản phẩm của lịch sử.", "Con người sáng tạo ra lịch sử theo mong muốn chủ quan của mình.", "Con người vừa là sản phẩm của lịch sử, vừa là bộ phận của lịch sử."],
+    c: 1
+  },
+{
+    q: "Hai yếu tố nào sau đây có vai trò quan trọng nhất đánh dấu sự phát triển của con người về phương diện xã hội? [cite: 2098]",
+    a: ["Lao động và sáng tạo.", "Lao động và ngôn ngữ.", "Lao động và sản xuất.", "Khoa học và kỹ thuật."],
+    c: 1
+  },
+  {
+    q: "Điền từ còn thiếu vào chỗ trống của luận điểm sau: “Khi lao động bị..., con người trở nên què quặt, phiến diện, khuyết thiếu trên nhiều phương diện khác nhau”.",
+    a: ["Kìm hãm", "Triệt tiêu", "Tha hóa", "Loại bỏ"],
+    c: 2
+  },
+  {
+    q: "Thực chất của hiện tượng tha hóa ở con người là gì? ",
+    a: ["Lao động của con người bị tha hóa", "Nhân cách của con người bị thay đổi", "Động cơ hành động của con người bị thay đổi", "Hành động của con người gây bất lợi cho nhau"],
+    c: 0
+  },
+  {
+    q: "Biểu hiện tha hóa ở con người, theo quan điểm của Triết học Mác-Lênin là gì ? ",
+    a: ["Con người đối xử với nhau tàn bạo hơn", "Con người bị đánh mất mình trong lao động", "Con người lao động tự giác và sáng tạo hơn", "Cả 3 đáp án trên đều đúng"],
+    c: 1
+  },
+  {
+    q: "Tha hóa của con người được đẩy lên mức cao nhất trong nền sản xuất của chế độ xã hội nào? ",
+    a: ["Chiếm hữu Nô lệ", "Phong kiến", "Tư bản Chủ nghĩa", "Cộng sản Chủ nghĩa"],
+    c: 2
+  },
+  {
+    q: "Theo quan điểm của Triết học Mác-Lênin, nguyên nhân của hiện tượng tha hóa của con người là gì?",
+    a: ["Do sự ý muốn chủ quan của con người", "Do sự sắp đặt của Thượng đế", "Do sự xuất hiện của chế độ tư hữu về tư liệu sản xuất", "Do chế độ sở hữu chung về tư liệu sản xuất"],
+    c: 2
+  },
+  {
+    q: "Điền từ còn thiếu vào chỗ trống của luận điểm sau: “Sự phát triển tự do của mỗi người là ... cho sự phát triển tự do của tất cả mọi người”? ",
+    a: ["Điều kiện", "Nguyên nhân", "Lý do", "Tiền đề"],
+    c: 0
+  },
+  {
+    q: "Điều kiện và tiền đề để giải phóng triệt để con người theo quan điểm của Triết học Mác-Lênin là gì? ",
+    a: ["Xóa bỏ áp bức bất công", "Xóa bỏ giai cấp và chế độ sở hữu tư nhân về tư liệu sản xuất", "Xóa bỏ lao động", "Xóa bỏ chế độ công hữu về tư liệu sản xuất"],
+    c: 1
+  },
+  {
+    q: "Theo chủ nghĩa duy vật lịch sử, chủ thể chính sáng tạo ra lịch sử là: ",
+    a: ["Vĩ nhân.", "Cá nhân.", "Quần chúng nhân dân.", "Giai cấp."],
+    c: 2
+  },
+  {
+    q: "Khái niệm … dùng để chỉ lực lượng sản xuất cơ bản của xã hội, trực tiếp sản xuất ra của cải vật chất, là cơ sở của sự tồn tại và phát triển của xã hội. ",
+    a: ["Lãnh tụ", "Quần chúng nhân dân.", "Vĩ nhân.", "Tất cả các đáp án trên."],
+    c: 1
+  },
+  {
+    q: "Chọn đáp án đúng nhất, lịch sử xã hội loài người được quyết định bởi: ",
+    a: ["Quần chúng nhân dân.", "Mệnh trời.", "Cá nhân anh hùng hào kiệt.", "Không do ai quyết định, vì nó diễn ra theo quy luật tự nhiên."],
+    c: 0
+  },
+  {
+    q: "Yếu tố nào KHÔNG thuộc khái niệm quần chúng nhân dân của triết học Mác - Lênin? ",
+    a: ["Người lao động.", "Bộ phận dân cư chống lại các giai cấp bóc lột.", "Những người cầm quyền trong xã hội.", "Những tầng lớp, giai cấp thúc đẩy tiến bộ xã hội."],
+    c: 2
+  },
+  {
+    q: "Khái niệm cá nhân được xác định trong quan hệ nào sau đây? ",
+    a: ["Trong quan hệ với loài.", "Trong quan hệ với giai cấp.", "Trong quan hệ với xã hội.", "Trong quan hệ với nhà nước."],
+    c: 2
+  },
+  {
+    q: "Quan điểm của chủ nghĩa Mác-Lênin về lãnh tụ là gì? ",
+    a: ["Những cá nhân kiệt xuất có sự gắn bó với quần chúng nhân dân.", "Những cá nhân kiệt xuất được quần chúng tín nhiệm.", "Những cá nhân kiệt xuất tự nguyện hy sinh bản thân mình vì lợi ích của quần chúng nhân dân.", "Tất cả các đáp án trên."],
+    c: 3
+  },
+  {
+    q: "Vai trò của lãnh tụ đối với phong trào của quần chúng nhân dân?",
+    a: ["Thúc đẩy hoặc kìm hãm sự tiến bộ của xã hội.", "Là người sáng lập ra các tổ chức chính trị, xã hội và là linh hồn của các tổ chức đó.", "Lãnh tụ của mỗi thời đại chỉ có thể hoàn thành những nhiệm vụ đặt ra của thời đại đó.", "Tất cả các đáp án trên"],
+    c: 3
+  },
+  {
+    q: "Theo quan niệm của triết học Mác Lênin, mục đích cao nhất của sự phát triển xã hội là: ",
+    a: ["Hạnh phúc và sự phát triển toàn diện của con người.", "Tăng trưởng kinh tế.", "Ổn định xã hội.", "Bình đẳng xã hội."],
+    c: 0
+  },
+  {
+    q: "Nội dung nào thể hiện đúng nhất mục tiêu phát triển con người ở Việt Nam giai đoạn hiện nay?",
+    a: ["Phát triển thể chất con người", "Phát triển con người toàn diện.", "Phát triển con người đạo đức.", "Phát triển con người văn hóa."],
+    c: 1
+  },
+  {
+    q: "Trong tư tưởng truyền thống Việt Nam, vấn đề nào về con người được quan tâm nhiều nhất là:",
+    a: ["Bản chất con người", "Trí tuệ của con người.", "Đạo lý làm người.", "Sức mạnh chinh phục tự nhiên của con người."],
+    c: 2
+  },
+  {
+    q: "Tệ sung bái cá nhân trong xã hội là tuyệt đối hóa vai trò của:",
+    a: ["Lãnh tụ", "Quần chúng nhân dân", "Giai cấp thống trị", "Tất cả các phương án trên"],
+    c: 0
+  },
+  {
+    q: "Từ vấn đề con người của chủ nghĩa duy vật lịch sử, chọn đáp án đúng nhất: thời thế tạo anh hùng hay anh hùng tạo thời thế?",
+    a: ["Thời thế tạo anh hùng", "Anh hùng tạo thời thế", "Thời thế tạo anh hùng và anh hùng tạo ra thời thế cả hai đều đúng", "Tất cả đều sai"],
+    c: 2
+  },
+  {
+    q: "Anh hùng tạo thời thế và thời thế tạo anh hùng, đúng hay sai ?",
+    a: ["Sai. Vì khẳng định như vậy là tuyệt đối hóa vai trò của cá nhân, vĩ nhân", "Đúng. Vì giải thích từ luận điểm con người là vừa là chủ thể lịch sử và vừa là sản phẩm của hoàn cảnh, lịch sử.", "Sai. Vì tuyệt đối hóa vai trò của quần chúng nhân dân", "Đúng. Vì tuyệt đối hóa vai trò của lãnh tụ"],
+    c: 1
+  },
+  {
+    q: "Nội dung bài thơ “Ngủ thì ai cũng như lương thiện...” của Hồ Chí Minh đề cập đến nội dung nào? ",
+    a: ["Bản tính con người là do định sẵn", "Bản tính con người là tổng hòa các quan hệ xã hội", "Con người là một thực thể sinh học – xã hội", "Bản chất con người là lương thiện"],
+    c: 1
+  },
+  {
+    q: "Trong thời kỳ đất nước có chiến tranh, nhiệm vụ của cách mạng Việt Nam đối với con người là gì? ",
+    a: ["Giải phóng cho con người", "Tạo công ăn việc làm cho con người", "Đoàn kết mọi người lại với nhau", "Giáo dục cho con người"],
+    c: 0
+  },
+  {
+    q: "Trong thời kỳ hiện nay nhiệm vụ của cách mạng Việt Nam đối với con người là gì?",
+    a: ["Chăm lo sức khỏe cho con người", "Nâng cao đời sống vật chất cho con người", "Chăm lo đời sống tinh thần cho con người", "Tạo điều kiện cho con người phát triển một cách toàn diện"],
+    c: 3
+  },
+  {
+    q: "Theo quan điểm của Đảng Cộng sản Việt Nam, để phát huy vai trò của con người, cần phải:",
+    a: ["Thực hiện nghiêm túc trong hoạt động nhận thức", "Thực hiện triệt để trong hoạt động thực tiễn", "Thực hiện trong cả nhận thức lẫn hoạt động thực tiễn", "Cả 3 đáp án trên đều sai"],
+    c: 2
+  },
+  {
+    q: "Trong sự nghiệp xây dựng Chủ nghĩa xã hội ở Việt Nam, chúng ta cần phải tiến hành:",
+    a: ["Phát triển LLSX tiên tiến...", "Chủ động xây dựng QHSX mới...", "Kết hợp đồng thời phát triển LLSX với từng bước xây dựng QHSX mới phù hợp", "Củng cố xây dựng kiến trúc thượng tầng mới"],
+    c: 2
+  },
+  {
+    q: "Theo quan điểm của Hồ Chí Minh và Đảng Cộng sản Việt Nam, con người có quan hệ gì với cách mạng Việt Nam?",
+    a: ["Là mục tiêu của Cách mạng", "Vừa là mục tiêu, vừa là động lực của cách mạng", "Là động lực của Cách mạng", "Là lượng lượng nòng cốt của Cách mạng"],
+    c: 1
+  },
+  {
+    q: "Ý nghĩa phương pháp luận rút ra từ việc nghiên cứu mối quan hệ giữa quần chúng nhân dân với lãnh tụ?",
+    a: ["Tránh tệ sùng bái cá nhân...", "Tránh tuyệt đối hóa vai trò quần chúng...", "Kết hợp hài hòa vai trò quần chúng và lãnh tụ...", "Tất cả các đáp án nêu trên đều đúng"],
+    c: 3
+  },
+  {
+    q: "Cống hiến quan trọng nhất của triết học Mác về bản chất con người là gì?",
+    a: ["Bản chất con người là chủ thể sáng tạo lịch sử.", "Hai mặt sinh vật và xã hội.", "Vai trò của quan hệ xã hội trong việc hình thành bản chất", "Con người là kết quả sự tiến hóa của tự nhiên."],
+    c: 2
+  },
+  {
+    q: "Quan điểm tiến bộ và cách mạng nhất của chủ nghĩa Mác-Lênin về vấn đề con người là?",
+    a: ["Nguồn gốc tự nhiên và xã hội.", "Hoạt động sống theo chủ nghĩa duy vật.", "Đưa ra được học thuyết cách mạng và triệt để về đấu tranh giải phóng con người.", "Nguồn gốc của ý thức."],
+    c: 2
+  },
+  {
+    q: "“...là cơ sở của sự tồn tại và phát triển của xã hội loài người, và xét đến cùng quyết định toàn bộ sự vận động, phát triển của đời sống xã hội”?",
+    a: ["Hoạt động tinh thần", "Sản xuất tinh thần", "Hoạt động vật chất", "Sản xuất vật chất"],
+    c: 3
+  },
+  {
+    q: "Điền thêm từ: \"Điểm khác biệt căn bản giữa xã hội loài người với xã hội loài vật là... con người lại........(1) - (.......(2))\"",
+    a: ["1) Biết sáng tạo; 2) Ph. Ăngghen", "1) Sản xuất; 2) Ph. Ăngghen", "1) Tiến hành lao động; 2) C. Mác", "1) Tư duy; 2) V.I. Lênin"],
+    c: 1
+  },
+  {
+    q: "Sản xuất vật chất là cơ sở của sự ... của xã hội loài người...",
+    a: ["Tồn tại", "Phát triển", "Tiến bộ", "Tồn tại và phát triển"],
+    c: 3
+  },
+  {
+    q: "Tiêu chuẩn quan trọng nhất để phân biệt các thời đại kinh tế là:",
+    a: ["Thể chế chính trị", "Hình thức nhà nước", "Phương thức sản xuất", "Hình thức tôn giáo"],
+    c: 2
+  },
+  {
+    q: "Mối quan hệ \"song trùng\" của nền sản xuất vật chất mà C. Mác nhắc đến là quan hệ nào sau đây?",
+    a: ["Con người với tự nhiên và sản phẩm", "Con người với tự nhiên và tư liệu sản xuất", "Con người với tự nhiên và con người với con người trong sản xuất", "Người với người và quan hệ giai cấp"],
+    c: 2
+  },
+  {
+    q: "Điền các từ: \".....(1)..... và.....(2)..... là hai mặt cơ bản, tất yếu của quá trình sản xuất\"?",
+    a: ["Cơ sở hạ tầng/kiến trúc thượng tầng", "Cơ sở hạ tầng/quan hệ sản xuất", "Lực lượng sản xuất/quan hệ sản xuất", "Lực lượng sản xuất/kiến trúc thượng tầng"],
+    c: 2
+  },
+  {
+    q: "Trong thời kỳ quá độ lên chủ nghĩa xã hội, Việt Nam cần làm gì? [cite: 2288]",
+    a: ["Thiết lập QHSX trước...", "Xây dựng LLSX trước...", "Kết hợp đồng thời phát triển LLSX với xác lập QHSX phù hợp", "Không can thiệp vào sự phát triển khách quan"],
+    c: 2
+  },
+  {
+    q: "Sự tồn tại nền kinh tế hàng hóa nhiều thành phần trong thời kỳ quá độ ở Việt Nam là do:",
+    a: ["Đặc điểm tự nhiên", "Thành phần giai cấp", "Trình độ của lực lượng sản xuất", "Nhận thức chính trị"],
+    c: 2
+  },
+  {
+    q: "Nội dung nào thể hiện đúng nhất sự thay đổi của kiến trúc thượng tầng khi cơ sở hạ tầng thay đổi? ",
+    a: ["Mọi yếu tố thay đổi theo ngay", "Nhà nước, tôn giáo thay đổi ngay", "Tôn giáo, nghệ thuật thay đổi ngay", "Không phải mọi yếu tố sẽ thay đổi theo ngay"],
+    c: 3
+  },
+  {
+    q: "“Quá trình lịch sử - tự nhiên của sự phát triển xã hội chẳng những diễn ra bằng con đường... mà còn bao hàm cả sự bỏ qua...”",
+    a: ["Phát triển nhảy vọt", "Phát triển rút ngắn", "Phát triển tuần tự", "Phát triển từ từ"],
+    c: 2
+  },
+  {
+    q: "Nguồn gốc sâu xa của sự vận động và phát triển của các hình thái kinh tế - xã hội là gì? ",
+    a: ["Năng suất lao động", "Áp bức, bất công", "Động cơ chính trị vĩ nhân", "Mâu thuẫn giữa lực lượng sản xuất với quan hệ sản xuất"],
+    c: 3
+  },
+  {
+    q: "Theo triết học Mác - Lênin, nguyên nhân khách quan của đấu tranh giai cấp là gì? ",
+    a: ["Lý thuyết giai cấp", "Thủ lĩnh uy tín", "Nghèo khổ", "Mâu thuẫn giữa LLSX và QHSX đã lỗi thời"],
+    c: 3
+  },
+  {
+    q: "Nhà nước trong thời kỳ quá độ lên chủ nghĩa xã hội là nhà nước nào? ",
+    a: ["Dân chủ cộng hòa", "Dân chủ tư sản", "Chuyên chính vô sản", "Dân chủ nhân dân"],
+    c: 2
+  },
+  {
+    q: "Xu hướng phát triển của nhà nước trong chủ nghĩa cộng sản là gì? ",
+    a: ["Củng cố quyền lực", "Nhà nước cộng sản", "Nhà nước toàn cầu", "Nhà nước tự tiêu vong"],
+    c: 3
+  },
+  {
+    q: "“Chủ nghĩa duy vật lịch sử coi con người là một bộ phận của giới tự nhiên, còn giới tự nhiên là…” ",
+    a: ["Đối tượng chinh phục", "Đối tượng cải tạo", "Thân thể vô cơ của con người", "Đối tượng vô cơ"],
+    c: 2
+  },
+  {
+    q: "Theo chủ nghĩa duy vật lịch sử, hoạt động nào dưới đây không nằm trong khái niệm sản xuất?",
+    a: ["Sản xuất vật chất", "Sản xuất tinh thần", "Sản xuất ra bản thân con người", "Hoạt động tích trữ của cải"],
+    c: 3
+  },
+  {
+    q: "Yếu tố nào dưới đây không thuộc phương thức sản xuất? ",
+    a: ["Lực lượng sản xuất", "Quan hệ xã hội", "Quan hệ sản xuất", "Lực lượng sản xuất và quan hệ sản xuất"],
+    c: 1
+  },
+  {
+    q: "Theo chủ nghĩa duy vật lịch sử, trình độ của lực lượng sản xuất thể hiện ở nội dung nào?",
+    a: ["Công cụ và người lao động", "Tổ chức và phân công lao động", "Ứng dụng khoa học công nghệ", "Tất cả các phương án đều đúng"],
+    c: 3
+  },
+  {
+    q: "“Cái cối xay quay bằng tay đưa lại cho xã hội phong kiến, cái cối xay chạy bằng hơi nước đưa lại cho xã hội có nhà tư bản công nghiệp”. Luận điểm nhấn mạnh vai trò của: [cite: 2352]",
+    a: ["Quan hệ sản xuất", "Tư liệu sản xuất", "Công cụ lao động", "Đối tượng lao động"],
+    c: 2
+  },
+  {
+    q: "Tính chất của lực lượng sản xuất là tính chất nào dưới đây?",
+    a: ["Hiện đại và cá nhân", "Cá nhân và xã hội hoá", "Xã hội hoá và hiện đại", "Xã hội và hiện đại"],
+    c: 1
+  },
+{
+    q: "Theo C. Mác và Ph. Ăngghen thì quá trình thay thế các hình thức sở hữu tư liệu sản xuất phụ thuộc vào yếu tố nào?",
+    a: ["Trình độ của công cụ sản xuất", "Trình độ kỹ thuật sản xuất", "Trình độ phân công lao động xã hội", "Trình độ phát triển của lực lượng sản xuất"],
+    c: 3
+  },
+  {
+    q: "Nhân tố nào trong kiến trúc thượng tầng có tác động trực tiếp nhất và mạnh mẽ nhất tới cơ sở hạ tầng kinh tế của xã hội?",
+    a: ["Đạo đức", "Tôn giáo", "Nhà nước", "Giáo hội"],
+    c: 2
+  },
+  {
+    q: "Theo chủ nghĩa duy vật lịch sử, sự phát triển của các hình thái kinh tế - xã hội trong lịch sử do yếu tố nào quy định?",
+    a: ["Ý muốn chủ quan của con người", "Sự phát triển của quan hệ sản xuất", "Sự phát triển của lực lượng sản xuất", "Tất cả các đáp án trên đều đúng"],
+    c: 2
+  },
+  {
+    q: "Con đường quá độ lên chủ nghĩa xã hội ở Việt Nam được Đảng ta vận dụng sáng tạo theo hình thức nào trong tiến trình lịch sử - tự nhiên của xã hội loài người?",
+    a: ["Phát triển theo tuần tự qua các hình thái kinh tế - xã hội", "Phát triển theo xu hướng chung, tuần tự", "Phát triển theo hướng “bỏ qua” một hoặc một vài hình thái kinh tế - xã hội để tiến lên hình thái kinh tế - xã hội cao hơn", "Phát triển theo xu hướng không đồng đều"],
+    c: 2
+  },
+  {
+    q: "Cơ sở hình thành và phân chia giai cấp trong xã hội là do nguyên nhân nào?",
+    a: ["Chiếm hữu tư nhân về tư liệu sản xuất", "Chiến tranh của các bộ lạc", "Sản xuất nông nghiệp phát triển", "Tất cả các đáp án trên đều đúng"],
+    c: 0
+  },
+  {
+    q: "“Cuộc đấu tranh của quần chúng lao động bị áp bức, bóc lột chống lại giai cấp áp bức, bóc lột nhằm lật đổ ách thống trị của chúng” thuộc khái niệm nào dưới đây?",
+    a: ["Cải cách xã hội", "Đảo chính", "Đấu tranh giai cấp", "Liên minh giai cấp"],
+    c: 2
+  },
+  {
+    q: "Sự ra đời của giai cấp trong lịch sử có ý nghĩa như thế nào?",
+    a: ["Là một bước tiến của lịch sử", "Là một sai lầm của lịch sử", "Là một phạm trù của lịch sử", "Là một dấu ấn của lịch sử"],
+    c: 0
+  },
+  {
+    q: "Nhiệm vụ trọng tâm của cuộc đấu tranh giai cấp trong thời kỳ quá độ lên chủ nghĩa xã hội ở Việt Nam hiện nay là gì?",
+    a: ["Thực hiện thắng lợi mục tiêu độc lập dân tộc và chủ nghĩa xã hội", "Đấu tranh giữa các nhân tố thúc đẩy định hướng XHCN với các nhân tố cản trở mục tiêu độc lập dân tộc và XHCN", "Xây dựng một xã hội dân giàu, nước mạnh, dân chủ, công bằng, văn minh", "Tất cả các đáp án"],
+    c: 3
+  },
+  {
+    q: "“Sự biến đổi có tính chất bước ngoặt và căn bản về chất trong mọi lĩnh vực đời sống xã hội, là phương thức thay thế hình thái kinh tế xã hội này bằng hình thái kinh tế - xã hội cao hơn” được gọi là gì?",
+    a: ["Cách mạng khoa học và công nghệ", "Cách mạng xã hội", "Đấu tranh giai cấp", "Tất cả các phương án trên đều sai"],
+    c: 1
+  },
+  {
+    q: "“Việc lật đổ một chế độ chính trị đã lỗi thời và thiết lập một chế độ chính trị tiến bộ hơn của giai cấp cách mạng” được gọi là gì?",
+    a: ["Cách mạng xã hội", "Cách mạng khoa học và công nghệ", "Đấu tranh giai cấp", "Tất cả các phương án trên đều sai"],
+    c: 0
+  },
+  {
+    q: "“Quá trình phát triển diễn ra một cách tuần tự, dần dần từng bộ phận, từng lĩnh vực của đời sống xã hội” thuộc khái niệm nào dưới đây?",
+    a: ["Cách mạng xã hội", "Đấu tranh giai cấp", "Tiến hóa xã hội", "Đảo chính"],
+    c: 2
+  },
+  {
+    q: "Đâu là nhận định đúng về ý thức xã hội thông thường?",
+    a: ["Những tri thức hình thành trực tiếp trong hoạt động hàng ngày; chưa được hệ thống hoá, khái quát hoá", "Những tri thức hình thành trực tiếp; đã được hệ thống hoá thành học thuyết", "Những tư tưởng đã được hệ thống hoá thành học thuyết", "Những tư tưởng chưa được hệ thống hoá và khái quát hoá"],
+    c: 0
+  },
+  {
+    q: "Mối quan hệ giữa ý thức xã hội và ý thức cá nhân là biểu hiện mối quan hệ giữa?",
+    a: ["Nội dung và hình thức", "Nguyên nhân và kết quả", "Bản chất và hiện tượng", "Cái chung và cái riêng"],
+    c: 3
+  },
+  {
+    q: "Tiền đề xuất phát của quan điểm duy vật lịch sử về con người mà triết học Mác - Lênin nghiên cứu là gì?",
+    a: ["Con người cụ thể", "Con người trừu tượng", "Con người hiện thực", "Con người lý tưởng"],
+    c: 2
+  },
+  {
+    q: "Muốn nhận thức bản chất con người theo quan niệm của triết học Mác - Lênin cần thông qua nội dung nào dưới đây?",
+    a: ["Thông qua tư tưởng của con người", "Thông qua hoạt động sản xuất vật chất của con người", "Thông qua các quan hệ hiện thực của con người", "Thông qua cống hiến xã hội của con người"],
+    c: 2
+  },
+  {
+    q: "Trong các đặc trưng của giai cấp thì đặc trưng nào bao trùm và chi phối các đặc trưng khác?",
+    a: ["Khác nhau về quan hệ sở hữu tư liệu sản xuất của xã hội", "Khác nhau về vai trò trong tổ chức, quản lý sản xuất", "Khác nhau về cách thức hưởng thụ phần của cải xã hội", "Khác nhau về địa vị trong phương thức sản xuất"],
+    c: 0
+  },
+  {
+    q: "Tiêu chuẩn quan trọng nhất để đánh giá tiến bộ xã hội là?",
+    a: ["Sự trong sạch, vững mạnh của bộ máy nhà nước", "Sự phát triển của phương thức sản xuất", "Trình độ văn hóa của người dân", "Chất lượng cuộc sống của người dân"],
+    c: 1
+  },
+];
+// ================== BIẾN TOÀN CỤC ==================
+let index = 0;
+let answered = false;
+let quizQuestions = [];
+
+// ================== HÀM TRỘN ==================
+function shuffle(array) {
+  return array
+    .map(v => ({ v, r: Math.random() }))
+    .sort((a, b) => a.r - b.r)
+    .map(x => x.v);
+}
+
+// ================== BẮT ĐẦU / LÀM LẠI ==================
+function startQuiz() {
+  index = 0;
+  answered = false;
+
+  // 🔀 đảo câu hỏi
+  quizQuestions = shuffle([...questions]);
+
+  loadQuestion();
+}
+
+// ================== LOAD CÂU HỎI ==================
+function loadQuestion() {
+  answered = false;
+  const q = quizQuestions[index];
+
+  document.getElementById("question").innerText =
+    `Câu ${index + 1}: ${q.q}`;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  // 🔀 đảo đáp án nhưng giữ index đúng
+  const mixedAnswers = q.a.map((text, i) => ({
+    text,
+    isCorrect: i === q.c
+  }));
+
+  shuffle(mixedAnswers).forEach(ans => {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.innerText = ans.text;
+    div.onclick = () => checkAnswer(div, ans.isCorrect);
+    answersDiv.appendChild(div);
+  });
+}
+
+// ================== KIỂM TRA ĐÁP ÁN ==================
+function checkAnswer(element, isCorrect) {
+  if (answered) return;
+  answered = true;
+
+  const all = document.querySelectorAll(".answer");
+  all.forEach(a => a.onclick = null);
+
+  if (isCorrect) {
+    element.classList.add("correct");
+  } else {
+    element.classList.add("wrong");
+    all.forEach(a => {
+      if (a.innerText === quizQuestions[index].a[quizQuestions[index].c]) {
+        a.classList.add("correct");
+      }
+    });
+  }
+}
+
+// ================== CÂU TIẾP ==================
+function nextQuestion() {
+  index++;
+  if (index >= quizQuestions.length) {
+    alert("🎉 Bạn đã hoàn thành bài thi!\nBắt đầu lại với thứ tự mới.");
+    startQuiz();
+    return;
+  }
+  loadQuestion();
+}
+
+// ================== CHẠY LẦN ĐẦU ==================
+startQuiz();
+</script>
+
+</body>
+</html>
