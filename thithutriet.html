@@ -6,124 +6,106 @@
 <title>Thi trắc nghiệm</title>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  margin: 0;
-  padding: 15px;
-  font-size: 18px;
+body{
+  font-family:Arial;
+  background:#f4f6f8;
+  margin:0;
+  padding:15px;
+  font-size:18px;
 }
-
-.container {
-  max-width: 900px;
-  margin: auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
+.container{
+  max-width:100%;
+  margin:auto;
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
 }
-
-.top {
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
-  margin-bottom: 10px;
+.answer{
+  border:1px solid #ccc;
+  padding:15px;
+  margin:12px 0;
+  border-radius:8px;
+  cursor:pointer;
 }
-
-button {
-  padding: 10px;
-  border-radius: 6px;
-  border: none;
-  background: #3498db;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
+.answer.selected{
+  background:#d6eaff;
+  border-color:#3498db;
 }
-
-button.submit {
-  background: #e74c3c;
+button{
+  width:100%;
+  margin-top:15px;
+  padding:15px;
+  font-size:18px;
+  border-radius:8px;
+  border:none;
+  background:#3498db;
+  color:white;
 }
-
-.hidden {
-  display: none !important;
+.top{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:10px;
 }
-
-/* BẢNG CÂU HỎI */
-.question-grid {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 6px;
-  margin: 10px 0 15px;
+.question-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,45px);
+  gap:6px;
+  margin:10px 0;
 }
-
-.qbox {
-  padding: 8px 0;
-  text-align: center;
-  background: #ddd;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
+.question-grid button{
+  padding:8px;
+  font-size:14px;
 }
-
-.qbox.answered {
-  background: #90caf9;
+.question-grid .done{
+  background:#2ecc71;
+  color:#fff;
 }
-
-.qbox.current {
-  border: 2px solid #1976d2;
-}
-
-/* ĐÁP ÁN */
-.answer {
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin: 12px 0;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.answer.selected {
-  background: #e3f2fd;
-  border-color: #2196f3;
-}
-
-.nav {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
-}
+.hidden{display:none!important}
+.red{background:#e74c3c}
+.green{background:#2ecc71}
 </style>
 </head>
 
 <body>
 
 <div class="container">
+
   <div class="top">
-    <div id="timer">⏱ 60:00</div>
-    <div id="progress">Câu 1 / 50</div>
+    <b>⏱ <span id="time">60:00</span></b>
+    <button id="toggleBtn" onclick="toggleGrid()" style="width:auto">
+      📋 Hiện bảng câu
+    </button>
   </div>
 
-  <!-- NÚT ẨN / HIỆN -->
-  <button id="toggleBtn" onclick="toggleGrid()">📋 Hiện bảng câu hỏi</button>
+  <div id="questionGrid" class="question-grid hidden"></div>
 
-  <!-- BẢNG CHỌN CÂU -->
-  <div class="question-grid hidden" id="questionGrid"></div>
-
+  <!-- ===== FORM CÂU HỎI CŨ ===== -->
   <h2 id="question"></h2>
   <div id="answers"></div>
 
-  <div class="nav">
-    <button onclick="prevQuestion()">⬅ Câu trước</button>
-    <button onclick="nextQuestion()">Câu tiếp ➡</button>
-  </div>
+  <button onclick="nextQuestion()">Câu tiếp theo</button>
+  <button class="red" onclick="finishQuiz()">Nộp bài</button>
 
-  <div class="nav">
-    <button class="submit" onclick="submitQuiz()">📝 Nộp bài</button>
+</div>
+
+<!-- ===== POPUP KẾT QUẢ ===== -->
+<div id="resultModal" style="
+display:none;position:fixed;inset:0;
+background:rgba(0,0,0,.4);
+justify-content:center;align-items:center;
+">
+  <div style="background:#fff;padding:20px;border-radius:10px;width:320px">
+    <h3>📌 KẾT QUẢ</h3>
+    <div id="resultText" style="margin:15px 0"></div>
+    <div style="text-align:right">
+           <button class="green" onclick="restartQuiz()">🔁 Làm lại</button>
+    </div>
   </div>
 </div>
 
 <script>
-// ================== CÂU HỎI ==================
-const questions = [
+// ====== DỮ LIỆU MẪU ======
+const questionsAll=[
   {
     q: "Điền vào chỗ trống: “Triết học là… về thế giới và vị trí con người, trong thế giới đó, là khoa học về sự vận động, phát triển chung nhất của tự nhiên, xã hội và tư duy”.",
     a: ["Hệ thống quan điểm duy nhất", "Hệ thống lý luận về quan điểm", "Hệ thống lý luận chung nhất", "Hệ thống luận điểm duy nhất"],
@@ -2475,152 +2457,125 @@ const questions = [
     c: 1
   },
 ];
-// ================== BIẾN ==================
-let quizQuestions = [];
-let current = 0;
-let answers = Array(50).fill(null);
-let timeLeft = 60 * 60;
+// ====== BIẾN ======
+let questions=[];
+let answers=[];
+let index=0;
+let timeLeft=3600;
 let timer;
 
-// ================== HÀM TRỘN ==================
-function shuffle(arr) {
-  return arr
-    .map(v => ({ v, r: Math.random() }))
-    .sort((a, b) => a.r - b.r)
-    .map(x => x.v);
+// ====== TRỘN ======
+function shuffle(arr){
+  return arr.sort(()=>Math.random()-0.5);
 }
 
-// ================== BẮT ĐẦU ==================
-function startQuiz() {
-  quizQuestions = shuffle([...questions]).slice(0, 50);
-  quizQuestions = quizQuestions.map(q => ({
-    ...q,
-    answers: shuffle(q.a.map((t, i) => ({ text: t, correct: i === q.c })))
-  }));
-
-  renderGrid();
-  startTimer();
+// ====== BẮT ĐẦU ======
+function startQuiz(){
+  questions=shuffle([...questionsAll]).slice(0,50);
+  answers=new Array(questions.length).fill(null);
+  index=0;
+  timeLeft=3600;
+  buildGrid();
   loadQuestion();
+  startTimer();
 }
 
-// ================== TIMER ==================
-function startTimer() {
-  timer = setInterval(() => {
-    timeLeft--;
-    if (timeLeft <= 0) finishQuiz();
-
-    const m = String(Math.floor(timeLeft / 60)).padStart(2, "0");
-    const s = String(timeLeft % 60).padStart(2, "0");
-    document.getElementById("timer").innerText = `⏱ ${m}:${s}`;
-  }, 1000);
-}
-
-// ================== BẢNG CÂU ==================
-function renderGrid() {
-  const grid = document.getElementById("questionGrid");
-  grid.innerHTML = "";
-
-  quizQuestions.forEach((_, i) => {
-    const div = document.createElement("div");
-    div.className = "qbox";
-    if (answers[i] !== null) div.classList.add("answered");
-    if (i === current) div.classList.add("current");
-    div.innerText = i + 1;
-    div.onclick = () => {
-      current = i;
-      loadQuestion();
-    };
-    grid.appendChild(div);
-  });
-}
-
-// ================== LOAD CÂU ==================
-function loadQuestion() {
-  const q = quizQuestions[current];
-  document.getElementById("question").innerText =
-    `Câu ${current + 1}: ${q.q}`;
-  document.getElementById("progress").innerText =
-    `Câu ${current + 1} / ${quizQuestions.length}`;
-
-  const box = document.getElementById("answers");
-  box.innerHTML = "";
-
-  q.answers.forEach((ans, i) => {
-    const div = document.createElement("div");
-    div.className = "answer";
-    if (answers[current] === i) div.classList.add("selected");
-    div.innerText = ans.text;
-    div.onclick = () => {
-      answers[current] = i;
-      loadQuestion();
-      renderGrid();
-    };
-    box.appendChild(div);
-  });
-
-  renderGrid();
-}
-
-// ================== ĐIỀU HƯỚNG ==================
-function nextQuestion() {
-  if (current < quizQuestions.length - 1) {
-    current++;
-    loadQuestion();
-  }
-}
-
-function prevQuestion() {
-  if (current > 0) {
-    current--;
-    loadQuestion();
-  }
-}
-
-// ================== ẨN / HIỆN BẢNG CÂU (FIX CHẮC CHẮN) ==================
-function toggleGrid() {
-  const grid = document.getElementById("questionGrid");
-  const btn = document.getElementById("toggleBtn");
-
-  if (grid.classList.contains("hidden")) {
-    grid.classList.remove("hidden");
-    grid.style.display = "grid";
-    btn.innerText = "❌ Ẩn bảng câu hỏi";
-  } else {
-    grid.classList.add("hidden");
-    grid.style.display = "none";
-    btn.innerText = "📋 Hiện bảng câu hỏi";
-  }
-}
-
-// ================== NỘP BÀI ==================
-function submitQuiz() {
-  if (!confirm("Bạn chắc chắn muốn nộp bài?")) return;
-  finishQuiz();
-}
-
-// ================== CHẤM BÀI ==================
-function finishQuiz() {
+// ====== TIMER ======
+function startTimer(){
   clearInterval(timer);
-
-  let correct = 0;
-  quizQuestions.forEach((q, i) => {
-    const c = answers[i];
-    if (c !== null && q.answers[c].correct) correct++;
-  });
-
-  const score10 = ((correct / quizQuestions.length) * 10).toFixed(2);
-
-  alert(
-    `📝 KẾT QUẢ\n\n` +
-    `Số câu đúng: ${correct}/${quizQuestions.length}\n` +
-    `Điểm (thang 10): ${score10}`
-  );
+  timer=setInterval(()=>{
+    timeLeft--;
+    let m=Math.floor(timeLeft/60);
+    let s=timeLeft%60;
+    document.getElementById("time").innerText=
+      `${m}:${s<10?'0':''}${s}`;
+    if(timeLeft<=0) finishQuiz();
+  },1000);
 }
 
-// ================== CHẠY ==================
+// ====== LOAD CÂU ======
+function loadQuestion(){
+  const q=questions[index];
+  document.getElementById("question").innerText=
+    `Câu ${index+1}: ${q.q}`;
+  const box=document.getElementById("answers");
+  box.innerHTML="";
+
+  q.a.forEach((text,i)=>{
+    const d=document.createElement("div");
+    d.className="answer";
+    d.innerText=text;
+    if(answers[index]===i) d.classList.add("selected");
+    d.onclick=()=>{
+      answers[index]=i;
+      loadQuestion();
+      updateGrid();
+    };
+    box.appendChild(d);
+  });
+}
+
+// ====== GRID ======
+function buildGrid(){
+  const g=document.getElementById("questionGrid");
+  g.innerHTML="";
+  questions.forEach((_,i)=>{
+    const b=document.createElement("button");
+    b.innerText=i+1;
+    b.onclick=()=>{index=i;loadQuestion()};
+    g.appendChild(b);
+  });
+}
+function updateGrid(){
+  document.querySelectorAll("#questionGrid button")
+  .forEach((b,i)=>{
+    b.className=answers[i]!=null?"done":"";
+  });
+}
+
+// ====== ĐIỀU HƯỚNG ======
+function nextQuestion(){
+  if(index<questions.length-1){
+    index++;
+    loadQuestion();
+  }
+}
+
+// ====== ẨN / HIỆN GRID ======
+function toggleGrid(){
+  const g=document.getElementById("questionGrid");
+  const b=document.getElementById("toggleBtn");
+  g.classList.toggle("hidden");
+  b.innerText=g.classList.contains("hidden")
+    ?"📋 Hiện bảng câu":"❌ Ẩn bảng câu";
+}
+
+// ====== NỘP BÀI ======
+function finishQuiz(){
+  clearInterval(timer);
+  let correct=0;
+  questions.forEach((q,i)=>{
+    if(answers[i]===q.c) correct++;
+  });
+  const score=(correct/questions.length*10).toFixed(2);
+  document.getElementById("resultText").innerHTML=
+    `Số câu đúng: <b>${correct}/${questions.length}</b><br>
+     Điểm (thang 10): <b>${score}</b>`;
+  document.getElementById("resultModal").style.display="flex";
+}
+
+// ====== POPUP ======
+function closeResult(){
+  document.getElementById("resultModal").style.display="none";
+}
+function restartQuiz(){
+  document.getElementById("resultModal").style.display="none";
+  startQuiz();
+}
+
+// ====== CHẠY ======
 startQuiz();
 </script>
 
 </body>
 </html>
-
