@@ -6,56 +6,99 @@
     <title>Trang chọn bài thi</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f8;
+            background: linear-gradient(135deg, #eef3f8, #f8fafc);
             margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            padding: 16px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 16px;
             padding: 20px;
+            box-shadow: 0 8px 22px rgba(0,0,0,0.08);
             text-align: center;
         }
 
         h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
+            font-size: 22px;
+            margin-bottom: 18px;
         }
 
         .menu {
-            max-width: 400px;
-            margin: auto;
+            display: grid;
+            gap: 14px;
         }
 
-        a {
-            display: block;
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             background: #3498db;
             color: white;
             text-decoration: none;
-            padding: 16px;
-            margin-bottom: 15px;
-            border-radius: 10px;
-            font-size: 18px;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: 0.15s;
         }
 
-        a:active {
-            background: #2980b9;
+        .menu a:hover {
+            background: #2c80b4;
+        }
+
+        .menu a:active {
+            transform: scale(0.98);
+        }
+
+        .footer {
+            margin-top: 14px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* Mobile nhỏ hơn */
+        @media (max-width: 360px) {
+            h1 { font-size: 20px; }
+            .menu a { font-size: 15px; padding: 12px; }
         }
     </style>
 </head>
 <body>
 
-<h1>📚 CHỌN BÀI THI</h1>
+<div class="container">
+    <div class="card">
+        <h1>📚 CHỌN BÀI THI</h1>
 
-<div class="menu">
-    <a href="PLDC.html">📝 PLDC</a>
-    <a href="KTCT MacLenin.html">📝 KTCT Mác LêNin</a>
-    <a href="Triethoc.html">📝 Triết học Mác Lênin</a>
+        <div class="menu">
+            <a href="PLDC.html">📘 Pháp luật đại cương</a>
+            <a href="KTCT MacLenin.html">📕 KTCT Mác – Lênin</a>
+            <a href="Triethoc.html">📗 Triết học Mác – Lênin</a>
+            <!-- Thêm môn mới chỉ cần copy 1 dòng -->
+            <!-- <a href="CNXH.html">📙 CNXH khoa học</a> -->
+        </div>
+
+        <div class="footer">© 2026 • Hệ thống thi thử</div>
+    </div>
 </div>
 
 </body>
 </html>
-
-
-
-
 
 
 
