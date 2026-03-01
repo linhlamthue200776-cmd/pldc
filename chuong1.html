@@ -68,6 +68,14 @@ button:active {
   background: #2980b9;
 }
 
+.reset {
+  background: #e67e22;
+}
+
+.reset:active {
+  background: #d35400;
+}
+
 #score {
   margin-top: 15px;
   font-weight: bold;
@@ -84,14 +92,15 @@ button:active {
   <div class="buttons">
     <button onclick="prevQuestion()">⬅ Câu trước</button>
     <button onclick="nextQuestion()">Câu tiếp ➡</button>
+    <button class="reset" onclick="resetQuiz()">🔄 Làm lại</button>
   </div>
 
   <div id="score"></div>
 </div>
 
 <script>
-// ================== DỮ LIỆU CÂU HỎI ==================
-const questions =[
+// ================== DỮ LIỆU ==================
+const questions = [
   {
     q: "Kinh tế chính trị Mác - Lênin ra đời dựa trên sự kế thừa trực tiếp từ những thành tựu của...",
     a: ["Kinh tế chính trị cổ điển Anh", "Triết học cổ điển Đức", "Chủ nghĩa trọng thương", "Chủ nghĩa trọng nông"],
@@ -300,7 +309,7 @@ let score = 0;
 let quizQuestions = [];
 let userAnswers = [];
 
-// ================== HÀM TRỘN ==================
+// ================== TRỘN ==================
 function shuffle(array) {
   return array
     .map(v => ({ v, r: Math.random() }))
@@ -314,7 +323,6 @@ function startQuiz() {
   score = 0;
   userAnswers = [];
 
-  // 🔒 trộn câu hỏi + trộn đáp án MỘT LẦN DUY NHẤT
   quizQuestions = shuffle([...questions]).map(q => {
     const answers = q.a.map((text, i) => ({
       text,
@@ -346,7 +354,6 @@ function loadQuestion() {
     div.className = "answer";
     div.innerText = ans.text;
 
-    // nếu đã trả lời → hiển thị lại
     if (userAnswers[index] !== undefined) {
       if (ans.isCorrect) div.classList.add("correct");
       if (ans.index === userAnswers[index] && !ans.isCorrect)
@@ -385,7 +392,7 @@ function checkAnswer(element, ans) {
   updateScore();
 }
 
-// ================== CÂU TIẾP ==================
+// ================== ĐIỀU HƯỚNG ==================
 function nextQuestion() {
   if (index < quizQuestions.length - 1) {
     index++;
@@ -395,7 +402,6 @@ function nextQuestion() {
   }
 }
 
-// ================== CÂU TRƯỚC ==================
 function prevQuestion() {
   if (index > 0) {
     index--;
@@ -403,7 +409,13 @@ function prevQuestion() {
   }
 }
 
-// ================== HIỂN THỊ ĐIỂM ==================
+// ================== LÀM LẠI ==================
+function resetQuiz() {
+  if (!confirm("Bạn có chắc muốn làm lại từ đầu?")) return;
+  startQuiz();
+}
+
+// ================== ĐIỂM ==================
 function updateScore() {
   document.getElementById("score").innerText =
     `✅ Đúng: ${score} / ${quizQuestions.length}`;
@@ -415,5 +427,3 @@ startQuiz();
 
 </body>
 </html>
-
-
