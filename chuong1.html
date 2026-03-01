@@ -48,9 +48,14 @@ h2 {
   border-color: red;
 }
 
-button {
-  width: 100%;
+.buttons {
+  display: flex;
+  gap: 10px;
   margin-top: 20px;
+}
+
+button {
+  flex: 1;
   padding: 15px;
   font-size: 18px;
   border-radius: 8px;
@@ -62,6 +67,11 @@ button {
 button:active {
   background: #2980b9;
 }
+
+#score {
+  margin-top: 15px;
+  font-weight: bold;
+}
 </style>
 </head>
 
@@ -70,12 +80,19 @@ button:active {
 <div class="container">
   <h2 id="question"></h2>
   <div id="answers"></div>
-  <button onclick="nextQuestion()">Câu tiếp theo</button>
+
+  <div class="buttons">
+    <button onclick="prevQuestion()">⬅ Câu trước</button>
+    <button onclick="nextQuestion()">Câu tiếp ➡</button>
+  </div>
+
+  <div id="score"></div>
 </div>
+
 <script>
 // ================== DỮ LIỆU CÂU HỎI ==================
-const questions = [
- {
+const questions =[
+  {
     q: "Kinh tế chính trị Mác - Lênin ra đời dựa trên sự kế thừa trực tiếp từ những thành tựu của...",
     a: ["Kinh tế chính trị cổ điển Anh", "Triết học cổ điển Đức", "Chủ nghĩa trọng thương", "Chủ nghĩa trọng nông"],
     c: 0
@@ -121,7 +138,7 @@ const questions = [
     c: 0
   },
   {
-    q: "Học thuyết nào giữ vị trí là “Hòn đá tảng” trong toàn bộ lý luận kinh tế của Mác?",
+    q: "Học thuyết nào giữ vị trí là “Hòn đá tảng trong toàn bộ lý luận kinh tế của Mác?",
     a: ["Học thuyết giá trị thặng dư", "Học thuyết tích lũy", "Học thuyết giá trị", "Học thuyết tuần hoàn và chu chuyển tư bản"],
     c: 0
   },
@@ -153,7 +170,7 @@ const questions = [
   {
     q: "Trường phái nào được ghi nhận là hệ thống lý luận kinh tế chính trị bước đầu nghiên cứu về nền sản xuất tư bản chủ nghĩa?",
     a: ["Trường phái trọng Tiền", "Chủ nghĩa trọng Nông", "Kinh tế chính trị Tư sản cổ điển Anh", "Chủ nghĩa trọng Thương"],
-    c: 2
+    c: 3
   },
   {
     q: "Đối tượng nghiên cứu của chủ nghĩa trọng Thương thuộc lĩnh vực nào?",
@@ -167,7 +184,7 @@ const questions = [
   },
   {
     q: "Đối tượng nghiên cứu của kinh tế chính trị là?",
-    a: ["Quá trình sản xuất vật chất", "Các phương pháp sản xuất và kinh doanh để tối đa hóa lợi nhuận", "Các quan hệ của sản xuất và trao đổi trong phương thức sản xuất mà các quan hệ đó hình thành và phát triển", "Quan hệ sản xuất, phân phối, trao đổi và tiêu dùng"],
+    a: ["Quá trình sản xuất vật chất", "Các phương pháp sản xuất và kinh doanh để tối đa hóa lợi nhuận", "Các quan hệ của sản xuất và trao đổi trong phương thức sản xuất", "Quan hệ sản xuất, phân phối, trao đổi và tiêu dùng"],
     c: 2
   },
   {
@@ -182,12 +199,12 @@ const questions = [
   },
   {
     q: "Kinh tế chính trị Mác - Lênin có nhiệm vụ nghiên cứu là...",
-    a: ["Tìm ra bản chất của lực lượng sản xuất", "Tìm ra bản chất của quan hệ sản xuất xã hội", "Tìm ra các quy luật kinh tế và sự tác động của nó nhằm ứng dụng một cách có hiệu quả trong thực tiễn", "Tìm ra các quy luật kinh tế nhằm đạt được hiệu quả kinh tế mong muốn"],
+    a: ["Tìm ra bản chất của lực lượng sản xuất", "Tìm ra bản chất của quan hệ sản xuất xã hội", "Tìm ra các quy luật kinh tế và sự tác động của nó để ứng dụng hiệu quả", "Tìm ra các quy luật kinh tế nhằm đạt hiệu quả kinh tế mong muốn"],
     c: 2
   },
   {
-    q: " Việc C. Mác và Ph. Ăngghen xác định đối tượng nghiên cứu của kinh tế chính trị là các quan hệ của sản xuất và trao đổi trong phương thức sản xuất mà các quan hệ đó hình thành và phát triển, là dựa trên cơ sở?",
-    a: ["Cách tiếp cận duy vật về lịch sử dựa trên những thành tựu đã có của kinh tế chính trị nhân loại", "Dựa trên kinh nghiệm nghiên cứu kinh tế nhiều năm", "Dựa trên sự kết hợp quan điểm trọng nông và trọng thương", "Dùng cách tiếp cận của D. Ricardo"],
+    q: "Việc C. Mác và Ph. Ăngghen xác định đối tượng nghiên cứu của kinh tế chính trị là các quan hệ của sản xuất và trao đổi... dựa trên cơ sở?",
+    a: ["Cách tiếp cận duy vật về lịch sử dựa trên những thành tựu của kinh tế chính trị nhân loại", "Dựa trên kinh nghiệm nghiên cứu kinh tế nhiều năm", "Dựa trên sự kết hợp quan điểm trọng nông và trọng thương", "Dùng cách tiếp cận của D. Ricardo"],
     c: 0
   },
   {
@@ -202,7 +219,7 @@ const questions = [
   },
   {
     q: "Bản chất của phương pháp trừu tượng hóa khoa học là gì?",
-    a: ["Phương pháp diễn dịch khoa học", "Phương pháp liên ngành khoa học", "Phương pháp phân tích khoa học", "Gạt bỏ hiện tượng tạm thời, tách ra dấu hiệu điển hình, bền vững để nắm được bản chất"],
+    a: ["Phương pháp diễn dịch khoa học", "Phương pháp liên ngành khoa học", "Phương pháp phân tích khoa học", "Gạt bỏ hiện tượng tạm thời, tách ra dấu hiệu điển hình để nắm được bản chất"],
     c: 3
   },
   {
@@ -211,13 +228,13 @@ const questions = [
     c: 0
   },
   {
-    q: "Đối tượng nghiên cứu của kinh tế chính trị Mác - Lênin là các (1) của sản xuất và trao đổi mà các quan hệ này được đặt trong sự liên hệ biện chứng với trình độ phát triển của (2) và kiến trúc thượng tầng...",
+    q: "Điền từ vào chỗ trống: Đối tượng nghiên cứu của kinh tế chính trị Mác - Lênin là các (1) của sản xuất và trao đổi mà các quan hệ này được đặt trong sự liên hệ biện chứng với (2) và kiến trúc thượng tầng...",
     a: ["(1) Quan hệ sản xuất / (2) lực lượng sản xuất", "(1) Quan hệ xã hội / (2) quan hệ sản xuất", "(1) Quan hệ sản xuất / (2) cơ sở hạ tầng", "(1) Quan hệ xã hội / (2) lực lượng sản xuất"],
     c: 0
   },
   {
     q: "Điểm tiến bộ của kinh tế chính trị Mác - Lênin trong phương pháp nghiên cứu là gì?",
-    a: ["Đưa ra cách tiếp cận hoàn toàn mới của giai cấp tư sản", "Phê phán và phủ định triệt để sai lầm học thuyết trước đó", "Vận dụng triệt để thế giới quan và phương pháp luận duy vật biện chứng", "Lần đầu đưa nghiên cứu của giai cấp công nhân vào"],
+    a: ["Đưa ra cách tiếp cận hoàn toàn mới của giai cấp tư sản", "Phê phán và phủ định triệt để những sai lầm trước đó", "Vận dụng triệt để thế giới quan và phương pháp luận duy vật biện chứng", "Lần đầu đưa nghiên cứu của giai cấp công nhân vào"],
     c: 2
   },
   {
@@ -242,7 +259,7 @@ const questions = [
   },
   {
     q: "Kinh tế chính trị Mác - Lênin có giá trị như thế nào đối với giai cấp công nhân và người lao động?",
-    a: ["Giúp hình thành phong trào công nhân châu Âu", "Giúp phong trào công nhân đấu tranh mạnh ở thuộc địa", "Giúp nắm bản chất phương thức sản xuất TBCN, nhận diện đối tượng và đường lối đấu tranh", "Khiến các nhà tư bản từ bỏ bóc lột"],
+    a: ["Giúp hình thành phong trào công nhân", "Giúp phong trào công nhân đấu tranh mạnh ở thuộc địa", "Giúp nắm bản chất phương thức sản xuất TBCN, nhận diện đối tượng và đường lối đấu tranh", "Khiến các nhà tư bản từ bỏ bóc lột"],
     c: 2
   },
   {
@@ -276,10 +293,12 @@ const questions = [
     c: 0
   }
 ];
-// ================== BIẾN TOÀN CỤC ==================
+
+// ================== BIẾN ==================
 let index = 0;
-let answered = false;
+let score = 0;
 let quizQuestions = [];
+let userAnswers = [];
 
 // ================== HÀM TRỘN ==================
 function shuffle(array) {
@@ -289,53 +308,71 @@ function shuffle(array) {
     .map(x => x.v);
 }
 
-// ================== BẮT ĐẦU / LÀM LẠI ==================
+// ================== KHỞI TẠO ==================
 function startQuiz() {
   index = 0;
-  answered = false;
+  score = 0;
+  userAnswers = [];
 
-  // 🔀 đảo câu hỏi
-  quizQuestions = shuffle([...questions]);
+  // 🔒 trộn câu hỏi + trộn đáp án MỘT LẦN DUY NHẤT
+  quizQuestions = shuffle([...questions]).map(q => {
+    const answers = q.a.map((text, i) => ({
+      text,
+      index: i,
+      isCorrect: i === q.c
+    }));
+
+    return {
+      ...q,
+      mixedAnswers: shuffle(answers)
+    };
+  });
 
   loadQuestion();
 }
 
-// ================== LOAD CÂU HỎI ==================
+// ================== LOAD CÂU ==================
 function loadQuestion() {
-  answered = false;
   const q = quizQuestions[index];
 
   document.getElementById("question").innerText =
-    `Câu ${index + 1}: ${q.q}`;
+    `Câu ${index + 1}/${quizQuestions.length}: ${q.q}`;
 
   const answersDiv = document.getElementById("answers");
   answersDiv.innerHTML = "";
 
-  // 🔀 đảo đáp án nhưng giữ index đúng
-  const mixedAnswers = q.a.map((text, i) => ({
-    text,
-    isCorrect: i === q.c
-  }));
-
-  shuffle(mixedAnswers).forEach(ans => {
+  q.mixedAnswers.forEach(ans => {
     const div = document.createElement("div");
     div.className = "answer";
     div.innerText = ans.text;
-    div.onclick = () => checkAnswer(div, ans.isCorrect);
+
+    // nếu đã trả lời → hiển thị lại
+    if (userAnswers[index] !== undefined) {
+      if (ans.isCorrect) div.classList.add("correct");
+      if (ans.index === userAnswers[index] && !ans.isCorrect)
+        div.classList.add("wrong");
+    } else {
+      div.onclick = () => checkAnswer(div, ans);
+    }
+
     answersDiv.appendChild(div);
   });
+
+  updateScore();
 }
 
-// ================== KIỂM TRA ĐÁP ÁN ==================
-function checkAnswer(element, isCorrect) {
-  if (answered) return;
-  answered = true;
+// ================== CHỌN ĐÁP ÁN ==================
+function checkAnswer(element, ans) {
+  if (userAnswers[index] !== undefined) return;
+
+  userAnswers[index] = ans.index;
 
   const all = document.querySelectorAll(".answer");
   all.forEach(a => a.onclick = null);
 
-  if (isCorrect) {
+  if (ans.isCorrect) {
     element.classList.add("correct");
+    score++;
   } else {
     element.classList.add("wrong");
     all.forEach(a => {
@@ -344,24 +381,39 @@ function checkAnswer(element, isCorrect) {
       }
     });
   }
+
+  updateScore();
 }
 
 // ================== CÂU TIẾP ==================
 function nextQuestion() {
-  index++;
-  if (index >= quizQuestions.length) {
-    alert("🎉 Bạn đã hoàn thành bài thi!\nBắt đầu lại với thứ tự mới.");
-    startQuiz();
-    return;
+  if (index < quizQuestions.length - 1) {
+    index++;
+    loadQuestion();
+  } else {
+    alert(`🎉 Hoàn thành!\nSố câu đúng: ${score}/${quizQuestions.length}`);
   }
-  loadQuestion();
 }
 
-// ================== CHẠY LẦN ĐẦU ==================
+// ================== CÂU TRƯỚC ==================
+function prevQuestion() {
+  if (index > 0) {
+    index--;
+    loadQuestion();
+  }
+}
+
+// ================== HIỂN THỊ ĐIỂM ==================
+function updateScore() {
+  document.getElementById("score").innerText =
+    `✅ Đúng: ${score} / ${quizQuestions.length}`;
+}
+
+// ================== CHẠY ==================
 startQuiz();
 </script>
 
 </body>
-</html>  
+</html>
 
 
