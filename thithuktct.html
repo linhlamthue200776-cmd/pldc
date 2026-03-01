@@ -86,7 +86,7 @@ button{
   <!-- FORM CÂU HỎI CŨ -->
   <h2 id="question"></h2>
   <div id="answers"></div>
-
+  <button onclick="prevQuestion()">⬅ Câu trước</button>
   <button onclick="nextQuestion()">Câu tiếp theo</button>
   <button class="red" onclick="finishQuiz()">Nộp bài</button>
 
@@ -2223,7 +2223,12 @@ function nextQuestion(){
     loadQuestion();
   }
 }
-
+function prevQuestion(){
+  if(index > 0){
+    index--;
+    loadQuestion();
+  }
+}
 function buildGrid(){
   const g = document.getElementById("questionGrid");
   g.innerHTML = "";
@@ -2280,4 +2285,5 @@ startQuiz();
 </script>
 
 </body>
+
 </html>
