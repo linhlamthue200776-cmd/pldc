@@ -6,81 +6,86 @@
 <title>Thi trắc nghiệm</title>
 
 <style>
-body{
-  font-family:Arial, sans-serif;
-  background:#f4f6f8;
-  margin:0;
-  padding:15px;
-  font-size:18px;
-}
-.container{
-  max-width:100%;
-  margin:auto;
-  background:#fff;
-  padding:20px;
-  border-radius:10px;
-}
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
-}
-.answer{
-  border:1px solid #ccc;
-  padding:15px;
-  margin:12px 0;
-  border-radius:8px;
-  cursor:pointer;
-}
-.answer.selected{
-  background:#d6eaff;
-  border-color:#3498db;
-}
-button{
-  width:100%;
-  margin-top:12px;
-  padding:15px;
-  font-size:18px;
-  border-radius:8px;
-  border:none;
-  background:#3498db;
-  color:white;
-  cursor:pointer;
-}
-.green{background:#2ecc71}
-.red{background:#e74c3c}
-.gray{background:#555}
-
-.nav-buttons{
-  display:flex;
-  gap:10px;
-  margin-top:12px;
-}
-.nav-buttons button{
-  flex:1;
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 15px;
+  font-size: 18px;
 }
 
-.question-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,45px);
-  gap:6px;
-  margin:10px 0;
+.container {
+  max-width: 100%;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
 }
-.question-grid button{
-  padding:8px;
-  font-size:14px;
+
+h2 {
+  font-size: 20px;
 }
-.question-grid .done{
-  background:#2ecc71;
-  color:#fff;
+
+.answer {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 8px;
+  cursor: pointer;
 }
-.hidden{display:none!important}
-.blue{
-  background:#3498db; /* xanh nước biển */
+
+.answer:active {
+  background: #eef;
 }
-.blue:hover{
-  background:#2980b9;
+
+.correct {
+  background: #c8f7c5;
+  border-color: green;
+}
+
+.wrong {
+  background: #f7c5c5;
+  border-color: red;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  flex: 1;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+}
+
+button:active {
+  background: #2980b9;
+}
+
+.reset {
+  background: #e67e22;
+}
+
+.reset:active {
+  background: #d35400;
+}
+
+#score {
+  margin-top: 15px;
+  font-weight: bold;
+}
+  .reset-bottom {
+  margin-top: 20px;
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
 }
 </style>
 </head>
@@ -88,33 +93,17 @@ button{
 <body>
 
 <div class="container">
-
-  <!-- TOP -->
-  <div class="top">
-    <button class="blue" style="width:auto" onclick="goBack()">← Trở về</button>
-    <b>⏱ <span id="time">60:00</span></b>
-    <button style="width:auto" id="toggleBtn" onclick="toggleGrid()">📋 Hiện bảng câu</button>
-  </div>
-
-  <!-- GRID -->
-  <div id="questionGrid" class="question-grid hidden"></div>
-
-  <!-- QUESTION -->
   <h2 id="question"></h2>
   <div id="answers"></div>
 
-  <!-- PREV / NEXT -->
-  <div class="nav-buttons">
-    <button class="blue" onclick="prevQuestion()">⬅ Câu trước</button>
-    <button class="blue" onclick="nextQuestion()">Câu sau ➡</button>
-  </div>
+  <div class="buttons">
+  <button onclick="prevQuestion()">⬅ Câu trước</button>
+  <button onclick="nextQuestion()">Câu tiếp ➡</button>
+</div>
 
-  <!-- SUBMIT -->
-  <button class="red" onclick="finishQuiz()">Nộp bài</button>
+<div id="score"></div>
 
-  <!-- RESTART (ĐÃ ĐƯA XUỐNG DƯỚI) -->
-  <button class="blue" onclick="restartQuiz()">🔁 Làm lại</button>
-
+<button class="reset reset-bottom" onclick="resetQuiz()">🔄 Làm lại</button>
 </div>
 
 <script>
@@ -657,102 +646,125 @@ const questionsAll = [
   } 
 ];
 
-// ===== BIẾN =====
-let questions=[], answers=[], index=0;
-let timeLeft=3600, timer;
+// ================== BIẾN ==================
+let index = 0;
+let score = 0;
+let quizQuestions = [];
+let userAnswers = [];
 
-// ===== HÀM =====
-function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
+// ================== TRỘN ==================
+function shuffle(array) {
+  return array
+    .map(v => ({ v, r: Math.random() }))
+    .sort((a, b) => a.r - b.r)
+    .map(x => x.v);
+}
 
-function startQuiz(){
-  questions = shuffle([...questionsAll]);
-  answers = new Array(questions.length).fill(null);
+// ================== KHỞI TẠO ==================
+function startQuiz() {
   index = 0;
-  timeLeft = 3600;
-  buildGrid();
-  loadQuestion();
-  startTimer();
-}
+  score = 0;
+  userAnswers = [];
 
-function startTimer(){
-  clearInterval(timer);
-  timer = setInterval(()=>{
-    timeLeft--;
-    const m=Math.floor(timeLeft/60), s=timeLeft%60;
-    document.getElementById("time").innerText =
-      `${m}:${s<10?'0':''}${s}`;
-    if(timeLeft<=0) finishQuiz();
-  },1000);
-}
+  quizQuestions = shuffle([...questions]).map(q => {
+    const answers = q.a.map((text, i) => ({
+      text,
+      index: i,
+      isCorrect: i === q.c
+    }));
 
-function loadQuestion(){
-  const q = questions[index];
-  document.getElementById("question").innerText =
-    `Câu ${index+1}: ${q.q}`;
-  const box = document.getElementById("answers");
-  box.innerHTML="";
-  q.a.forEach((text,i)=>{
-    const d=document.createElement("div");
-    d.className="answer";
-    d.innerText=text;
-    if(answers[index]===i) d.classList.add("selected");
-    d.onclick=()=>{
-      answers[index]=i;
-      loadQuestion();
-      updateGrid();
+    return {
+      ...q,
+      mixedAnswers: shuffle(answers)
     };
-    box.appendChild(d);
   });
+
+  loadQuestion();
 }
 
-function nextQuestion(){ if(index<questions.length-1){ index++; loadQuestion(); } }
-function prevQuestion(){ if(index>0){ index--; loadQuestion(); } }
+// ================== LOAD CÂU ==================
+function loadQuestion() {
+  const q = quizQuestions[index];
 
-function buildGrid(){
-  const g=document.getElementById("questionGrid");
-  g.innerHTML="";
-  questions.forEach((_,i)=>{
-    const b=document.createElement("button");
-    b.innerText=i+1;
-    b.onclick=()=>{ index=i; loadQuestion(); };
-    g.appendChild(b);
+  document.getElementById("question").innerText =
+    `Câu ${index + 1}/${quizQuestions.length}: ${q.q}`;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  q.mixedAnswers.forEach(ans => {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.innerText = ans.text;
+
+    if (userAnswers[index] !== undefined) {
+      if (ans.isCorrect) div.classList.add("correct");
+      if (ans.index === userAnswers[index] && !ans.isCorrect)
+        div.classList.add("wrong");
+    } else {
+      div.onclick = () => checkAnswer(div, ans);
+    }
+
+    answersDiv.appendChild(div);
   });
+
+  updateScore();
 }
 
-function updateGrid(){
-  document.querySelectorAll("#questionGrid button")
-    .forEach((b,i)=> b.className = answers[i]!=null ? "done" : "");
+// ================== CHỌN ĐÁP ÁN ==================
+function checkAnswer(element, ans) {
+  if (userAnswers[index] !== undefined) return;
+
+  userAnswers[index] = ans.index;
+
+  const all = document.querySelectorAll(".answer");
+  all.forEach(a => a.onclick = null);
+
+  if (ans.isCorrect) {
+    element.classList.add("correct");
+    score++;
+  } else {
+    element.classList.add("wrong");
+    all.forEach(a => {
+      if (a.innerText === quizQuestions[index].a[quizQuestions[index].c]) {
+        a.classList.add("correct");
+      }
+    });
+  }
+
+  updateScore();
 }
 
-function toggleGrid(){
-  const g=document.getElementById("questionGrid");
-  const b=document.getElementById("toggleBtn");
-  g.classList.toggle("hidden");
-  b.innerText=g.classList.contains("hidden")
-    ?"📋 Hiện bảng câu":"❌ Ẩn bảng câu";
-}
-
-function finishQuiz(){
-  clearInterval(timer);
-  let correct=0;
-  questions.forEach((q,i)=>{ if(answers[i]===q.c) correct++; });
-  const score=(correct/questions.length*10).toFixed(2);
-  alert(`Hoàn thành!\nĐúng: ${correct}/${questions.length}\nĐiểm: ${score}`);
-}
-
-function restartQuiz(){
-  if(confirm("Bạn có chắc muốn làm lại từ đầu?")){
-    startQuiz();
+// ================== ĐIỀU HƯỚNG ==================
+function nextQuestion() {
+  if (index < quizQuestions.length - 1) {
+    index++;
+    loadQuestion();
+  } else {
+    alert(`🎉 Hoàn thành!\nSố câu đúng: ${score}/${quizQuestions.length}`);
   }
 }
 
-function goBack(){
-  if(confirm("Bạn có chắc muốn quay lại? Bài làm sẽ bị mất.")){
-    window.history.back();
+function prevQuestion() {
+  if (index > 0) {
+    index--;
+    loadQuestion();
   }
 }
 
-// ===== CHẠY =====
+// ================== LÀM LẠI ==================
+function resetQuiz() {
+  if (!confirm("Bạn có chắc muốn làm lại từ đầu?")) return;
+  startQuiz();
+}
+
+// ================== ĐIỂM ==================
+function updateScore() {
+  document.getElementById("score").innerText =
+    `✅ Đúng: ${score} / ${quizQuestions.length}`;
+}
+
+// ================== CHẠY ==================
 startQuiz();
 </script>
 
