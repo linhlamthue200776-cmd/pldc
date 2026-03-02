@@ -80,6 +80,13 @@ button:active {
   margin-top: 15px;
   font-weight: bold;
 }
+  .reset-bottom {
+  margin-top: 20px;
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
+}
 </style>
 </head>
 
@@ -90,12 +97,13 @@ button:active {
   <div id="answers"></div>
 
   <div class="buttons">
-    <button onclick="prevQuestion()">⬅ Câu trước</button>
-    <button onclick="nextQuestion()">Câu tiếp ➡</button>
-    <button class="reset" onclick="resetQuiz()">🔄 Làm lại</button>
-  </div>
+  <button onclick="prevQuestion()">⬅ Câu trước</button>
+  <button onclick="nextQuestion()">Câu tiếp ➡</button>
+</div>
 
-  <div id="score"></div>
+<div id="score"></div>
+
+<button class="reset reset-bottom" onclick="resetQuiz()">🔄 Làm lại</button>
 </div>
 
 <script>
@@ -427,4 +435,5 @@ startQuiz();
 
 </body>
 </html>
+
 
