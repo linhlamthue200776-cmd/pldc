@@ -6,79 +6,81 @@
 <title>Thi trắc nghiệm</title>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  margin: 0;
-  padding: 15px;
-  font-size: 18px;
+body{
+  font-family:Arial, sans-serif;
+  background:#f4f6f8;
+  margin:0;
+  padding:15px;
+  font-size:18px;
+}
+.container{
+  max-width:100%;
+  margin:auto;
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+}
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+.answer{
+  border:1px solid #ccc;
+  padding:15px;
+  margin:12px 0;
+  border-radius:8px;
+  cursor:pointer;
+}
+.answer.selected{
+  background:#d6eaff;
+  border-color:#3498db;
+}
+button{
+  width:100%;
+  margin-top:12px;
+  padding:15px;
+  font-size:18px;
+  border-radius:8px;
+  border:none;
+  background:#3498db;
+  color:white;
+  cursor:pointer;
+}
+.green{background:#2ecc71}
+.red{background:#e74c3c}
+.gray{background:#555}
+
+.nav-buttons{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+.nav-buttons button{
+  flex:1;
 }
 
-.container {
-  max-width: 100%;
-  margin: auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
+.question-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,45px);
+  gap:6px;
+  margin:10px 0;
 }
-
-h2 {
-  font-size: 20px;
+.question-grid button{
+  padding:8px;
+  font-size:14px;
 }
-
-.answer {
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin: 12px 0;
-  border-radius: 8px;
-  cursor: pointer;
+.question-grid .done{
+  background:#2ecc71;
+  color:#fff;
 }
-
-.answer:active {
-  background: #eef;
+.hidden{display:none!important}
+.blue{
+  background:#3498db; /* xanh nước biển */
 }
-
-.correct {
-  background: #c8f7c5;
-  border-color: green;
-}
-
-.wrong {
-  background: #f7c5c5;
-  border-color: red;
-}
-
-.buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-button {
-  flex: 1;
-  padding: 15px;
-  font-size: 18px;
-  border-radius: 8px;
-  border: none;
-  background: #3498db;
-  color: white;
-}
-
-button:active {
-  background: #2980b9;
-}
-
-.reset {
-  background: #e67e22;
-}
-
-.reset:active {
-  background: #d35400;
-}
-
-#score {
-  margin-top: 15px;
-  font-weight: bold;
+.blue:hover{
+  background:#2980b9;
 }
 </style>
 </head>
@@ -86,395 +88,638 @@ button:active {
 <body>
 
 <div class="container">
+
+  <!-- TOP -->
+  <div class="top">
+    <button class="blue" style="width:auto" onclick="goBack()">← Trở về</button>
+    <b>⏱ <span id="time">60:00</span></b>
+    <button style="width:auto" id="toggleBtn" onclick="toggleGrid()">📋 Hiện bảng câu</button>
+  </div>
+
+  <!-- GRID -->
+  <div id="questionGrid" class="question-grid hidden"></div>
+
+  <!-- QUESTION -->
   <h2 id="question"></h2>
   <div id="answers"></div>
 
-  <div class="buttons">
-    <button onclick="prevQuestion()">⬅ Câu trước</button>
-    <button onclick="nextQuestion()">Câu tiếp ➡</button>
-    <button class="reset" onclick="resetQuiz()">🔄 Làm lại</button>
+  <!-- PREV / NEXT -->
+  <div class="nav-buttons">
+    <button class="blue" onclick="prevQuestion()">⬅ Câu trước</button>
+    <button class="blue" onclick="nextQuestion()">Câu sau ➡</button>
   </div>
 
-  <div id="score"></div>
+  <!-- SUBMIT -->
+  <button class="red" onclick="finishQuiz()">Nộp bài</button>
+
+  <!-- RESTART (ĐÃ ĐƯA XUỐNG DƯỚI) -->
+  <button class="blue" onclick="restartQuiz()">🔁 Làm lại</button>
+
 </div>
 
 <script>
-// ================== DỮ LIỆU ==================
-const questions =[
+// ===== CÂU HỎI =====
+const questionsAll = [
   {
-    q: "Trong kinh tế thị trường, mục đích cuối cùng của cạnh tranh giữa các nhà tư bản là gì?",
-    a: ["Tăng sản lượng tiêu dùng", "Giành lấy giá trị thặng dư cao hơn", "Bảo đảm an toàn cho sản xuất", "Phát triển lực lượng lao động xã hội"],
-    c: 1
+    "q": "Trong kinh tế thị trường, mục đích cuối cùng của cạnh tranh giữa các nhà tư bản là gì?",
+    "a": [
+      "Tăng sản lượng tiêu dùng",
+      "Giành lấy giá trị thặng dư cao hơn",
+      "Bảo đảm an toàn cho sản xuất",
+      "Phát triển lực lượng lao động xã hội"
+    ],
+    "c": 1
   },
   {
-    q: "Nhà kinh điển nào sau đây nghiên cứu sâu về chủ nghĩa tư bản độc quyền?",
-    a: ["Các Mác", "Phri-đrích Ăng-ghen", "Các Mác và Phri-đrích Ăng-ghen", "Vla-đi-mia I-lích Lê-nin"],
-    c: 3
+    "q": "Nhà kinh điển nào sau đây nghiên cứu sâu về chủ nghĩa tư bản độc quyền?",
+    "a": [
+      "C.Mác",
+      "Ph.Ăng ghen",
+      "C.Mác và Ăng ghen",
+      "V.I.Lênin"
+    ],
+    "c": 3
   },
   {
-    q: "Trong giai đoạn chủ nghĩa tư bản độc quyền có những hình thức cạnh tranh nào?",
-    a: ["Cạnh tranh giữa tổ chức độc quyền với xí nghiệp ngoài độc quyền", "Cạnh tranh giữa các tổ chức độc quyền với nhau", "Cạnh tranh trong nội bộ tổ chức độc quyền", "Tất cả các đáp án"],
-    c: 3
+    "q": "Trong giai đoạn chủ nghĩa tư bản độc quyền có những hình thức cạnh tranh nào?",
+    "a": [
+      "Cạnh tranh giữa tổ chức độc quyền với xí nghiệp ngoài độc quyền",
+      "Cạnh tranh giữa các tổ chức độc quyền với nhau",
+      "Cạnh tranh trong nội bộ tổ chức độc quyền",
+      "Tất cả các đáp án"
+    ],
+    "c": 3
   },
   {
-    q: "Quy luật kinh tế nào giữ vai trò chi phối cạnh tranh trong sản xuất tư bản chủ nghĩa?",
-    a: ["Quy luật giá trị", "Quy luật cung - cầu", "Quy luật lợi nhuận bình quân", "Quy luật lưu thông tiền tệ"],
-    c: 2
+    "q": "Quy luật kinh tế nào giữ vai trò chi phối cạnh tranh trong sản xuất tư bản chủ nghĩa?",
+    "a": [
+      "Quy luật giá trị",
+      "Quy luật cung - cầu",
+      "Quy luật lợi nhuận bình quân",
+      "Quy luật lưu thông tiền tệ"
+    ],
+    "c": 0
   },
   {
-    q: "Tác động tiêu cực của độc quyền đối với nền kinh tế là gì?",
-    a: ["Độc quyền làm cho cạnh tranh không hoàn hảo gây thiệt hại cho người tiêu dùng và xã hội", "Độc quyền đã phần nào kìm hãm sự tiến bộ kỹ thuật, kìm hãm sự phát triển kinh tế, xã hội", "Độc quyền chi phối các quan hệ kinh tế, xã hội, làm tăng sự phân hóa giàu nghèo", "Tất cả các đáp án"],
-    c: 3
+    "q": "Tác động tiêu cực của độc quyền đối với nền kinh tế là gì?",
+    "a": [
+      "Độc quyền làm cho cạnh tranh không hoàn hảo gây thiệt hại cho người tiêu dùng và xã hội",
+      "Độc quyền đã phần nào kìm hãm sự tiến bộ kỹ thuật, kìm hãm sự phát triển kinh tế, xã hội",
+      "Độc quyền chi phối các quan hệ kinh tế, xã hội, làm tăng sự phân hóa giàu nghèo",
+      "Tất cả các đáp án"
+    ],
+    "c": 3
   },
   {
-    q: "Trong cạnh tranh nội bộ ngành, yếu tố nào quyết định vị thế của từng nhà tư bản?",
-    a: ["Trình độ kỹ thuật và quy mô tư bản", "Sự ưu đãi của Nhà nước", "Mức hao phí lao động để sản xuất ra hàng hóa", "Khả năng tổ chức và quản lý sản xuất của nhà tư bản"],
-    c: 0
+    "q": "Trong cạnh tranh nội bộ ngành, yếu tố nào quyết định vị thế của từng nhà tư bản?",
+    "a": [
+      "Trình độ kỹ thuật và quy mô tư bản",
+      "Sự ưu đãi của Nhà nước",
+      "Mức hao phí lao động để sản xuất ra hàng hóa",
+      "Khả năng tổ chức và quản lý sản xuất của nhà tư bản"
+    ],
+    "c": 0
   },
   {
-    q: "Các tổ chức độc quyền sử dụng hình thức giá cả nào?",
-    a: ["Giá cả thị trường", "Giá cả độc quyền cao", "Giá cả độc quyền thấp", "Giá cả tự do"],
-    c: 1
+    "q": "Các tổ chức độc quyền sử dụng hình thức giá cả nào?",
+    "a": [
+      "Giá cả thị trường",
+      "Giá cả độc quyền cao",
+      "Giá cả độc quyền thấp",
+      "Giá cả tự do"
+    ],
+    "c": 1
   },
   {
-    q: "Trong chủ nghĩa tư bản độc quyền, vì sao cạnh tranh không bị thủ tiêu?",
-    a: ["Vì các tổ chức độc quyền cạnh tranh với nhau", "Vì tổ chức độc quyền cạnh tranh với các công ty ngoài độc quyền", "Vì các xí nghiệp trong nội bộ tổ chức độc quyền cạnh tranh với nhau", "Vì cạnh tranh là quy luật khách quan của nền kinh tế thị trường"],
-    c: 3
+    "q": "Trong chủ nghĩa tư bản độc quyền, vì sao cạnh tranh không bị thủ tiêu?",
+    "a": [
+      "Vì các tổ chức độc quyền cạnh tranh với nhau",
+      "Vì tổ chức độc quyền cạnh tranh với các công ty ngoài độc quyền",
+      "Vì các xí nghiệp trong nội bộ tổ chức độc quyền cạnh tranh với nhau",
+      "Vì cạnh tranh là quy luật khách quan của nền kinh tế thị trường"
+    ],
+    "c": 3
   },
   {
-    q: "Nguyên nhân hình thành lợi nhuận độc quyền là gì?",
-    a: ["Do cạnh tranh nội bộ ngành", "Do sự thèm khát giá trị thặng dư của các nhà tư bản", "Do địa vị độc quyền đem lại", "Do quy luật giá cả sản xuất đem lại"],
-    c: 2
+    "q": "Nguyên nhân hình thành lợi nhuận độc quyền là gì?",
+    "a": [
+      "Do cạnh tranh nội bộ ngành",
+      "Do sự thèm khát giá trị thặng dư của các nhà tư bản",
+      "Do địa vị độc quyền đem lại",
+      "Do quy luật giá cả sản xuất đem lại"
+    ],
+    "c": 2
   },
   {
-    q: "Hãy lựa chọn mệnh đề đúng trong các mệnh đề dưới đây?",
-    a: ["Độc quyền là con đẻ của cạnh tranh, đối lập với cạnh tranh và thủ tiêu cạnh tranh", "Độc quyền là con đẻ của cạnh tranh, đối lập với cạnh tranh nhưng không thủ tiêu cạnh tranh", "Cạnh tranh sinh ra độc quyền, chúng không đối lập nhau", "Tất cả các đáp án"],
-    c: 1
+    "q": "Hãy lựa chọn mệnh đề đúng trong các mệnh đề dưới đây?",
+    "a": [
+      "Độc quyền là con đẻ của cạnh tranh, đối lập với cạnh tranh và thủ tiêu cạnh tranh",
+      "Độc quyền là con đẻ của cạnh tranh, đối lập với cạnh tranh nhưng không thủ tiêu cạnh tranh",
+      "Cạnh tranh sinh ra độc quyền, chúng không đối lập nhau",
+      "Tất cả các đáp án"
+    ],
+    "c": 1
   },
   {
-    q: "Trong giai đoạn chủ nghĩa tư bản độc quyền quy luật giá trị có biểu hiện mới là gì?",
-    a: ["Quy luật giá cả sản xuất", "Quy luật giá cả độc quyền", "Quy luật lợi nhuận độc quyền", "Quy luật lợi nhuận bình quân"],
-    c: 1
+    "q": "Trong giai đoạn chủ nghĩa tư bản độc quyền quy luật giá trị có biểu hiện mới là gì?",
+    "a": [
+      "Quy luật giá cả sản xuất",
+      "Quy luật giá cả độc quyền",
+      "Quy luật lợi nhuận độc quyền",
+      "Quy luật lợi nhuận bình quân"
+    ],
+    "c": 1
   },
   {
-    q: "Trong giai đoạn chủ nghĩa tư bản tự do cạnh tranh, quy luật giá trị có hình thức biểu hiện là gì?",
-    a: ["Quy luật giá cả thị trường", "Quy luật giá cả độc quyền", "Quy luật lợi nhuận bình quân", "Quy luật giá cả sản xuất"],
-    c: 3
+    "q": "Trong giai đoạn chủ nghĩa tư bản tự do cạnh tranh, quy luật giá trị có hình thức biểu hiện là gì?",
+    "a": [
+      "Quy luật giá cả thị trường",
+      "Quy luật giá cả độc quyền",
+      "Quy luật lợi nhuận bình quân",
+      "Quy luật giá cả sản xuất"
+    ],
+    "c": 3
   },
   {
-    q: "Trong giai đoạn chủ nghĩa tư bản tự do cạnh tranh, quy luật giá trị thặng dư biểu hiện là gì?",
-    a: ["Quy luật giá cả sản xuất", "Quy luật tích luỹ tư bản", "Quy luật tỷ suất lợi nhuận bình quân", "Quy luật lợi nhuận độc quyền cao"],
-    c: 2
+    "q": "Trong giai đoạn chủ nghĩa tư bản tự do cạnh tranh, quy luật giá trị thặng dư biểu hiện là gì?",
+    "a": [
+      "Quy luật giá cả sản xuất",
+      "Quy luật tích luỹ tư bản",
+      "Quy luật tỷ suất lợi nhuận bình quân",
+      "Quy luật lợi nhuận độc quyền cao"
+    ],
+    "c": 2
   },
   {
-    q: "Trong giai đoạn chủ nghĩa tư bản độc quyền, quy luật giá trị thặng dư biểu hiện là gì?",
-    a: ["Quy luật giá cả độc quyền", "Quy luật lợi nhuận độc quyền cao", "Quy luật lợi nhuận bình quân", "Quy luật giá cả sản xuất"],
-    c: 1
+    "q": "Trong giai đoạn chủ nghĩa tư bản độc quyền, quy luật giá trị thặng dư biểu hiện là gì?",
+    "a": [
+      "Quy luật giá cả độc quyền",
+      "Quy luật lợi nhuận độc quyền cao",
+      "Quy luật lợi nhuận bình quân",
+      "Quy luật giá cả sản xuất"
+    ],
+    "c": 1
   },
   {
-    q: "Khi chủ nghĩa tư bản chuyển từ giai đoạn cạnh tranh tự do sang độc quyền, cạnh tranh có còn tồn tại không?",
-    a: ["Không còn cạnh tranh", "Cạnh tranh ở mức độ bớt căng thẳng hơn", "Cạnh tranh trở nên tinh vi hơn", "Cạnh tranh trở nên khốc liệt hơn"],
-    c: 3
+    "q": "Khi chủ nghĩa tư bản chuyển từ giai đoạn cạnh tranh tự do sang độc quyền, cạnh tranh có còn tồn tại không?",
+    "a": [
+      "Không còn cạnh tranh",
+      "Cạnh tranh ở mức độ bớt căng thẳng hơn",
+      "Cạnh tranh trở nên tinh vi hơn",
+      "Cạnh tranh trở nên khốc liệt hơn"
+    ],
+    "c": 2
   },
   {
-    q: "Những đặc điểm kinh tế cơ bản của chủ nghĩa tư bản độc quyền là gì?",
-    a: ["Tập trung sản xuất và các tổ chức độc quyền", "Tư bản tài chính và hệ thống tài phiệt chi phối sâu sắc nền kinh tế", "Xuất khẩu tư bản trở thành phổ biến", "Tập trung sản xuất; Tư bản tài chính; Xuất khẩu tư bản; Sự phân chia thế giới về kinh tế và lãnh thổ"],
-    c: 3
+    "q": "Những đặc điểm kinh tế cơ bản của chủ nghĩa tư bản độc quyền là gì?",
+    "a": [
+      "Tập trung sản xuất và các tổ chức độc quyền",
+      "Tư bản tài chính và hệ thống tài phiệt chi phối sâu sắc nền kinh tế",
+      "Xuất khẩu tư bản trở thành phổ biến",
+      "Tập trung sản xuất và các tổ chức độc quyền, tư bản tài chính và hệ thống tài phiệt chi phối sâu sắc nền kinh tế, xuất khẩu tư bản trở thành phổ biến, sự phân chia thế giới về kinh tế giữa các tập đoàn tư bản độc quyền, sự phân chia thế giới về lãnh thổ giữa các cường quốc tư bản"
+    ],
+    "c": 3
   },
   {
-    q: "Trong giai đoạn cạnh tranh tự do, chủ nghĩa tư bản chưa có đặc điểm nào?",
-    a: ["Trao đổi hàng hóa", "Phân công lao động xã hội", "Xuất khẩu tư bản", "Xuất khẩu hàng hóa"],
-    c: 2
+    "q": "Trong giai đoạn cạnh tranh tự do, chủ nghĩa tư bản chưa có đặc điểm nào?",
+    "a": [
+      "Trao đổi hàng hóa",
+      "Phân công lao động xã hội",
+      "Xuất khẩu tư bản",
+      "Xuất khẩu hàng hóa"
+    ],
+    "c": 2
   },
   {
-    q: "Xuất khẩu tư bản là gì?",
-    a: ["Đầu tư trực tiếp ra nước ngoài", "Cho nước ngoài vay", "Mang hàng hoá ra bán ở nước ngoài để thực hiện giá trị", "Đầu tư trực tiếp ra nước ngoài và cho nước ngoài vay"],
-    c: 3
+    "q": "Xuất khẩu tư bản là gì?",
+    "a": [
+      "Đầu tư trực tiếp ra nước ngoài",
+      "Cho nước ngoài vay",
+      "Mang hàng hoá ra bán ở nước ngoài để thực hiện giá trị",
+      "Đầu tư trực tiếp ra nước ngoài và cho nước ngoài vay"
+    ],
+    "c": 3
   },
   {
-    q: "Xuất khẩu tư bản là đặc điểm của giai đoạn chủ nghĩa tư bản nào?",
-    a: ["Của các nước giàu có", "Của chủ nghĩa tư bản", "Của chủ nghĩa tư bản độc quyền", "Chủ nghĩa tư bản cạnh tranh tự do"],
-    c: 2
+    "q": "Xuất khẩu tư bản là đặc điểm của giai đoạn chủ nghĩa tư bản nào?",
+    "a": [
+      "Của các nước giàu có",
+      "Của chủ nghĩa tư bản",
+      "Của chủ nghĩa tư bản độc quyền",
+      "Chủ nghĩa tư bản cạnh tranh tự do"
+    ],
+    "c": 2
   },
   {
-    q: "Nguyên nhân ra đời của chủ nghĩa tư bản độc quyền nhà nước là gì?",
-    a: ["Trình độ xã hội hoá cao của lực lượng sản xuất", "Do mâu thuẫn cơ bản của chủ nghĩa tư bản", "Xu hướng quốc tế hoá kinh tế", "Tất cả các đáp án"],
-    c: 3
+    "q": "Nguyên nhân ra đời của chủ nghĩa tư bản độc quyền nhà nước là gì?",
+    "a": [
+      "Trình độ xã hội hoá cao của lực lượng sản xuất",
+      "Do mâu thuẫn cơ bản của chủ nghĩa tư bản",
+      "Xu hướng quốc tế hoá kinh tế",
+      "Tất cả các đáp án"
+    ],
+    "c": 3
   },
   {
-    q: "Sự xuất hiện của chủ nghĩa tư bản độc quyền nhà nước tác động như thế nào tới mâu thuẫn giai cấp trong nhà nước tư sản?",
-    a: ["Mâu thuẫn giai cấp vô sản và tư sản giảm đi", "Làm cho mâu thuẫn trên sâu sắc hơn", "Làm hạn chế tác động tiêu cực của độc quyền", "Không còn mâu thuẫn giai cấp vô sản và tư sản"],
-    c: 1
+    "q": "Sự xuất hiện của chủ nghĩa tư bản độc quyền nhà nước tác động như thế nào tới mâu thuẫn giai cấp trong nhà nước tư sản?",
+    "a": [
+      "Mâu thuẫn giai cấp vô sản và tư sản giảm đi",
+      "Làm cho mâu thuẫn trên sâu sắc hơn",
+      "Làm hạn chế tác động tiêu cực của độc quyền",
+      "Không còn mâu thuẫn giai cấp vô sản và tư sản"
+    ],
+    "c": 1
   },
   {
-    q: "Độc quyền nhà nước trong chủ nghĩa tư bản là gì?",
-    a: ["Sự kết hợp tổ chức độc quyền tư nhân và nhà nước tư sản", "Nhà nước tư sản can thiệp vào kinh tế, chi phối độc quyền", "Các tổ chức độc quyền phụ thuộc vào nhà nước", "Sự thoả hiệp giữa nhà nước và tổ chức độc quyền"],
-    c: 0
+    "q": "Độc quyền nhà nước trong chủ nghĩa tư bản là gì?",
+    "a": [
+      "Sự kết hợp tổ chức độc quyền tư nhân và nhà nước tư sản",
+      "Nhà nước tư sản can thiệp vào kinh tế, chi phối độc quyền",
+      "Các tổ chức độc quyền phụ thuộc vào nhà nước",
+      "Sự thoả hiệp giữa nhà nước và tổ chức độc quyền"
+    ],
+    "c": 0
   },
   {
-    q: "Một trong những đòn bẩy quan trọng của sự ra đời chủ nghĩa tư bản độc quyền là:",
-    a: ["Sự phát triển của hệ thống quân sự", "Sự phát triển hệ thống tín dụng", "Sự phát triển hệ thống chính trị", "Tất cả các đáp án"],
-    c: 1
+    "q": "Một trong những đòn bẩy quan trọng của sự ra đời chủ nghĩa tư bản độc quyền là:",
+    "a": [
+      "Sự phát triển của hệ thống quân sự",
+      "Sự phát triển hệ thống tín dụng",
+      "Sự phát triển hệ thống chính trị",
+      "Tất cả các đáp án"
+    ],
+    "c": 1
   },
   {
-    q: "Chủ nghĩa tư bản độc quyền xuất khẩu tư bản không nhằm mục đích nào?",
-    a: ["Để giải quyết nguồn tư bản thừa trong nước", "Chiếm đoạt giá trị thặng dư và các nguồn lợi khác ở nước nhập khẩu tư bản", "Thực hiện giá trị và chiếm các nguồn lợi khác của nước nhập khẩu tư bản", "Phát triển kinh tế và chia sẻ nguồn lợi với các nước nhập khẩu tư bản"],
-    c: 3
+    "q": "Chủ nghĩa tư bản độc quyền xuất khẩu tư bản không nhằm mục đích nào?",
+    "a": [
+      "Để giải quyết nguồn tư bản thừa trong nước",
+      "Chiếm đoạt giá trị thặng dư và các nguồn lợi khác ở nước nhập khẩu tư bản",
+      "Thực hiện giá trị và chiếm các nguồn lợi khác của nước nhập khẩu tư bản",
+      "Phát triển kinh tế và chia sẻ nguồn lợi với các nước nhập khẩu tư bản"
+    ],
+    "c": 3
   },
   {
-    q: "Xuất khẩu tư bản nhà nước nhằm mục đích?",
-    a: ["Quân sự", "Kinh tế", "Chính trị", "Tất cả các đáp án"],
-    c: 3
+    "q": "Xuất khẩu tư bản nhà nước nhằm mục đích?",
+    "a": [
+      "Quân sự",
+      "Kinh tế",
+      "Chính trị",
+      "Tất cả các đáp án"
+    ],
+    "c": 3
   },
   {
-    q: "Các tổ chức độc quyền của các quốc gia cạnh tranh trên thị trường quốc tế dẫn đến hệ quả nào?",
-    a: ["Thôn tính nhau", "Đấu tranh không khoan nhượng", "Thoả hiệp với nhau hình thành các tổ chức độc quyền quốc tế", "Tất cả các đáp án"],
-    c: 2
+    "q": "Các tổ chức độc quyền của các quốc gia cạnh tranh trên thị trường quốc tế dẫn đến hệ quả nào?",
+    "a": [
+      "Thôn tính nhau",
+      "Đấu tranh không khoan nhượng",
+      "Thoả hiệp với nhau hình thành các tổ chức độc quyền quốc tế",
+      "Tất cả các đáp án"
+    ],
+    "c": 3
   },
   {
-    q: "Sự ra đời của chủ nghĩa tư bản độc quyền nhà nước nhằm mục đích gì?",
-    a: ["Phục vụ lợi ích của chủ nghĩa tư bản", "Phục vụ lợi ích của tổ chức độc quyền tư nhân", "Phục vụ lợi ích của nhà nước tư sản", "Phục vụ lợi ích của tổ chức độc quyền tư nhân và cứu nguy cho chủ nghĩa tư bản"],
-    c: 3
+    "q": "Sự ra đời của chủ nghĩa tư bản độc quyền nhà nước nhằm mục đích gì?",
+    "a": [
+      "Phục vụ lợi ích của chủ nghĩa tư bản",
+      "Phục vụ lợi ích của tổ chức độc quyền tư nhân",
+      "Phục vụ lợi ích của nhà nước tư sản",
+      "Phục vụ lợi ích của tổ chức độc quyền tư nhân và cứu nguy cho chủ nghĩa tư bản"
+    ],
+    "c": 3
   },
   {
-    q: "Chủ nghĩa tư bản độc quyền nhà nước là gì?",
-    a: ["Một quan hệ kinh tế, chính trị, xã hội", "Một chính sách trong giai đoạn độc quyền", "Một kiểu tổ chức kinh tế - xã hội", "Một cơ chế điều tiết của nhà nước tư sản"],
-    c: 0
+    "q": "Chủ nghĩa tư bản độc quyền nhà nước là gì?",
+    "a": [
+      "Một quan hệ kinh tế, chính trị, xã hội",
+      "Một chính sách trong giai đoạn độc quyền",
+      "Một kiểu tổ chức kinh tế - xã hội",
+      "Một cơ chế điều tiết của nhà nước tư sản"
+    ],
+    "c": 0
   },
   {
-    q: "Nhà nước tư sản đảm nhận đầu tư vào ngành nào?",
-    a: ["Đầu tư lớn, thu hồi vốn nhanh, lợi nhuận ít", "Đầu tư lớn, thu hồi vốn chậm, lợi nhuận cao", "Đầu tư không lớn, thu hồi vốn nhanh, lợi nhuận cao", "Đầu tư lớn, thu hồi vốn chậm, lợi nhuận ít"],
-    c: 3
+    "q": "Nhà nước tư sản đảm nhận đầu tư vào ngành nào?",
+    "a": [
+      "Đầu tư lớn, thu hồi vốn nhanh, lợi nhuận ít",
+      "Đầu tư lớn, thu hồi vốn chậm, lợi nhuận cao",
+      "Đầu tư không lớn, thu hồi vốn nhanh, lợi nhuận cao",
+      "Đầu tư lớn, thu hồi vốn chậm, lợi nhuận ít"
+    ],
+    "c": 3
   },
   {
-    q: "Sự ra đời của tư bản tài chính là do nguyên nhân nào dưới đây?",
-    a: ["Sự phát triển của độc quyền ngân hàng", "Sự phát triển của thị trường tài chính", "Sự phát triển của độc quyền công nghiệp", "Quá trình xâm nhập liên kết độc quyền ngân hàng với độc quyền công nghiệp"],
-    c: 3
+    "q": "Sự ra đời của tư bản tài chính là do nguyên nhân nào dưới đây?",
+    "a": [
+      "Sự phát triển của độc quyền ngân hàng",
+      "Sự phát triển của thị trường tài chính",
+      "Sự phát triển của độc quyền công nghiệp",
+      "Quá trình xâm nhập liên kết độc quyền ngân hàng với độc quyền công nghiệp"
+    ],
+    "c": 3
   },
   {
-    q: "Dựa vào chủ thể xuất khẩu tư bản, có hình thức xuất khẩu tư bản nào?",
-    a: ["Trực tiếp", "Gián tiếp", "Trực tiếp và gián tiếp", "Nhà nước và tư nhân"],
-    c: 3
+    "q": "Dựa vào chủ thể xuất khẩu tư bản, có hình thức xuất khẩu tư bản nào?",
+    "a": [
+      "Trực tiếp",
+      "Gián tiếp",
+      "Trực tiếp và gián tiếp",
+      "Nhà nước và tư nhân"
+    ],
+    "c": 3
   },
   {
-    q: "Vai trò mới của ngân hàng trong giai đoạn chủ nghĩa tư bản độc quyền là gì?",
-    a: ["Đầu tư tư bản", "Khống chế hoạt động của nền kinh tế tư bản chủ nghĩa", "Trung tâm tín dụng", "Trung tâm thanh toán"],
-    c: 1
+    "q": "Vai trò mới của ngân hàng trong giai đoạn chủ nghĩa tư bản độc quyền là gì?",
+    "a": [
+      "Đầu tư tư bản",
+      "Khống chế hoạt động của nền kinh tế tư bản chủ nghĩa",
+      "Trung tâm tín dụng",
+      "Trung tâm thanh toán"
+    ],
+    "c": 1
   },
   {
-    q: "Dựa vào hình thức đầu tư, có hình thức xuất khẩu tư bản nào?",
-    a: ["Xuất khẩu tư bản nhà nước", "Xuất khẩu tư bản tư nhân", "Xuất khẩu tư bản trực tiếp và xuất khẩu tư bản gián tiếp", "Xuất khẩu tư bản nhà nước và xuất khẩu tư bản tư nhân"],
-    c: 2
+    "q": "Dựa vào hình thức đầu tư, có hình thức xuất khẩu tư bản nào?",
+    "a": [
+      "Xuất khẩu tư bản nhà nước",
+      "Xuất khẩu tư bản tư nhân",
+      "Xuất khẩu tư bản trực tiếp và xuất khẩu tư bản gián tiếp",
+      "Xuất khẩu tư bản nhà nước và xuất khẩu tư bản tư nhân"
+    ],
+    "c": 2
   },
   {
-    q: "Mục đích của xuất khẩu tư bản là...",
-    a: ["Để giải quyết nguồn tư bản thừa trong nước", "Chiếm đoạt giá trị thặng dư và các nguồn lợi khác ở nước nhập khẩu tư bản", "Thực hiện giá trị và chiếm các nguồn lợi khác của nước nhập khẩu tư bản", "Giúp đỡ các nước nhập khẩu tư bản phát triển"],
-    c: 1
+    "q": "Mục đích của xuất khẩu tư bản là…",
+    "a": [
+      "Để giải quyết nguồn tư bản thừa trong nước",
+      "Chiếm đoạt giá trị thặng dư và các nguồn lợi khác ở nước nhập khẩu tư bản",
+      "Thực hiện giá trị và chiếm các nguồn lợi khác của nước nhập khẩu tư bản",
+      "Giúp đỡ các nước nhập khẩu tư bản phát triển"
+    ],
+    "c": 1
   },
   {
-    q: "Nguyên nhân xuất khẩu tư bản trong chủ nghĩa tư bản độc quyền là do:",
-    a: ["Một số nước tư bản thiếu tư bản", "Một số nước đang phát triển thiếu lao động", "Một số nước tư bản thiếu tư bản và nước đang phát triển thiếu lao động", "Một số nước tư bản thừa tư bản và nước đang phát triển thiếu tư bản"],
-    c: 3
+    "q": "Nguyên nhân xuất khẩu tư bản trong chủ nghĩa tư bản độc quyền là do:",
+    "a": [
+      "Một số nước tư bản thiếu tư bản",
+      "Một số nước đang phát triển, chậm phát triển thiếu lao động",
+      "Một số nước tư bản thiếu tư bản và một số nước đang phát triển, chậm phát triển thiếu lao động",
+      "Một số nước tư bản thừa tư bản và một số nước đang phát triển, chậm phát triển thiếu tư bản"
+    ],
+    "c": 3
   },
   {
-    q: "Sở hữu độc quyền nhà nước là sự kết hợp của những hình thức sở hữu nào dưới đây?",
-    a: ["Sở hữu nhà nước và sở hữu tư nhân tư bản chủ nghĩa", "Sở hữu nhà nước và sở hữu độc quyền tư nhân", "Sở hữu của nhà nước tư sản", "Sở hữu của nhiều nước tư bản"],
-    c: 1
+    "q": "Sở hữu độc quyền nhà nước là sự kết hợp của những hình thức sở hữu nào dưới đây?",
+    "a": [
+      "Sở hữu nhà nước và sở hữu tư nhân tư bản chủ nghĩa",
+      "Sở hữu nhà nước và sở hữu độc quyền tư nhân",
+      "Sở hữu của nhà nước tư sản",
+      "Sở hữu của nhiều nước tư bản"
+    ],
+    "c": 1
   },
   {
-    q: "Sở hữu nhà nước được hình thành bằng cách nào?",
-    a: ["Xây dựng xí nghiệp nhà nước bằng ngân sách", "Quốc hữu hoá", "Mua cổ phần của doanh nghiệp tư nhân", "Xây dựng xí nghiệp; quốc hữu hoá và mua cổ phần doanh nghiệp tư nhân"],
-    c: 3
+    "q": "Sở hữu nhà nước được hình thành bằng cách nào?",
+    "a": [
+      "Xây dựng xí nghiệp nhà nước bằng ngân sách",
+      "Quốc hữu hoá",
+      "Mua cổ phần của doanh nghiệp tư nhân",
+      "Xây dựng xí nghiệp nhà nước bằng ngân sách, quốc hữu hoá và mua cổ phần của doanh nghiệp tư nhân"
+    ],
+    "c": 3
   },
   {
-    q: "Cơ chế kinh tế của chủ nghĩa tư bản độc quyền nhà nước gồm những cơ chế nào?",
-    a: ["Cơ chế thị trường và độc quyền tư nhân", "Độc quyền tư nhân và sự điều tiết của nhà nước", "Cơ chế thị trường, độc quyền tư nhân và sự can thiệp của nhà nước", "Cơ chế thị trường và sự điều tiết của nhà nước"],
-    c: 2
+    "q": "Cơ chế kinh tế của chủ nghĩa tư bản độc quyền nhà nước gồm những cơ chế nào?",
+    "a": [
+      "Cơ chế thị trường và độc quyền tư nhân",
+      "Độc quyền tư nhân và sự điều tiết của nhà nước",
+      "Cơ chế thị trường, độc quyền tư nhân và sự can thiệp của nhà nước",
+      "Cơ chế thị trường và sự điều tiết của nhà nước"
+    ],
+    "c": 2
   },
   {
-    q: "Đâu KHÔNG phải là cách hình thành sở hữu nhà nước trong chủ nghĩa tư bản độc quyền nhà nước?",
-    a: ["Xây dựng các xí nghiệp nhà nước", "Mua lại các xí nghiệp tư nhân", "Cổ phần hóa xí nghiệp", "Giải thể xí nghiệp các xí nghiệp tư nhân hoạt động không hiệu quả"],
-    c: 3
+    "q": "Đâu KHÔNG phải là cách hình thành sở hữu nhà nước trong chủ nghĩa tư bản độc quyền nhà nước?",
+    "a": [
+      "Xây dựng các xí nghiệp nhà nước",
+      "Mua lại các xí nghiệp tư nhân",
+      "Cổ phần hóa xí nghiệp",
+      "Giải thể các xí nghiệp tư nhân hoạt động không hiệu quả"
+    ],
+    "c": 3
   },
   {
-    q: "Mâu thuẫn giữa giai cấp tư sản và vô sản trong thời kỳ chủ nghĩa tư bản độc quyền được biểu hiện như thế nào?",
-    a: ["Mâu thuẫn giữa giai cấp tư sản và vô sản không thay đổi", "Mâu thuẫn giữa giai cấp tư sản và vô sản có phần dịu đi", "Mâu thuẫn giữa giai cấp tư sản và vô sản ngày càng sâu sắc hơn", "Đời sống của giai cấp công nhân dần được cải thiện hơn"],
-    c: 2
+    "q": "Mâu thuẫn giữa giai cấp tư sản và vô sản trong thời kỳ chủ nghĩa tư bản độc quyền được biểu hiện như thế nào?",
+    "a": [
+      "Mâu thuẫn giữa giai cấp tư sản và vô sản không thay đổi",
+      "Mâu thuẫn giữa giai cấp tư sản và vô sản có phần dịu đi",
+      "Mâu thuẫn giữa giai cấp tư sản và vô sản ngày càng sâu sắc hơn",
+      "Đời sống của giai cấp công nhân và nhân dân lao động dần dần được cải thiện hơn"
+    ],
+    "c": 2
   },
   {
-    q: "Cơ chế hoạt động của chủ nghĩa tư bản độc quyền nhà nước là gì?",
-    a: ["Tổ chức độc quyền phụ thuộc vào nhà nước", "Nhà nước phụ thuộc vào tổ chức độc quyền", "Nhà nước không phụ thuộc vào tổ chức độc quyền", "Nhà nước chi phối tổ chức độc quyền"],
-    c: 1
+    "q": "Cơ chế hoạt động của chủ nghĩa tư bản độc quyền nhà nước là gì?",
+    "a": [
+      "Tổ chức độc quyền phụ thuộc vào nhà nước",
+      "Nhà nước phụ thuộc vào tổ chức độc quyền",
+      "Nhà nước không phụ thuộc vào tổ chức độc quyền",
+      "Nhà nước chi phối tổ chức độc quyền"
+    ],
+    "c": 0
   },
   {
-    q: "Vai trò tích cực của chủ nghĩa tư bản là gì?",
-    a: ["Thúc đẩy lực lượng sản xuất phát triển nhanh chóng", "Chuyển nền sản xuất nhỏ thành nền sản xuất lớn hiện đại", "Thực hiện xã hội hóa sản xuất", "Tất cả các đáp án"],
-    c: 3
+    "q": "Vai trò tích cực của chủ nghĩa tư bản là gì?",
+    "a": [
+      "Thúc đẩy lực lượng sản xuất phát triển nhanh chóng",
+      "Chuyển nền sản xuất nhỏ thành nền sản xuất lớn hiện đại",
+      "Thực hiện xã hội hóa sản xuất",
+      "Tất cả các đáp án"
+    ],
+    "c": 3
   },
   {
-    q: "Những hạn chế của chủ nghĩa tư bản là gì?",
-    a: ["Mục đích sản xuất vì lợi ích thiểu số giai cấp tư sản", "Là nguyên nhân châm ngòi của hầu hết các cuộc chiến tranh", "Sự phân hóa giàu nghèo gay gắt", "Tất cả các đáp án"],
-    c: 3
+    "q": "Những hạn chế của chủ nghĩa tư bản là gì?",
+    "a": [
+      "Sản xuất vì lợi ích của thiểu số giai cấp tư sản",
+      "Là nguyên nhân của nhiều cuộc chiến tranh",
+      "Phân hóa giàu nghèo ngày càng sâu sắc",
+      "Tất cả các đáp án"
+    ],
+    "c": 3
   },
   {
-    q: "Chủ thể xuất khẩu tư bản của chủ nghĩa tư bản ngày nay chủ yếu là...",
-    a: ["Các nhà tư bản tư nhân", "Các tổ chức độc quyền tư nhân trong một nước", "Các tổ chức độc quyền xuyên quốc gia", "Nhà nước tư sản"],
-    c: 2
+    "q": "Chủ thể xuất khẩu tư bản của chủ nghĩa tư bản ngày nay chủ yếu là…",
+    "a": [
+      "Các nhà tư bản tư nhân",
+      "Các tổ chức độc quyền tư nhân trong một nước",
+      "Các tổ chức độc quyền xuyên quốc gia",
+      "Nhà nước tư sản"
+    ],
+    "c": 2
   },
   {
-    q: "Hệ quả của việc chủ nghĩa tư bản độc quyền ra đời là gì?",
-    a: ["Phủ định các quy luật trong giai đoạn cạnh tranh tự do", "Phủ định các quy luật kinh tế của sản xuất hàng hoá", "Làm cho quy luật kinh tế có hình thức biểu hiện mới", "Không làm thay đổi các quy luật kinh tế nói chung"],
-    c: 2
+    "q": "Hệ quả của việc chủ nghĩa tư bản độc quyền ra đời là gì?",
+    "a": [
+      "Phủ định các quy luật trong giai đoạn chủ nghĩa tư bản tự do cạnh tranh",
+      "Phủ định các quy luật kinh tế của sản xuất hàng hoá",
+      "Làm cho các quy luật kinh tế của sản xuất hàng hoá và của chủ nghĩa tư bản có hình thức biểu hiện mới",
+      "Không làm thay đổi các quy luật kinh tế nói chung"
+    ],
+    "c": 2
   },
   {
-    q: "Hình thức xuất khẩu chủ yếu của chủ nghĩa tư bản ngày nay là gì?",
-    a: ["Đầu tư trực tiếp", "Đầu tư gián tiếp", "Đầu tư trực tiếp kết hợp đầu tư gián tiếp", "Xuất khẩu tư bản kết hợp xuất khẩu hàng hoá"],
-    c: 2
+    "q": "Hình thức xuất khẩu chủ yếu của chủ nghĩa tư bản ngày nay là gì?",
+    "a": [
+      "Đầu tư trực tiếp",
+      "Đầu tư gián tiếp",
+      "Đầu tư trực tiếp kết hợp đầu tư gián tiếp",
+      "Xuất khẩu tư bản kết hợp xuất khẩu hàng hoá"
+    ],
+    "c": 2
   },
   {
-    q: "Hình thức tổ chức và cơ chế thống trị của tư bản tài chính trong chủ nghĩa tư bản ngày nay thay đổi là do nguyên nhân nào?",
-    a: ["Lực lượng sản xuất phát triển, nhiều ngành mới xuất hiện", "Ý muốn thống trị của tư bản tài chính", "Mục đích thu lợi nhuận độc quyền", "Sự điều tiết của nhà nước"],
-    c: 0
+    "q": "Hình thức tổ chức và cơ chế thống trị của tư bản tài chính trong chủ nghĩa tư bản ngày nay thay đổi là do nguyên nhân nào?",
+    "a": [
+      "Lực lượng sản xuất phát triển, nhiều ngành mới xuất hiện",
+      "Ý muốn thống trị của tư bản tài chính",
+      "Mục đích thu lợi nhuận độc quyền",
+      "Sự điều tiết của nhà nước"
+    ],
+    "c": 0
   },
   {
-    q: "Nguyên nhân xuất hiện nhiều doanh nghiệp vừa và nhỏ trong chủ nghĩa tư bản ngày nay là gì?",
-    a: ["Lực lượng sản xuất phát triển cho phép chuyên môn hoá sản xuất sâu", "Các doanh nghiệp vừa và nhỏ thích ứng nhanh với biến động của thị trường", "Doanh nghiệp vừa và nhỏ dễ đổi mới trang thiết bị kỹ thuật", "Tất cả các đáp án"],
-    c: 3
+    "q": "Nguyên nhân xuất hiện nhiều doanh nghiệp vừa và nhỏ trong chủ nghĩa tư bản ngày nay là gì?",
+    "a": [
+      "Chuyên môn hoá sản xuất sâu",
+      "Thích ứng nhanh với thị trường",
+      "Dễ đổi mới trang thiết bị kỹ thuật",
+      "Tất cả các đáp án"
+    ],
+    "c": 3
   },
   {
-    q: "Trong chủ nghĩa tư bản ngày nay, các trùm tài chính thống trị nền kinh tế thông qua cách thức nào?",
-    a: ["Chế độ tham dự", "Chế độ uỷ nhiệm", "Kết hợp chế độ tham dự với chế độ uỷ nhiệm", "Các tổ chức tài chính quốc tế"],
-    c: 2
+    "q": "Trong chủ nghĩa tư bản ngày nay, các trùm tài chính thống trị nền kinh tế thông qua cách thức nào?",
+    "a": [
+      "Chế độ tham dự",
+      "Chế độ uỷ nhiệm",
+      "Kết hợp chế độ tham dự với chế độ uỷ nhiệm",
+      "Các tổ chức tài chính quốc tế"
+    ],
+    "c": 2
   },
   {
-    q: "Nguyên nhân hình thành các công ty xuyên quốc gia là gì?",
-    a: ["Cạnh tranh quốc tế", "Lực lượng sản xuất phát triển cao làm xuất hiện quá trình quốc tế hoá kinh tế", "Do sự điều tiết của các nước tư bản chủ nghĩa", "Tất cả các đáp án"],
-    c: 1
+    "q": "Nguyên nhân hình thành các công ty xuyên quốc gia là gì?",
+    "a": [
+      "Cạnh tranh quốc tế",
+      "Quốc tế hoá kinh tế do lực lượng sản xuất phát triển cao",
+      "Sự điều tiết của các nước tư bản chủ nghĩa",
+      "Tất cả các đáp án"
+    ],
+    "c": 3
   }
 ];
 
-// ================== BIẾN ==================
-let index = 0;
-let score = 0;
-let quizQuestions = [];
-let userAnswers = [];
+// ===== BIẾN =====
+let questions=[], answers=[], index=0;
+let timeLeft=3600, timer;
 
-// ================== TRỘN ==================
-function shuffle(array) {
-  return array
-    .map(v => ({ v, r: Math.random() }))
-    .sort((a, b) => a.r - b.r)
-    .map(x => x.v);
-}
+// ===== HÀM =====
+function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
 
-// ================== KHỞI TẠO ==================
-function startQuiz() {
+function startQuiz(){
+  questions = shuffle([...questionsAll]);
+  answers = new Array(questions.length).fill(null);
   index = 0;
-  score = 0;
-  userAnswers = [];
-
-  quizQuestions = shuffle([...questions]).map(q => {
-    const answers = q.a.map((text, i) => ({
-      text,
-      index: i,
-      isCorrect: i === q.c
-    }));
-
-    return {
-      ...q,
-      mixedAnswers: shuffle(answers)
-    };
-  });
-
+  timeLeft = 3600;
+  buildGrid();
   loadQuestion();
+  startTimer();
 }
 
-// ================== LOAD CÂU ==================
-function loadQuestion() {
-  const q = quizQuestions[index];
+function startTimer(){
+  clearInterval(timer);
+  timer = setInterval(()=>{
+    timeLeft--;
+    const m=Math.floor(timeLeft/60), s=timeLeft%60;
+    document.getElementById("time").innerText =
+      `${m}:${s<10?'0':''}${s}`;
+    if(timeLeft<=0) finishQuiz();
+  },1000);
+}
 
+function loadQuestion(){
+  const q = questions[index];
   document.getElementById("question").innerText =
-    `Câu ${index + 1}/${quizQuestions.length}: ${q.q}`;
-
-  const answersDiv = document.getElementById("answers");
-  answersDiv.innerHTML = "";
-
-  q.mixedAnswers.forEach(ans => {
-    const div = document.createElement("div");
-    div.className = "answer";
-    div.innerText = ans.text;
-
-    if (userAnswers[index] !== undefined) {
-      if (ans.isCorrect) div.classList.add("correct");
-      if (ans.index === userAnswers[index] && !ans.isCorrect)
-        div.classList.add("wrong");
-    } else {
-      div.onclick = () => checkAnswer(div, ans);
-    }
-
-    answersDiv.appendChild(div);
+    `Câu ${index+1}: ${q.q}`;
+  const box = document.getElementById("answers");
+  box.innerHTML="";
+  q.a.forEach((text,i)=>{
+    const d=document.createElement("div");
+    d.className="answer";
+    d.innerText=text;
+    if(answers[index]===i) d.classList.add("selected");
+    d.onclick=()=>{
+      answers[index]=i;
+      loadQuestion();
+      updateGrid();
+    };
+    box.appendChild(d);
   });
-
-  updateScore();
 }
 
-// ================== CHỌN ĐÁP ÁN ==================
-function checkAnswer(element, ans) {
-  if (userAnswers[index] !== undefined) return;
+function nextQuestion(){ if(index<questions.length-1){ index++; loadQuestion(); } }
+function prevQuestion(){ if(index>0){ index--; loadQuestion(); } }
 
-  userAnswers[index] = ans.index;
-
-  const all = document.querySelectorAll(".answer");
-  all.forEach(a => a.onclick = null);
-
-  if (ans.isCorrect) {
-    element.classList.add("correct");
-    score++;
-  } else {
-    element.classList.add("wrong");
-    all.forEach(a => {
-      if (a.innerText === quizQuestions[index].a[quizQuestions[index].c]) {
-        a.classList.add("correct");
-      }
-    });
-  }
-
-  updateScore();
+function buildGrid(){
+  const g=document.getElementById("questionGrid");
+  g.innerHTML="";
+  questions.forEach((_,i)=>{
+    const b=document.createElement("button");
+    b.innerText=i+1;
+    b.onclick=()=>{ index=i; loadQuestion(); };
+    g.appendChild(b);
+  });
 }
 
-// ================== ĐIỀU HƯỚNG ==================
-function nextQuestion() {
-  if (index < quizQuestions.length - 1) {
-    index++;
-    loadQuestion();
-  } else {
-    alert(`🎉 Hoàn thành!\nSố câu đúng: ${score}/${quizQuestions.length}`);
-  }
+function updateGrid(){
+  document.querySelectorAll("#questionGrid button")
+    .forEach((b,i)=> b.className = answers[i]!=null ? "done" : "");
 }
 
-function prevQuestion() {
-  if (index > 0) {
-    index--;
-    loadQuestion();
+function toggleGrid(){
+  const g=document.getElementById("questionGrid");
+  const b=document.getElementById("toggleBtn");
+  g.classList.toggle("hidden");
+  b.innerText=g.classList.contains("hidden")
+    ?"📋 Hiện bảng câu":"❌ Ẩn bảng câu";
+}
+
+function finishQuiz(){
+  clearInterval(timer);
+  let correct=0;
+  questions.forEach((q,i)=>{ if(answers[i]===q.c) correct++; });
+  const score=(correct/questions.length*10).toFixed(2);
+  alert(`Hoàn thành!\nĐúng: ${correct}/${questions.length}\nĐiểm: ${score}`);
+}
+
+function restartQuiz(){
+  if(confirm("Bạn có chắc muốn làm lại từ đầu?")){
+    startQuiz();
   }
 }
 
-// ================== LÀM LẠI ==================
-function resetQuiz() {
-  if (!confirm("Bạn có chắc muốn làm lại từ đầu?")) return;
-  startQuiz();
+function goBack(){
+  if(confirm("Bạn có chắc muốn quay lại? Bài làm sẽ bị mất.")){
+    window.history.back();
+  }
 }
 
-// ================== ĐIỂM ==================
-function updateScore() {
-  document.getElementById("score").innerText =
-    `✅ Đúng: ${score} / ${quizQuestions.length}`;
-}
-
-// ================== CHẠY ==================
+// ===== CHẠY =====
 startQuiz();
 </script>
 
 </body>
 </html>
-
