@@ -1,4 +1,112 @@
-   
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thi trắc nghiệm</title>
+
+<style>
+body{
+  font-family:Arial, sans-serif;
+  background:#f4f6f8;
+  margin:0;
+  padding:15px;
+  font-size:18px;
+}
+.container{
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+}
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.answer{
+  border:1px solid #ccc;
+  padding:15px;
+  margin:12px 0;
+  border-radius:8px;
+  cursor:pointer;
+}
+.answer.selected{
+  background:#d6eaff;
+  border-color:#3498db;
+}
+button{
+  width:100%;
+  margin-top:12px;
+  padding:15px;
+  font-size:18px;
+  border-radius:8px;
+  border:none;
+  background:#3498db;
+  color:white;
+  cursor:pointer;
+}
+.green{background:#2ecc71}
+.red{background:#e74c3c}
+
+.nav-buttons{
+  display:flex;
+  gap:10px;
+}
+.nav-buttons button{flex:1}
+
+.question-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,45px);
+  gap:6px;
+  margin:10px 0;
+}
+.question-grid .done{
+  background:#2ecc71;
+  color:#fff;
+}
+.hidden{display:none}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="top">
+  <button class="red" style="width:auto" onclick="goBack()">← Trở về</button>
+  <b>⏱ <span id="time">60:00</span></b>
+  <button style="width:auto" onclick="toggleGrid()">📋 Bảng câu</button>
+</div>
+
+<div id="questionGrid" class="question-grid hidden"></div>
+
+<h2 id="question"></h2>
+<div id="answers"></div>
+
+<div class="nav-buttons">
+  <button class="green" onclick="prevQuestion()">⬅ Câu trước</button>
+  <button onclick="nextQuestion()">Câu sau ➡</button>
+</div>
+
+<button class="red" onclick="finishQuiz()">Nộp bài</button>
+
+</div>
+
+<!-- KẾT QUẢ -->
+<div id="resultModal" style="
+display:none;position:fixed;inset:0;
+background:rgba(0,0,0,.4);
+justify-content:center;align-items:center;">
+  <div style="background:#fff;padding:20px;border-radius:10px;width:320px">
+    <h3>KẾT QUẢ</h3>
+    <div id="resultText" style="margin:10px 0"></div>
+    <button class="green" onclick="restartQuiz()">Làm lại</button>
+  </div>
+</div>
+
+<script>
+// ================== NGÂN HÀNG CÂU HỎI (THÊM BAO NHIÊU CŨNG ĐƯỢC) ==================
+const questionsAll = [
   {
     q: "Kinh tế chính trị Mác - Lênin ra đời dựa trên sự kế thừa trực tiếp từ những thành tựu của...",
     a: ["Kinh tế chính trị cổ điển Anh", "Triết học cổ điển Đức", "Chủ nghĩa trọng thương", "Chủ nghĩa trọng nông"],
@@ -658,4 +766,5 @@
     q: "Từ vai trò của một số chủ thể chính tham gia thị trường, nhận định nào sau đây là đúng?",
     a: ["Trên thị trường, doanh nghiệp đóng vai trò là người tiêu dùng", "Trên thị trường, doanh nghiệp đóng vai trò là người sản xuất", "Trên thị trường, doanh nghiệp đóng vai trò quyết định trong quá trình tiêu thụ hàng hóa", "Trên thị trường, doanh nghiệp vừa đóng vai trò là người mua, vừa đóng vai trò là người bán"],
     c: 3
-  }
+  },
+  
