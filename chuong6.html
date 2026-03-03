@@ -14,101 +14,161 @@ body {
   font-size: 18px;
 }
 
+/* ===== THANH TRÊN ===== */
+.top {
+  position: relative;
+  height: 44px;
+  margin-bottom: 15px;
+}
+
+/* NÚT TRỞ VỀ */
+.back-btn {
+  position: absolute;
+  left: 0;
+  background: #3498db;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* NÚT LÀM LẠI */
+.reset-top {
+  position: absolute;
+  right: 0;
+  background: #3498db;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* ĐIỂM Ở GIỮA */
+#score {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* ===== KHUNG ===== */
 .container {
-  max-width: 100%;
-  margin: auto;
   background: #fff;
   padding: 20px;
   border-radius: 10px;
 }
 
+/* ===== CÂU HỎI ===== */
 h2 {
-  font-size: 20px;
+  font-size: 22px;
+  margin-bottom: 20px;
 }
 
+/* ===== ĐÁP ÁN ===== */
 .answer {
   border: 1px solid #ccc;
   padding: 15px;
-  margin: 12px 0;
+  margin-bottom: 12px;
   border-radius: 8px;
   cursor: pointer;
 }
 
-.answer:active {
-  background: #eef;
-}
+.answer:active { background: #eef; }
+.correct { background: #c8f7c5; border-color: green; }
+.wrong { background: #f7c5c5; border-color: red; }
 
-.correct {
-  background: #c8f7c5;
-  border-color: green;
-}
-
-.wrong {
-  background: #f7c5c5;
-  border-color: red;
-}
-
+/* ===== NÚT DƯỚI ===== */
 .buttons {
   display: flex;
   gap: 10px;
   margin-top: 20px;
 }
 
-button {
+button.nav {
   flex: 1;
-  padding: 15px;
-  font-size: 18px;
+  padding: 14px;
+  font-size: 17px;
   border-radius: 8px;
   border: none;
   background: #3498db;
   color: white;
 }
 
-button:active {
-  background: #2980b9;
+/* ===== MODAL ===== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 999;
 }
 
-.reset {
-  background: #e67e22;
+.modal-content {
+  background: #fff;
+  width: 90%;
+  max-width: 300px;
+  margin: 30% auto;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
 }
 
-.reset:active {
-  background: #d35400;
-}
-
-#score {
+.modal-content button {
   margin-top: 15px;
-  font-weight: bold;
-}
-  .reset-bottom {
-  margin-top: 20px;
+  padding: 12px;
   width: 100%;
-  padding: 15px;
-  font-size: 18px;
   border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+  font-size: 16px;
 }
 </style>
 </head>
 
 <body>
 
+<!-- THANH TRÊN -->
+<div class="top">
+  <button class="back-btn" onclick="goBack()">← Trở về</button>
+  <div id="score">Đúng: 0 / 0</div>
+  <button class="reset-top" onclick="resetQuiz()">🔄 Làm lại</button>
+</div>
+
 <div class="container">
   <h2 id="question"></h2>
   <div id="answers"></div>
 
   <div class="buttons">
-  <button onclick="prevQuestion()">⬅ Câu trước</button>
-  <button onclick="nextQuestion()">Câu tiếp ➡</button>
+    <button class="nav" onclick="prevQuestion()">← Câu trước</button>
+    <button class="nav" onclick="nextQuestion()">Câu tiếp →</button>
+  </div>
 </div>
 
-<div id="score"></div>
-
-<button class="reset reset-bottom" onclick="resetQuiz()">🔄 Làm lại</button>
+<!-- POPUP KẾT QUẢ -->
+<div id="resultModal" class="modal">
+  <div class="modal-content">
+    <h3>🎉 Hoàn thành</h3>
+    <p id="finalScore"></p>
+    <button onclick="okReload()">OK</button>
+  </div>
 </div>
 
 <script>
-// ===== CÂU HỎI =====
-const questions = [
+let index = 0;
+let score = 0;
+let userAnswers = [];
+let questions = [];
+
+/* ===== DỮ LIỆU ===== */
+const rawQuestions = [
+
 {
   q: "Tiền đề của cuộc Cách mạng công nghiệp lần thứ nhất được phát triển trước hết trong lĩnh vực nào?",
   a: ["Cơ khí", "Điện", "Hóa chất", "Dệt vải"],
@@ -701,102 +761,84 @@ const questions = [
 } 
 ];
 
-// ================== BIẾN ==================
-let index = 0;
-let score = 0;
-let quizQuestions = [];
-let userAnswers = [];
-
-// ================== TRỘN ==================
-function shuffle(array) {
-  return array
-    .map(v => ({ v, r: Math.random() }))
-    .sort((a, b) => a.r - b.r)
-    .map(x => x.v);
+/* ===== TRỘN ===== */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
 }
 
-// ================== KHỞI TẠO ==================
+/* ===== KHỞI TẠO ===== */
 function startQuiz() {
   index = 0;
   score = 0;
   userAnswers = [];
 
-  quizQuestions = shuffle([...questions]).map(q => {
-    const answers = q.a.map((text, i) => ({
-      text,
-      index: i,
-      isCorrect: i === q.c
-    }));
+  questions = JSON.parse(JSON.stringify(rawQuestions));
+  shuffle(questions);
 
-    return {
-      ...q,
-      mixedAnswers: shuffle(answers)
-    };
+  questions.forEach(q => {
+    const correct = q.a[q.c];
+    shuffle(q.a);
+    q.c = q.a.indexOf(correct);
   });
 
   loadQuestion();
 }
 
-// ================== LOAD CÂU ==================
+/* ===== LOAD ===== */
 function loadQuestion() {
-  const q = quizQuestions[index];
-
+  const q = questions[index];
   document.getElementById("question").innerText =
-    `Câu ${index + 1}/${quizQuestions.length}: ${q.q}`;
+    `Câu ${index + 1}: ${q.q}`;
 
   const answersDiv = document.getElementById("answers");
   answersDiv.innerHTML = "";
 
-  q.mixedAnswers.forEach(ans => {
+  q.a.forEach((text, i) => {
     const div = document.createElement("div");
     div.className = "answer";
-    div.innerText = ans.text;
+    div.innerText = text;
+    div.onclick = () => checkAnswer(div, i);
+    answersDiv.appendChild(div);
 
     if (userAnswers[index] !== undefined) {
-      if (ans.isCorrect) div.classList.add("correct");
-      if (ans.index === userAnswers[index] && !ans.isCorrect)
+      if (i === q.c) div.classList.add("correct");
+      if (i === userAnswers[index] && i !== q.c)
         div.classList.add("wrong");
-    } else {
-      div.onclick = () => checkAnswer(div, ans);
+      div.onclick = null;
     }
-
-    answersDiv.appendChild(div);
   });
 
   updateScore();
 }
 
-// ================== CHỌN ĐÁP ÁN ==================
-function checkAnswer(element, ans) {
+/* ===== CHỌN ===== */
+function checkAnswer(el, i) {
   if (userAnswers[index] !== undefined) return;
 
-  userAnswers[index] = ans.index;
+  userAnswers[index] = i;
 
-  const all = document.querySelectorAll(".answer");
-  all.forEach(a => a.onclick = null);
-
-  if (ans.isCorrect) {
-    element.classList.add("correct");
+  if (i === questions[index].c) {
+    el.classList.add("correct");
     score++;
   } else {
-    element.classList.add("wrong");
-    all.forEach(a => {
-      if (a.innerText === quizQuestions[index].a[quizQuestions[index].c]) {
-        a.classList.add("correct");
-      }
-    });
+    el.classList.add("wrong");
+    document.querySelectorAll(".answer")[questions[index].c]
+      .classList.add("correct");
   }
 
   updateScore();
 }
 
-// ================== ĐIỀU HƯỚNG ==================
+/* ===== ĐIỀU HƯỚNG ===== */
 function nextQuestion() {
-  if (index < quizQuestions.length - 1) {
+  if (index < questions.length - 1) {
     index++;
     loadQuestion();
   } else {
-    alert(`🎉 Hoàn thành!\nSố câu đúng: ${score}/${quizQuestions.length}`);
+    showResult();
   }
 }
 
@@ -807,24 +849,40 @@ function prevQuestion() {
   }
 }
 
-// ================== LÀM LẠI ==================
-function resetQuiz() {
-  if (!confirm("Bạn có chắc muốn làm lại từ đầu?")) return;
+/* ===== MODAL ===== */
+function showResult() {
+  document.getElementById("finalScore").innerText =
+    `Đúng: ${score} / ${questions.length}`;
+  document.getElementById("resultModal").style.display = "block";
+}
+
+function okReload() {
+  document.getElementById("resultModal").style.display = "none";
   startQuiz();
 }
 
-// ================== ĐIỂM ==================
-function updateScore() {
-  document.getElementById("score").innerText =
-    `✅ Đúng: ${score} / ${quizQuestions.length}`;
+/* ===== LÀM LẠI ===== */
+function resetQuiz() {
+  if (confirm("Bạn có chắc muốn làm lại?")) {
+    startQuiz();
+  }
 }
 
-// ================== CHẠY ==================
+/* ===== ĐIỂM ===== */
+function updateScore() {
+  document.getElementById("score").innerText =
+    `Đúng: ${score} / ${questions.length}`;
+}
+
 startQuiz();
+function goBack() {
+  window.history.back();
+}  
 </script>
 
 </body>
 </html>
+
 
 
 
