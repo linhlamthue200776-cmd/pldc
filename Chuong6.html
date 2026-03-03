@@ -14,70 +14,160 @@ body {
   font-size: 18px;
 }
 
+/* ===== THANH TRÊN ===== */
+.top {
+  position: relative;
+  height: 44px;
+  margin-bottom: 15px;
+}
+
+/* NÚT TRỞ VỀ */
+.back-btn {
+  position: absolute;
+  left: 0;
+  background: #3498db;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* NÚT LÀM LẠI */
+.reset-top {
+  position: absolute;
+  right: 0;
+  background: #3498db;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* ĐIỂM Ở GIỮA */
+#score {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* ===== KHUNG ===== */
 .container {
-  max-width: 100%;
-  margin: auto;
   background: #fff;
   padding: 20px;
   border-radius: 10px;
-  box-sizing: border-box;
 }
 
+/* ===== CÂU HỎI ===== */
 h2 {
+  font-size: 22px;
   margin-bottom: 20px;
-  font-size: 20px;
 }
 
+/* ===== ĐÁP ÁN ===== */
 .answer {
   border: 1px solid #ccc;
   padding: 15px;
-  margin: 12px 0;
+  margin-bottom: 12px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 18px;
 }
 
-.answer:active {
-  background: #eef;
-}
+.answer:active { background: #eef; }
+.correct { background: #c8f7c5; border-color: green; }
+.wrong { background: #f7c5c5; border-color: red; }
 
-.correct {
-  background: #c8f7c5;
-  border-color: green;
-}
-
-.wrong {
-  background: #f7c5c5;
-  border-color: red;
-}
-
-button {
-  width: 100%;
+/* ===== NÚT DƯỚI ===== */
+.buttons {
+  display: flex;
+  gap: 10px;
   margin-top: 20px;
-  padding: 15px;
-  font-size: 18px;
+}
+
+button.nav {
+  flex: 1;
+  padding: 14px;
+  font-size: 17px;
   border-radius: 8px;
   border: none;
   background: #3498db;
   color: white;
 }
 
-button:active {
-  background: #2980b9;
+/* ===== MODAL ===== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 999;
+}
+
+.modal-content {
+  background: #fff;
+  width: 90%;
+  max-width: 300px;
+  margin: 30% auto;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.modal-content button {
+  margin-top: 15px;
+  padding: 12px;
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+  font-size: 16px;
 }
 </style>
 </head>
 
-
 <body>
+
+<!-- THANH TRÊN -->
+<div class="top">
+  <button class="back-btn" onclick="goBack()">← Trở về</button>
+  <div id="score">Đúng: 0 / 0</div>
+  <button class="reset-top" onclick="resetQuiz()">🔄 Làm lại</button>
+</div>
+
 <div class="container">
   <h2 id="question"></h2>
   <div id="answers"></div>
-  <button onclick="nextQuestion()">Câu tiếp theo</button>
+
+  <div class="buttons">
+    <button class="nav" onclick="prevQuestion()">← Câu trước</button>
+    <button class="nav" onclick="nextQuestion()">Câu tiếp →</button>
+  </div>
+</div>
+
+<!-- POPUP KẾT QUẢ -->
+<div id="resultModal" class="modal">
+  <div class="modal-content">
+    <h3>🎉 Hoàn thành</h3>
+    <p id="finalScore"></p>
+    <button onclick="okReload()">OK</button>
+  </div>
 </div>
 
 <script>
-const questions = [
+let index = 0;
+let score = 0;
+let userAnswers = [];
+let questions = [];
+
+/* ===== DỮ LIỆU ===== */
+const rawQuestions = [
  {
     "q": "Luật Dân sự là ngành luật điều chỉnh:",
     "a": [
