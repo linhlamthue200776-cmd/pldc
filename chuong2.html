@@ -14,93 +14,161 @@ body {
   font-size: 18px;
 }
 
+/* ===== THANH TRÊN ===== */
+.top {
+  position: relative;
+  height: 44px;
+  margin-bottom: 15px;
+}
+
+/* NÚT TRỞ VỀ */
+.back-btn {
+  position: absolute;
+  left: 0;
+  background: #3498db;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* NÚT LÀM LẠI */
+.reset-top {
+  position: absolute;
+  right: 0;
+  background: #3498db;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* ĐIỂM Ở GIỮA */
+#score {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* ===== KHUNG ===== */
 .container {
-  max-width: 100%;
-  margin: auto;
   background: #fff;
   padding: 20px;
   border-radius: 10px;
 }
 
+/* ===== CÂU HỎI ===== */
 h2 {
-  font-size: 20px;
+  font-size: 22px;
+  margin-bottom: 20px;
 }
 
+/* ===== ĐÁP ÁN ===== */
 .answer {
   border: 1px solid #ccc;
   padding: 15px;
-  margin: 12px 0;
+  margin-bottom: 12px;
   border-radius: 8px;
   cursor: pointer;
 }
 
-.answer:active {
-  background: #eef;
-}
+.answer:active { background: #eef; }
+.correct { background: #c8f7c5; border-color: green; }
+.wrong { background: #f7c5c5; border-color: red; }
 
-.correct {
-  background: #c8f7c5;
-  border-color: green;
-}
-
-.wrong {
-  background: #f7c5c5;
-  border-color: red;
-}
-
+/* ===== NÚT DƯỚI ===== */
 .buttons {
   display: flex;
   gap: 10px;
   margin-top: 20px;
 }
 
-button {
+button.nav {
   flex: 1;
-  padding: 15px;
-  font-size: 18px;
+  padding: 14px;
+  font-size: 17px;
   border-radius: 8px;
   border: none;
   background: #3498db;
   color: white;
 }
 
-button:active {
-  background: #2980b9;
+/* ===== MODAL ===== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 999;
 }
 
-.reset {
-  background: #e67e22;
+.modal-content {
+  background: #fff;
+  width: 90%;
+  max-width: 300px;
+  margin: 30% auto;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
 }
 
-.reset:active {
-  background: #d35400;
-}
-
-#score {
+.modal-content button {
   margin-top: 15px;
-  font-weight: bold;
+  padding: 12px;
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+  font-size: 16px;
 }
 </style>
 </head>
 
 <body>
 
+<!-- THANH TRÊN -->
+<div class="top">
+  <button class="back-btn" onclick="goBack()">← Trở về</button>
+  <div id="score">Đúng: 0 / 0</div>
+  <button class="reset-top" onclick="resetQuiz()">🔄 Làm lại</button>
+</div>
+
 <div class="container">
   <h2 id="question"></h2>
   <div id="answers"></div>
 
   <div class="buttons">
-    <button onclick="prevQuestion()">⬅ Câu trước</button>
-    <button onclick="nextQuestion()">Câu tiếp ➡</button>
-    <button class="reset" onclick="resetQuiz()">🔄 Làm lại</button>
+    <button class="nav" onclick="prevQuestion()">← Câu trước</button>
+    <button class="nav" onclick="nextQuestion()">Câu tiếp →</button>
   </div>
+</div>
 
-  <div id="score"></div>
+<!-- POPUP KẾT QUẢ -->
+<div id="resultModal" class="modal">
+  <div class="modal-content">
+    <h3>🎉 Hoàn thành</h3>
+    <p id="finalScore"></p>
+    <button onclick="okReload()">OK</button>
+  </div>
 </div>
 
 <script>
-// ================== DỮ LIỆU ==================
-const questions = [
+let index = 0;
+let score = 0;
+let userAnswers = [];
+let questions = [];
+
+/* ===== DỮ LIỆU ===== */
+const rawQuestions = [
+
   {
     q: "Kiểu tổ chức kinh tế đầu tiên của xã hội loài người là....",
     a: ["Kinh tế hàng hoá", "Kinh tế cá thể", "Kinh tế tự nhiên", "Kinh tế thị trường"],
@@ -214,7 +282,7 @@ const questions = [
   {
     q: "Giá trị sử dụng của hàng hoá là phạm trù mang tính...",
     a: ["Vĩnh viễn", "Lịch sử", "Tất nhiên", "Ngẫu nhiên"],
-    c: 0
+    c: 1
   },
   {
     q: "Lao động cụ thể là...",
@@ -242,7 +310,7 @@ const questions = [
     c: 0
   },
   {
-    q: "Hàng hoá có hai thuộc tính giá trị và giá trị sử dụng, bởi vì...",
+    q: "Chọn phương án đúng nhất: Hàng hoá có hai thuộc tính giá trị và giá trị sử dụng, bởi vì...",
     a: ["Lao động sản xuất hàng hoá có tính hai mặt: lao động cụ thể và lao động trừu tượng", "Lao động sản xuất hàng hoá có mục đích để trao đổi, mua bán", "Lao động sản xuất hàng hoá có hai loại lao động phức tạp và lao động giản đơn", "Lao động sản xuất hàng hoá có tính chất tư nhân và xã hội"],
     c: 0
   },
@@ -272,7 +340,7 @@ const questions = [
     c: 0
   },
   {
-    q: "Cường độ lao động là mức độ (...) của hoạt động lao động trong sản xuất.",
+    q: "Chọn đáp án đúng nhất điền vào chỗ trống: Cường độ lao động là mức độ (...) của hoạt động lao động trong sản xuất.",
     a: ["Khẩn trương, tích cực", "Áp lực", "Nặng nhọc", "Căng thăng"],
     c: 0
   },
@@ -307,7 +375,7 @@ const questions = [
     c: 0
   },
   {
-    q: "Việc tăng năng suất lao động ảnh hưởng như thế nào?",
+    q: "Chọn phương án đúng nhất: Việc tăng năng suất lao động ảnh hưởng như thế nào?",
     a: ["Tổng số sản phẩm tăng, tổng giá trị sản phẩm không đổi và lượng giá trị trong một đơn vị hàng hoá giảm", "Tổng số sản phẩm tăng, tổng giá trị sản phẩm tăng và lượng giá trị trong một đơn vị hàng hoá giảm", "Tổng số sản phẩm tăng, tổng giá trị sản phẩm giảm và lượng giá trị trong một đơn vị hàng hoá giảm", "Tổng số sản phẩm tăng, tổng giá trị sản phẩm không đổi và lượng giá trị trong một đơn vị hàng hoá tăng"],
     c: 0
   },
@@ -319,7 +387,7 @@ const questions = [
   {
     q: "Khi tăng cường độ lao động lên 2 lần thì các nhân tố khác như thế nào?",
     a: ["Tổng số sản phẩm và lượng giá trị trong một đơn vị hàng hoá cùng tăng lên 2 lần", "Tổng số sản phẩm tăng lên 2 lần và lượng giá trị trong một đơn vị hàng hoá giảm xuống 2 lần", "Tổng số sản phẩm và lượng giá trị trong một đơn vị hàng hoá không đổi", "Tổng số sản phẩm và tổng lượng giá trị hàng hóa tăng 2 lần nhưng lượng giá trị trong một đơn vị hàng hoá không đổi"],
-    c: 3
+    c: 0
   },
   {
     q: "Điểm giống nhau khi tăng năng suất lao động và cường độ lao động là gì?",
@@ -387,7 +455,7 @@ const questions = [
     c: 1
   },
   {
-    q: "Thực hiện chức năng tiền tệ thế giới, tiền phải đáp ứng yêu cầu...",
+    q: "Chọn phương án đúng nhất:Thực hiện chức năng tiền tệ thế giới, tiền phải đáp ứng yêu cầu...",
     a: ["Không đủ giá trị, tiền vàng hoặc những đồng tiền được công nhận là phương tiện thanh toán quốc tế", "Có đủ giá trị, tiền vàng hoặc những đồng tiền được công nhận là phương tiện thanh toán quốc tế", "Đủ giá trị, tiền bạc hoặc những đồng tiền được công nhận là phương tiện thanh toán quốc tế", "Đủ giá trị, tiền vàng hoặc những đồng tiền không được công nhận là phương tiện thanh toán quốc tế"],
     c: 1
   },
@@ -397,7 +465,7 @@ const questions = [
     c: 0
   },
   {
-    q: "Trong điều kiện nền kinh tế thị trường hiện nay, một số hàng hoá có quan hệ trao đổi khác với hàng hóa thông thường là...",
+    q: "Chọn phương án đúng nhất:Trong điều kiện nền kinh tế thị trường hiện nay, một số hàng hoá có quan hệ trao đổi khác với hàng hóa thông thường là...",
     a: ["Quyền sử dụng đất đai, thương hiệu và hàng hoá tư liệu sản xuất", "Thương hiệu, hàng hoá tư liệu tiêu dùng, chứng khoán và một số giấy tờ có giá khác", "Quyền sử dụng đất đai, thương hiệu, chứng khoán và một số giấy tờ có giá khác", "Quyền sử dụng đất đai, thương hiệu, chứng khoán và một số giấy tờ có giá khác, hàng hoá nông phẩm"],
     c: 2
   },
@@ -409,12 +477,12 @@ const questions = [
   {
     q: "Căn cứ vào vai trò của các yếu tố được đem ra trao đổi, mua bán, người ta có thể phân chia thị trường thành:",
     a: ["Thị trường trong nước và thị trường thế giới", "Thị trường các yếu tố đầu vào và thị trường các yếu tố đầu ra", "Thị trường tư liệu sản xuất và thị trường tư liệu tiêu dùng", "Thị trường tự do, thị trường có điều tiết, thị trường cạnh canh hoàn hảo và thị trường cạnh tranh không hoàn hảo (độc quyền)"],
-    c: 1
+    c: 3
   },
   {
     q: "Để các quan hệ sản xuất, lưu thông, phân phối, tiêu dùng trở thành một thể thống nhất trong phạm vi quốc gia, cần phát huy vai trò của:",
     a: ["Nhà nước", "Thị trường", "Tiền tệ", "Hàng hóa"],
-    c: 1
+    c: 0
   },
   {
     q: "Cơ chế thị trường là hệ thống các quan hệ kinh tế mang đặc tính (...) theo yêu cầu của các quy luật kinh tế.",
@@ -437,7 +505,7 @@ const questions = [
     c: 2
   },
   {
-    q: "Cạnh tranh là sự ganh đua giữa những (...) với nhau nhằm có được những ưu thế về sản xuất cũng như tiêu thụ và thông qua đó thu được lợi ích tối đa",
+    q: " Điền từ còn thiếu vào chỗ trống để được khái niệm cạnh tranh: Cạnh tranh là sự ganh đua giữa những (...) với nhau nhằm có được những ưu thế về sản xuất cũng như tiêu thụ và thông qua đó thu được lợi ích tối đa",
     a: ["Người mua và người bán", "Nhà sản xuất và người tiêu dùng", "Chủ thể kinh tế", "Người sản xuất"],
     c: 2
   },
@@ -447,9 +515,9 @@ const questions = [
     c: 3
   },
   {
-    q: "Nền kinh tế thị trường là nền kinh tế được vận hành theo (...). Đó là nền kinh tế hàng hóa phát triển cao, ở đó mọi quan hệ sản xuất và trao đổi đều được thông qua (...), chịu sự tác động, điều tiết của các quy luật thị trường.",
+    q: " Điền từ còn thiếu vào chỗ trống để có khái niệm nền kinh tế thị trường: Nền kinh tế thị trường là nền kinh tế được vận hành theo (...). Đó là nền kinh tế hàng hóa phát triển cao, ở đó mọi quan hệ sản xuất và trao đổi đều được thông qua (...), chịu sự tác động, điều tiết của các quy luật thị trường.",
     a: ["Cơ chế thị trường/ sự quản lý của nhà nước", "Cơ chế thị trường/ thị trường", "Quy luật kinh tế/ thị trường", "Quy luật kinh tế/ sự điều tiết của nhà nước"],
-    c: 1
+    c: 2
   },
   {
     q: "Vị trí của quy luật giá trị trong nền sản xuất hàng hóa?",
@@ -464,7 +532,7 @@ const questions = [
   {
     q: "Cơ sở hình thành giá cả hàng hóa là...",
     a: ["Giá trị của hàng hoá", "Giá trị sử dụng của hàng hoá", "Cả giá trị và giá trị sử dụng của hàng hóa", "Giá trị trao đổi của hàng hóa"],
-    c: 0
+    c: 3
   },
   {
     q: "Kết quả của cạnh tranh trong nội bộ ngành là...",
@@ -474,12 +542,12 @@ const questions = [
   {
     q: "Hãy chọn đáp án không phải là tác động tiêu cực của cạnh tranh?",
     a: ["Cạnh tranh không lành mạnh gây tổn hại môi trường kinh doanh", "Cạnh tranh không lành mạnh gây lãng phí nguồn lực xã hội", "Cạnh tranh không lành mạnh gây hạn chế năng lực đổi mới khoa học, kỹ thuật, công nghệ", "Cạnh tranh không lành mạnh gây tổn hại phúc lợi của xã hội"],
-    c: 2
+    c: 3
   },
   {
     q: "Nhận định nào sau đây là sai về đặc trưng của nền kinh tế thị trường?",
     a: ["Có sự đa dạng của các chủ thể kinh tế, nhiều hình thức sở hữu", "Thị trường tự điều tiết nền kinh tế thông qua các quy luật kinh tế khách quan", "Đóng vai trò quyết định trong việc phân bổ các nguồn lực xã hội", "Giá cả được hình thành theo nguyên tắc thị trường"],
-    c: 3
+    c: 2
   },
   {
     q: "Quan hệ Cung - Cầu có ảnh hưởng như thế nào đến giá trị và giá cả của hàng hóa?",
@@ -514,7 +582,7 @@ const questions = [
   {
     q: "Nhân tố quyết định đến sự phát triển bền vững của sản xuất là?",
     a: ["Sức mua của người tiêu dùng", "Vai trò điều tiết của nhà nước", "Sự phát triển của khoa học công nghệ", "Năng suất lao động cao"],
-    c: 0
+    c: 3
   },
   {
     q: "Vai trò của nhà nước trong nền kinh tế thị trường?",
@@ -563,102 +631,84 @@ const questions = [
   }
 ];
 
-// ================== BIẾN ==================
-let index = 0;
-let score = 0;
-let quizQuestions = [];
-let userAnswers = [];
-
-// ================== TRỘN ==================
-function shuffle(array) {
-  return array
-    .map(v => ({ v, r: Math.random() }))
-    .sort((a, b) => a.r - b.r)
-    .map(x => x.v);
+/* ===== TRỘN ===== */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
 }
 
-// ================== KHỞI TẠO ==================
+/* ===== KHỞI TẠO ===== */
 function startQuiz() {
   index = 0;
   score = 0;
   userAnswers = [];
 
-  quizQuestions = shuffle([...questions]).map(q => {
-    const answers = q.a.map((text, i) => ({
-      text,
-      index: i,
-      isCorrect: i === q.c
-    }));
+  questions = JSON.parse(JSON.stringify(rawQuestions));
+  shuffle(questions);
 
-    return {
-      ...q,
-      mixedAnswers: shuffle(answers)
-    };
+  questions.forEach(q => {
+    const correct = q.a[q.c];
+    shuffle(q.a);
+    q.c = q.a.indexOf(correct);
   });
 
   loadQuestion();
 }
 
-// ================== LOAD CÂU ==================
+/* ===== LOAD ===== */
 function loadQuestion() {
-  const q = quizQuestions[index];
-
+  const q = questions[index];
   document.getElementById("question").innerText =
-    `Câu ${index + 1}/${quizQuestions.length}: ${q.q}`;
+    `Câu ${index + 1}: ${q.q}`;
 
   const answersDiv = document.getElementById("answers");
   answersDiv.innerHTML = "";
 
-  q.mixedAnswers.forEach(ans => {
+  q.a.forEach((text, i) => {
     const div = document.createElement("div");
     div.className = "answer";
-    div.innerText = ans.text;
+    div.innerText = text;
+    div.onclick = () => checkAnswer(div, i);
+    answersDiv.appendChild(div);
 
     if (userAnswers[index] !== undefined) {
-      if (ans.isCorrect) div.classList.add("correct");
-      if (ans.index === userAnswers[index] && !ans.isCorrect)
+      if (i === q.c) div.classList.add("correct");
+      if (i === userAnswers[index] && i !== q.c)
         div.classList.add("wrong");
-    } else {
-      div.onclick = () => checkAnswer(div, ans);
+      div.onclick = null;
     }
-
-    answersDiv.appendChild(div);
   });
 
   updateScore();
 }
 
-// ================== CHỌN ĐÁP ÁN ==================
-function checkAnswer(element, ans) {
+/* ===== CHỌN ===== */
+function checkAnswer(el, i) {
   if (userAnswers[index] !== undefined) return;
 
-  userAnswers[index] = ans.index;
+  userAnswers[index] = i;
 
-  const all = document.querySelectorAll(".answer");
-  all.forEach(a => a.onclick = null);
-
-  if (ans.isCorrect) {
-    element.classList.add("correct");
+  if (i === questions[index].c) {
+    el.classList.add("correct");
     score++;
   } else {
-    element.classList.add("wrong");
-    all.forEach(a => {
-      if (a.innerText === quizQuestions[index].a[quizQuestions[index].c]) {
-        a.classList.add("correct");
-      }
-    });
+    el.classList.add("wrong");
+    document.querySelectorAll(".answer")[questions[index].c]
+      .classList.add("correct");
   }
 
   updateScore();
 }
 
-// ================== ĐIỀU HƯỚNG ==================
+/* ===== ĐIỀU HƯỚNG ===== */
 function nextQuestion() {
-  if (index < quizQuestions.length - 1) {
+  if (index < questions.length - 1) {
     index++;
     loadQuestion();
   } else {
-    alert(`🎉 Hoàn thành!\nSố câu đúng: ${score}/${quizQuestions.length}`);
+    showResult();
   }
 }
 
@@ -669,24 +719,41 @@ function prevQuestion() {
   }
 }
 
-// ================== LÀM LẠI ==================
-function resetQuiz() {
-  if (!confirm("Bạn có chắc muốn làm lại từ đầu?")) return;
+/* ===== MODAL ===== */
+function showResult() {
+  document.getElementById("finalScore").innerText =
+    `Đúng: ${score} / ${questions.length}`;
+  document.getElementById("resultModal").style.display = "block";
+}
+
+function okReload() {
+  document.getElementById("resultModal").style.display = "none";
   startQuiz();
 }
 
-// ================== ĐIỂM ==================
-function updateScore() {
-  document.getElementById("score").innerText =
-    `✅ Đúng: ${score} / ${quizQuestions.length}`;
+/* ===== LÀM LẠI ===== */
+function resetQuiz() {
+  if (confirm("Bạn có chắc muốn làm lại?")) {
+    startQuiz();
+  }
 }
 
-// ================== CHẠY ==================
+/* ===== ĐIỂM ===== */
+function updateScore() {
+  document.getElementById("score").innerText =
+    `Đúng: ${score} / ${questions.length}`;
+}
+
 startQuiz();
+function goBack() {
+  window.history.back();
+}  
 </script>
 
 </body>
 </html>
+
+
 
 
 
