@@ -136,7 +136,7 @@ button.nav {
 
 <!-- THANH TRÊN -->
 <div class="top">
-  <button class="back-btn" onclick="prevQuestion()">← Trở về</button>
+  <button class="back-btn" onclick="goBack()">← Trở về</button>
   <div id="score">Đúng: 0 / 0</div>
   <button class="reset-top" onclick="resetQuiz()">🔄 Làm lại</button>
 </div>
@@ -484,8 +484,12 @@ function updateScore() {
 }
 
 startQuiz();
+function goBack() {
+  window.history.back();
+}  
 </script>
 
 </body>
 </html>
+
 
