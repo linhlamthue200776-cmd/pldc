@@ -6,120 +6,169 @@
 <title>Thi trắc nghiệm</title>
 
 <style>
-body{
-  font-family:Arial, sans-serif;
-  background:#f4f6f8;
-  margin:0;
-  padding:15px;
-  font-size:18px;
-}
-.container{
-  max-width:100%;
-  margin:auto;
-  background:#fff;
-  padding:20px;
-  border-radius:10px;
-}
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
-}
-.answer{
-  border:1px solid #ccc;
-  padding:15px;
-  margin:12px 0;
-  border-radius:8px;
-  cursor:pointer;
-}
-.answer.selected{
-  background:#d6eaff;
-  border-color:#3498db;
-}
-button{
-  width:100%;
-  margin-top:12px;
-  padding:15px;
-  font-size:18px;
-  border-radius:8px;
-  border:none;
-  background:#3498db;
-  color:white;
-  cursor:pointer;
-}
-.green{background:#2ecc71}
-.red{background:#e74c3c}
-.gray{background:#555}
-
-.nav-buttons{
-  display:flex;
-  gap:10px;
-  margin-top:12px;
-}
-.nav-buttons button{
-  flex:1;
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 15px;
+  font-size: 18px;
 }
 
-.question-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,45px);
-  gap:6px;
-  margin:10px 0;
+/* ===== THANH TRÊN ===== */
+.top {
+  position: relative;
+  height: 44px;
+  margin-bottom: 15px;
 }
-.question-grid button{
-  padding:8px;
-  font-size:14px;
+
+/* NÚT TRỞ VỀ */
+.back-btn {
+  position: absolute;
+  left: 0;
+  background: #3498db;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
 }
-.question-grid .done{
-  background:#2ecc71;
-  color:#fff;
+
+/* NÚT LÀM LẠI */
+.reset-top {
+  position: absolute;
+  right: 0;
+  background: #3498db;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
 }
-.hidden{display:none!important}
-.blue{
-  background:#3498db; /* xanh nước biển */
+
+/* ĐIỂM Ở GIỮA */
+#score {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 16px;
 }
-.blue:hover{
-  background:#2980b9;
+
+/* ===== KHUNG ===== */
+.container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* ===== CÂU HỎI ===== */
+h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+/* ===== ĐÁP ÁN ===== */
+.answer {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.answer:active { background: #eef; }
+.correct { background: #c8f7c5; border-color: green; }
+.wrong { background: #f7c5c5; border-color: red; }
+
+/* ===== NÚT DƯỚI ===== */
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button.nav {
+  flex: 1;
+  padding: 14px;
+  font-size: 17px;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+}
+
+/* ===== MODAL ===== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 999;
+}
+
+.modal-content {
+  background: #fff;
+  width: 90%;
+  max-width: 300px;
+  margin: 30% auto;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.modal-content button {
+  margin-top: 15px;
+  padding: 12px;
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+  font-size: 16px;
 }
 </style>
 </head>
 
 <body>
 
+<!-- THANH TRÊN -->
+<div class="top">
+  <button class="back-btn" onclick="goBack()">← Trở về</button>
+  <div id="score">Đúng: 0 / 0</div>
+  <button class="reset-top" onclick="resetQuiz()">🔄 Làm lại</button>
+</div>
+
 <div class="container">
-
-  <!-- TOP -->
-  <div class="top">
-    <button class="blue" style="width:auto" onclick="goBack()">← Trở về</button>
-    <b>⏱ <span id="time">60:00</span></b>
-    <button style="width:auto" id="toggleBtn" onclick="toggleGrid()">📋 Hiện bảng câu</button>
-  </div>
-
-  <!-- GRID -->
-  <div id="questionGrid" class="question-grid hidden"></div>
-
-  <!-- QUESTION -->
   <h2 id="question"></h2>
   <div id="answers"></div>
 
-  <!-- PREV / NEXT -->
-  <div class="nav-buttons">
-    <button class="blue" onclick="prevQuestion()">⬅ Câu trước</button>
-    <button class="blue" onclick="nextQuestion()">Câu sau ➡</button>
+  <div class="buttons">
+    <button class="nav" onclick="prevQuestion()">← Câu trước</button>
+    <button class="nav" onclick="nextQuestion()">Câu tiếp →</button>
   </div>
+</div>
 
-  <!-- SUBMIT -->
-  <button class="red" onclick="finishQuiz()">Nộp bài</button>
-
-  <!-- RESTART (ĐÃ ĐƯA XUỐNG DƯỚI) -->
-  <button class="blue" onclick="restartQuiz()">🔁 Làm lại</button>
-
+<!-- POPUP KẾT QUẢ -->
+<div id="resultModal" class="modal">
+  <div class="modal-content">
+    <h3>🎉 Hoàn thành</h3>
+    <p id="finalScore"></p>
+    <button onclick="okReload()">OK</button>
+  </div>
 </div>
 
 <script>
-// ===== CÂU HỎI =====
-const questionsAll = [
+let index = 0;
+let score = 0;
+let userAnswers = [];
+let questions = [];
+
+/* ===== DỮ LIỆU ===== */
+const rawQuestions = [
+
   {
   q: "Chọn đáp án đúng điền vào chỗ trống: “(...) là nền kinh tế vận hành theo các quy luật của thị trường, đồng thời góp phần hướng tới từng bước xác lập một xã hội mà ở đó dân giàu, nước mạnh, dân chủ, công bằng, văn minh; có sự điều tiết của Nhà nước do Đảng Cộng sản Việt Nam lãnh đạo”.",
   a: [
@@ -480,100 +529,99 @@ const questionsAll = [
   ],
   c: 1
 },
-
  {
-    "q": "Trong kinh tế thị trường định hướng xã hội chủ nghĩa, lợi ích quốc gia, dân tộc có ý nghĩa gì?",
-    "a": [
+    q: "Trong kinh tế thị trường định hướng xã hội chủ nghĩa, lợi ích quốc gia, dân tộc có ý nghĩa gì?",
+    a: [
       "Là lợi ích cao nhất, chi phối và định hướng các lợi ích khác",
       "Là cơ sở thống nhất và điều hòa các lợi ích kinh tế trong xã hội",
       "Được hình thành trên cơ sở tổng hòa các lợi ích cá nhân và lợi ích tập thể",
       "Là lợi ích giữ vai trò định hướng lâu dài cho sự phát triển bền vững của đất nước"
     ],
-    "c": 0
+    c: 0
   },
   {
-    "q": "Trong quan hệ lợi ích kinh tế, lợi ích nào có vai trò gắn kết cá nhân với cộng đồng?",
-    "a": [
+    q: "Trong quan hệ lợi ích kinh tế, lợi ích nào có vai trò gắn kết cá nhân với cộng đồng?",
+    a: [
       "Lợi ích tập thể",
       "Lợi ích cá nhân",
       "Lợi ích quốc tế",
       "Lợi ích chính trị"
     ],
-    "c": 0
+    c: 0
   },
   {
-    "q": "Mục tiêu cơ bản của việc phân phối theo lao động trong nền kinh tế thị trường định hướng xã hội chủ nghĩa là gì?",
-    "a": [
+     q: "Mục tiêu cơ bản của việc phân phối theo lao động trong nền kinh tế thị trường định hướng xã hội chủ nghĩa là gì?",
+     a: [
       "Bảo đảm công bằng, khuyến khích người lao động nâng cao năng suất",
       "Tạo ra sự bình quân tuyệt đối",
       "Gắn kết lợi ích cá nhân với lợi ích xã hội trong quá trình phân phối",
       "Hạn chế sự phân hóa thu nhập trong xã hội"
     ],
-    "c": 0
+    c: 0
   },
   {
-    "q": "Mục đích của thể chế kinh tế thị trường định hướng xã hội chủ nghĩa là nhằm:",
-    "a": [
+    q: "Mục đích của thể chế kinh tế thị trường định hướng xã hội chủ nghĩa là nhằm:",
+    a: [
       "Điều chỉnh hành vi của các chủ thể kinh tế",
       "Điều chỉnh chức năng, hoạt động, mục tiêu, phương thức hoạt động, các quan hệ lợi ích của các tổ chức, các chủ thể kinh tế nhằm hướng tới xác lập đồng bộ các yếu tố, các loại thị trường góp phần thúc đẩy dân giàu, nước mạnh, dân chủ, công bằng, văn minh",
       "Điều chỉnh các hành vi sản xuất kinh doanh và các quan hệ kinh tế",
       "Điều chỉnh các hoạt động của con người trong một chế độ xã hội"
     ],
-    "c": 1
+    c: 1
   },
   {
-    "q": "Sự cần thiết phải hoàn thiện thể chế kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
-    "a": [
+    q: "Sự cần thiết phải hoàn thiện thể chế kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là:",
+    a: [
       "Do thể chế kinh tế thị trường định hướng xã hội chủ nghĩa còn chưa đồng bộ",
       "Hệ thống thể chế chưa đầy đủ",
       "Hệ thống thể chế còn kém hiệu lực, hiệu quả, thiếu các yếu tố thị trường và các loại thị trường",
       "Bao gồm tất cả các đáp án"
     ],
-    "c": 3
+    c: 3
   },
   {
-    "q": "Đâu không phải là lý do cần phải hoàn thiện thể chế kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam?",
-    "a": [
+    q: "Đâu không phải là lý do cần phải hoàn thiện thể chế kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam?",
+    a: [
       "Hệ thống thể chế chưa đầy đủ",
       "Do thể chế kinh tế thị trường định hướng xã hội chủ nghĩa còn chưa đồng bộ",
       "Hoàn thiện là do ý muốn chủ quan và để giao lưu, hợp tác với các nước trên thế giới",
       "Hệ thống thể chế còn kém hiệu lực, hiệu quả, thiếu các yếu tố thị trường và các loại thị trường"
     ],
-    "c": 2
+    c: 2
   },
   {
-    "q": "Trình độ và năng lực tổ chức quản lý nền kinh tế thị trường định hướng xã hội chủ nghĩa của Nhà nước thể hiện chủ yếu ở:",
-    "a": [
+    q: "Trình độ và năng lực tổ chức quản lý nền kinh tế thị trường định hướng xã hội chủ nghĩa của Nhà nước thể hiện chủ yếu ở:",
+    a: [
       "Sử dụng sức mạnh quân sự",
       "Năng lực xây dựng và thực thi thể chế",
       "Sử dụng sức mạnh chính trị",
       "Năng lực kinh tế"
     ],
-    "c": 1
+    c: 1
   },
   {
-    "q": "Điền vào chỗ trống: “Bất bình đẳng xã hội, (…) có xu hướng gia tăng”.",
-    "a": [
+    q: "Điền vào chỗ trống: “Bất bình đẳng xã hội, (…) có xu hướng gia tăng”.",
+    a": [
       "Phân hóa giàu - nghèo",
       "Ô nhiễm môi trường",
       "Chảy máu chất xám",
       "Dịch bệnh"
     ],
-    "c": 0
+    c: 0
   },
   {
-    "q": "Điền vào chỗ trống: “Thể chế đảm bảo thực hiện tiến bộ và (…) còn nhiều bất cập”.",
-    "a": [
+    q: "Điền vào chỗ trống: “Thể chế đảm bảo thực hiện tiến bộ và (…) còn nhiều bất cập”.",
+    a: [
       "Phát triển kinh tế",
       "Phát triển văn hóa",
       "Công bằng xã hội",
       "Dân chủ xã hội"
     ],
-    "c": 2
+    c: 2
   },
   {
-    "q": "Điền vào chỗ trống: “Đổi mới phương thức lãnh đạo của Đảng trong thực hiện nhiệm vụ phát triển kinh tế - xã hội chưa (…)”.",
-    "a": [
+    q: "Điền vào chỗ trống: “Đổi mới phương thức lãnh đạo của Đảng trong thực hiện nhiệm vụ phát triển kinh tế - xã hội chưa (…)”.",
+    a: [
       "Đáp ứng yêu cầu đổi mới về chính trị",
       "Đáp ứng yêu cầu đổi mới về văn hóa",
       "Đáp ứng yêu cầu đổi mới về kinh tế",
@@ -582,48 +630,48 @@ const questionsAll = [
     "c": 3
   },
   {
-    "q": "Trong kinh tế thị trường định hướng xã hội chủ nghĩa, lợi ích cá nhân có vai trò như thế nào?",
-    "a": [
+    q: "Trong kinh tế thị trường định hướng xã hội chủ nghĩa, lợi ích cá nhân có vai trò như thế nào?",
+    a: [
       "Là động lực trực tiếp, nhưng phải hài hòa với lợi ích cộng đồng",
       "Là một bộ phận cấu thành của hệ thống lợi ích kinh tế",
       "Là điểm xuất phát trực tiếp của các hành vi kinh tế",
       "Luôn đối lập với lợi ích xã hội"
     ],
-    "c": 0
+    c: 0
   },
   {
-    "q": "Đâu không phải là nội dung hoàn thiện thể chế về sở hữu trong nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam?",
-    "a": [
+    q: "Đâu không phải là nội dung hoàn thiện thể chế về sở hữu trong nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam?",
+    a: [
       "Hoàn thiện thể chế phát triển các thành phần kinh tế, các loại hình doanh nghiệp",
       "Thể chế hóa đầy đủ quyền tài sản của Nhà nước, tổ chức và cá nhân",
       "Tiếp tục hoàn thiện pháp luật về đất đai, tài nguyên",
       "Hoàn thiện thể chế về sở hữu trí tuệ"
     ],
-    "c": 0
+    c: 0
   },
   {
-    "q": "Cần phải làm gì trong quản lý và phát triển các doanh nghiệp thuộc mọi thành phần kinh tế?",
-    "a": [
+    q: "Cần phải làm gì trong quản lý và phát triển các doanh nghiệp thuộc mọi thành phần kinh tế?",
+    a: [
       "Quản lý chặt chẽ và ban hành các quy định chi tiết",
       "Duy trì cách quản lý đang thực hiện",
       "Phát huy mặt tích cực có lợi cho đất nước; đồng thời kiểm tra, giám sát, công khai, minh bạch, hạn chế tiêu cực",
       "Áp dụng lý thuyết bàn tay vô hình của Adam Smith"
     ],
-    "c": 2
+    c: 2
   },
   {
-    "q": "Nội dung hoàn thiện thể chế phát triển đồng bộ các yếu tố thị trường là:",
-    "a": [
+    q: "Nội dung hoàn thiện thể chế phát triển đồng bộ các yếu tố thị trường là:",
+    a: [
       "Các yếu tố thị trường như hàng hóa, giá cả, cạnh tranh, cung cầu cần vận hành theo nguyên tắc thể chế kinh tế thị trường",
       "Xây dựng và thực thi pháp luật, chiến lược, quy hoạch, kế hoạch nâng cao chất lượng quản trị quốc gia",
       "Hoàn thiện pháp luật về quản lý, khai thác tài nguyên",
       "Hoàn thiện thể chế về các mô hình sản xuất kinh doanh"
     ],
-    "c": 0
+    c: 0
   },
   {
-    "q": "Nội dung hoàn thiện thể chế để phát triển đồng bộ, vận hành thông suốt các loại thị trường là:",
-    "a": [
+    q: "Nội dung hoàn thiện thể chế để phát triển đồng bộ, vận hành thông suốt các loại thị trường là:",
+    a: [
       "Xây dựng và thực thi pháp luật, chiến lược, quy hoạch",
       "Hoàn thiện các loại thị trường và bảo đảm vận hành thông suốt",
       "Hoàn thiện pháp luật về tài nguyên",
@@ -632,28 +680,28 @@ const questionsAll = [
     "c": 1
   },
   {
-    "q": "Nguyên tắc quan trọng bảo đảm phát triển kinh tế thị trường định hướng xã hội chủ nghĩa là gì?",
-    "a": [
+    q: "Nguyên tắc quan trọng bảo đảm phát triển kinh tế thị trường định hướng xã hội chủ nghĩa là gì?",
+    a: [
       "Kết hợp tăng trưởng kinh tế với công bằng xã hội",
       "Tăng trưởng kinh tế thuần túy",
       "Ưu tiên mục tiêu kinh tế trước mắt",
       "Duy trì cơ cấu kinh tế ổn định"
     ],
-    "c": 0
+    c: 0
   },
   {
-    "q": "Nhận định về mở cửa, hội nhập phản ánh nội dung hoàn thiện thể chế nào?",
-    "a": [
+    q: "Nhận định về mở cửa, hội nhập phản ánh nội dung hoàn thiện thể chế nào?",
+    a: [
       "Hoàn thiện thể chế về sở hữu",
       "Hoàn thiện thể chế về phát triển đồng bộ các yếu tố thị trường",
       "Hoàn thiện thể chế gắn tăng trưởng với bền vững, công bằng và hội nhập quốc tế",
       "Hoàn thiện thể chế về lãnh đạo của Đảng"
     ],
-    "c": 2
+    c: 2
   },
   {
-    "q": "Phát huy sức mạnh trí tuệ, nguồn lực và sự đồng thuận toàn dân thuộc nội dung hoàn thiện thể chế nào?",
-    "a": [
+    q: "Phát huy sức mạnh trí tuệ, nguồn lực và sự đồng thuận toàn dân thuộc nội dung hoàn thiện thể chế nào?",
+    a: [
       "Hoàn thiện thể chế về sở hữu",
       "Hoàn thiện thể chế về phát triển các yếu tố thị trường",
       "Hoàn thiện thể chế gắn tăng trưởng với công bằng, hội nhập",
@@ -662,196 +710,218 @@ const questionsAll = [
     "c": 3
   },
 {
-    "q": "Sự thống nhất các lợi ích kinh tế trong nền kinh tế nhiều thành phần ở Việt Nam chủ yếu được bảo đảm nhờ yếu tố nào?",
-    "a": [
+    q: "Sự thống nhất các lợi ích kinh tế trong nền kinh tế nhiều thành phần ở Việt Nam chủ yếu được bảo đảm nhờ yếu tố nào?",
+    a: [
       "Chính sách kinh tế đúng đắn của Đảng và Nhà nước",
       "Cơ chế điều tiết tự phát của thị trường",
       "Sự thỏa thuận lợi ích giữa các chủ thể kinh tế",
       "Việc theo đuổi lợi ích trước mắt của khu vực tư nhân"
     ],
-    "c": 0
+    c: 0
   },
   {
-    "q": "“(...) là lợi ích vật chất, lợi ích thu được khi thực hiện các hoạt động kinh tế của con người”.",
-    "a": [
+    q: "“(...) là lợi ích vật chất, lợi ích thu được khi thực hiện các hoạt động kinh tế của con người”.",
+    a: [
       "Lợi ích",
       "Lợi ích kinh tế",
       "Lợi ích văn hóa",
       "Lợi ích tinh thần"
     ],
-    "c": 1
+    c 1
   },
   {
-    "q": "Về bản chất, lợi ích kinh tế phản ánh:",
-    "a": [
+    q: "Về bản chất, lợi ích kinh tế phản ánh:",
+    a: [
       "Nguyên tắc đảm bảo lợi ích phù hợp với vai trò của các chủ thể",
       "Mục đích và động cơ của các quan hệ giữa các chủ thể trong nền sản xuất xã hội",
       "Lợi ích thu được khi con người được thỏa mãn nhu cầu của mình",
       "Cả lợi ích tinh thần và văn hóa"
     ],
-    "c": 1
+    c: 1
   },
   {
-    "q": "“Quan hệ lợi ích kinh tế là sự thiết lập những tương tác ... nhằm ...”",
-    "a": [
+    q: "Chọn đáp án đúng điền vào chỗ trống: “Quan hệ lợi ích kinh tế là sự thiết lập những tương tác giữa con người với con người, giữa các cộng đồng người, giữa các tổ chức kinh tế, giữa các bộ phận hợp thành nền kinh tế, giữa con người với tổ chức kinh tế, giữa quốc gia với phần còn lại của thế giới nhằm...”",
+    a: [
       "Đảm bảo lợi ích phù hợp với vai trò của các chủ thể",
       "Gắn với chủ thể kinh tế khác nhau là những lợi ích tương ứng",
-      "Xác lập các lợi ích kinh tế trong mối liên hệ với trình độ phát triển của lực lượng sản xuất và kiến trúc thượng tầng của một giai đoạn phát triển xã hội nhất định",
+      " Mục tiêu xác lập các lợi ích kinh tế trong mối liên hệ với trình độ phát triển của lực lượng sản xuất và kiến trúc thượng tầng tương ứng của một giai đoạn phát triển xã hội nhất định",
       "Thúc đẩy sự phát triển các lợi ích khác"
     ],
-    "c": 2
+    c: 2
   },
   {
-    "q": "Các quan hệ lợi ích kinh tế có mối quan hệ như thế nào?",
-    "a": [
+    q: "Các quan hệ lợi ích kinh tế có mối quan hệ như thế nào?",
+    a: [
       "Luôn thống nhất với nhau",
       "Vừa thống nhất, vừa mâu thuẫn với nhau",
       "Luôn trái ngược nhau",
       "Luôn bổ sung cho nhau"
     ],
-    "c": 1
+    c: 1
   },
   {
-    "q": "Đâu không phải là nhân tố ảnh hưởng đến quan hệ lợi ích kinh tế ở Việt Nam?",
-    "a": [
+    q: "Đâu không phải là nhân tố ảnh hưởng đến quan hệ lợi ích kinh tế ở Việt Nam?",
+    a: [
       "Trình độ phát triển của lực lượng sản xuất",
       "Địa vị của chủ thể trong hệ thống quan hệ sản xuất xã hội",
       "Chính sách phân phối thu nhập của Nhà nước và hội nhập kinh tế quốc tế",
       "Thói quen và phong tục tập quán"
     ],
-    "c": 3
+    c: 3
   },
   {
-    "q": "Chủ thể nào có vai trò điều hòa các quan hệ lợi ích kinh tế ở Việt Nam?",
-    "a": [
+    q: "Chủ thể nào có vai trò điều hòa các quan hệ lợi ích kinh tế ở Việt Nam?",
+    a: [
       "Nhà nước",
       "Doanh nghiệp lớn",
       "Tập đoàn độc quyền",
       "Chủ thể trung gian của thị trường"
     ],
-    "c": 0
+    c: 0
   },
   {
-    "q": "Vai trò của Nhà nước trong đảm bảo hài hòa các quan hệ lợi ích là:",
-    "a": [
+    q: "Vai trò của Nhà nước trong đảm bảo hài hòa các quan hệ lợi ích là:",
+    a: [
       "Bảo vệ lợi ích hợp pháp, tạo môi trường thuận lợi cho hoạt động tìm kiếm lợi ích của các chủ thể kinh tế",
       "Điều hòa lợi ích giữa cá nhân - doanh nghiệp - xã hội và giải quyết mâu thuẫn trong quan hệ lợi ích kinh tế",
       "Kiểm soát, ngăn ngừa các quan hệ lợi ích có ảnh hưởng tiêu cực đối với sự phát triển xã hội",
       "Tất cả các đáp án đều đúng"
     ],
-    "c": 3
+    c: 3
   },
   {
-    "q": "Cần phải làm gì trong quản lý và phát triển các doanh nghiệp thuộc mọi thành phần kinh tế?",
-    "a": [
+    q: "Cần phải làm gì trong quản lý và phát triển các doanh nghiệp thuộc mọi thành phần kinh tế?",
+    a: [
       "Quản lý chặt chẽ và ban hành các quy định chi tiết",
       "Duy trì cách quản lý đang thực hiện",
       "Phát huy mặt tích cực có lợi cho đất nước; đồng thời kiểm tra, giám sát, công khai, minh bạch, ngăn chặn, hạn chế mặt tiêu cực",
       "Áp dụng lý thuyết bàn tay vô hình của Adam Smith"
     ],
-    "c": 2
+    c: 2
   },
   
 ];
 
-// ===== BIẾN =====
-let questions=[], answers=[], index=0;
-let timeLeft=3600, timer;
+/* ===== TRỘN ===== */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
 
-// ===== HÀM =====
-function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
-
-function startQuiz(){
-  questions = shuffle([...questionsAll]);
-  answers = new Array(questions.length).fill(null);
+/* ===== KHỞI TẠO ===== */
+function startQuiz() {
   index = 0;
-  timeLeft = 3600;
-  buildGrid();
+  score = 0;
+  userAnswers = [];
+
+  questions = JSON.parse(JSON.stringify(rawQuestions));
+  shuffle(questions);
+
+  questions.forEach(q => {
+    const correct = q.a[q.c];
+    shuffle(q.a);
+    q.c = q.a.indexOf(correct);
+  });
+
   loadQuestion();
-  startTimer();
 }
 
-function startTimer(){
-  clearInterval(timer);
-  timer = setInterval(()=>{
-    timeLeft--;
-    const m=Math.floor(timeLeft/60), s=timeLeft%60;
-    document.getElementById("time").innerText =
-      `${m}:${s<10?'0':''}${s}`;
-    if(timeLeft<=0) finishQuiz();
-  },1000);
-}
-
-function loadQuestion(){
+/* ===== LOAD ===== */
+function loadQuestion() {
   const q = questions[index];
   document.getElementById("question").innerText =
-    `Câu ${index+1}: ${q.q}`;
-  const box = document.getElementById("answers");
-  box.innerHTML="";
-  q.a.forEach((text,i)=>{
-    const d=document.createElement("div");
-    d.className="answer";
-    d.innerText=text;
-    if(answers[index]===i) d.classList.add("selected");
-    d.onclick=()=>{
-      answers[index]=i;
-      loadQuestion();
-      updateGrid();
-    };
-    box.appendChild(d);
+    `Câu ${index + 1}: ${q.q}`;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  q.a.forEach((text, i) => {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.innerText = text;
+    div.onclick = () => checkAnswer(div, i);
+    answersDiv.appendChild(div);
+
+    if (userAnswers[index] !== undefined) {
+      if (i === q.c) div.classList.add("correct");
+      if (i === userAnswers[index] && i !== q.c)
+        div.classList.add("wrong");
+      div.onclick = null;
+    }
   });
+
+  updateScore();
 }
 
-function nextQuestion(){ if(index<questions.length-1){ index++; loadQuestion(); } }
-function prevQuestion(){ if(index>0){ index--; loadQuestion(); } }
+/* ===== CHỌN ===== */
+function checkAnswer(el, i) {
+  if (userAnswers[index] !== undefined) return;
 
-function buildGrid(){
-  const g=document.getElementById("questionGrid");
-  g.innerHTML="";
-  questions.forEach((_,i)=>{
-    const b=document.createElement("button");
-    b.innerText=i+1;
-    b.onclick=()=>{ index=i; loadQuestion(); };
-    g.appendChild(b);
-  });
+  userAnswers[index] = i;
+
+  if (i === questions[index].c) {
+    el.classList.add("correct");
+    score++;
+  } else {
+    el.classList.add("wrong");
+    document.querySelectorAll(".answer")[questions[index].c]
+      .classList.add("correct");
+  }
+
+  updateScore();
 }
 
-function updateGrid(){
-  document.querySelectorAll("#questionGrid button")
-    .forEach((b,i)=> b.className = answers[i]!=null ? "done" : "");
+/* ===== ĐIỀU HƯỚNG ===== */
+function nextQuestion() {
+  if (index < questions.length - 1) {
+    index++;
+    loadQuestion();
+  } else {
+    showResult();
+  }
 }
 
-function toggleGrid(){
-  const g=document.getElementById("questionGrid");
-  const b=document.getElementById("toggleBtn");
-  g.classList.toggle("hidden");
-  b.innerText=g.classList.contains("hidden")
-    ?"📋 Hiện bảng câu":"❌ Ẩn bảng câu";
+function prevQuestion() {
+  if (index > 0) {
+    index--;
+    loadQuestion();
+  }
 }
 
-function finishQuiz(){
-  clearInterval(timer);
-  let correct=0;
-  questions.forEach((q,i)=>{ if(answers[i]===q.c) correct++; });
-  const score=(correct/questions.length*10).toFixed(2);
-  alert(`Hoàn thành!\nĐúng: ${correct}/${questions.length}\nĐiểm: ${score}`);
+/* ===== MODAL ===== */
+function showResult() {
+  document.getElementById("finalScore").innerText =
+    `Đúng: ${score} / ${questions.length}`;
+  document.getElementById("resultModal").style.display = "block";
 }
 
-function restartQuiz(){
-  if(confirm("Bạn có chắc muốn làm lại từ đầu?")){
+function okReload() {
+  document.getElementById("resultModal").style.display = "none";
+  startQuiz();
+}
+
+/* ===== LÀM LẠI ===== */
+function resetQuiz() {
+  if (confirm("Bạn có chắc muốn làm lại?")) {
     startQuiz();
   }
 }
 
-function goBack(){
-  if(confirm("Bạn có chắc muốn quay lại? Bài làm sẽ bị mất.")){
-    window.history.back();
-  }
+/* ===== ĐIỂM ===== */
+function updateScore() {
+  document.getElementById("score").innerText =
+    `Đúng: ${score} / ${questions.length}`;
 }
 
-// ===== CHẠY =====
 startQuiz();
+function goBack() {
+  window.history.back();
+}  
 </script>
 
 </body>
 </html>
+
+
