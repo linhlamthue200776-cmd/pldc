@@ -282,66 +282,124 @@ const questions = [
 
 ];
 
-let index = 0;
-let answered = false;
-
-function shuffle(array) {
-  return array
-    .map(v => ({ v, sort: Math.random() }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(({ v }) => v);
+/* ===== TRỘN ===== */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
 }
 
+/* ===== KHỞI TẠO ===== */
+function startQuiz() {
+  index = 0;
+  score = 0;
+  userAnswers = [];
+
+  questions = JSON.parse(JSON.stringify(rawQuestions));
+  shuffle(questions);
+
+  questions.forEach(q => {
+    const correct = q.a[q.c];
+    shuffle(q.a);
+    q.c = q.a.indexOf(correct);
+  });
+
+  loadQuestion();
+}
+
+/* ===== LOAD ===== */
 function loadQuestion() {
-  answered = false;
   const q = questions[index];
   document.getElementById("question").innerText =
-    `Câu ${index + 1}: ` + q.q;
+    `Câu ${index + 1}: ${q.q}`;
 
   const answersDiv = document.getElementById("answers");
   answersDiv.innerHTML = "";
 
-  const mixed = q.a.map((text, i) => ({ text, i }));
-  shuffle(mixed).forEach(ans => {
+  q.a.forEach((text, i) => {
     const div = document.createElement("div");
     div.className = "answer";
-    div.innerText = ans.text;
-    div.onclick = () => checkAnswer(div, ans.i);
+    div.innerText = text;
+    div.onclick = () => checkAnswer(div, i);
     answersDiv.appendChild(div);
+
+    if (userAnswers[index] !== undefined) {
+      if (i === q.c) div.classList.add("correct");
+      if (i === userAnswers[index] && i !== q.c)
+        div.classList.add("wrong");
+      div.onclick = null;
+    }
   });
+
+  updateScore();
 }
 
-function checkAnswer(element, chosenIndex) {
-  if (answered) return;
-  answered = true;
+/* ===== CHỌN ===== */
+function checkAnswer(el, i) {
+  if (userAnswers[index] !== undefined) return;
 
-  const q = questions[index];
-  const all = document.querySelectorAll(".answer");
+  userAnswers[index] = i;
 
-  all.forEach(a => a.onclick = null);
-
-  if (chosenIndex === q.c) {
-    element.classList.add("correct");
+  if (i === questions[index].c) {
+    el.classList.add("correct");
+    score++;
   } else {
-    element.classList.add("wrong");
-    all.forEach(a => {
-      if (a.innerText === q.a[q.c]) {
-        a.classList.add("correct");
-      }
-    });
+    el.classList.add("wrong");
+    document.querySelectorAll(".answer")[questions[index].c]
+      .classList.add("correct");
   }
+
+  updateScore();
 }
 
+/* ===== ĐIỀU HƯỚNG ===== */
 function nextQuestion() {
-  index++;
-  if (index >= questions.length) {
-    alert("Bạn đã hoàn thành bài thi 🎉");
-    index = 0;
+  if (index < questions.length - 1) {
+    index++;
+    loadQuestion();
+  } else {
+    showResult();
   }
-  loadQuestion();
 }
 
-loadQuestion();
+function prevQuestion() {
+  if (index > 0) {
+    index--;
+    loadQuestion();
+  }
+}
+
+/* ===== MODAL ===== */
+function showResult() {
+  document.getElementById("finalScore").innerText =
+    `Đúng: ${score} / ${questions.length}`;
+  document.getElementById("resultModal").style.display = "block";
+}
+
+function okReload() {
+  document.getElementById("resultModal").style.display = "none";
+  startQuiz();
+}
+
+/* ===== LÀM LẠI ===== */
+function resetQuiz() {
+  if (confirm("Bạn có chắc muốn làm lại?")) {
+    startQuiz();
+  }
+}
+
+/* ===== ĐIỂM ===== */
+function updateScore() {
+  document.getElementById("score").innerText =
+    `Đúng: ${score} / ${questions.length}`;
+}
+
+startQuiz();
+function goBack() {
+  window.history.back();
+}  
 </script>
+
 </body>
 </html>
