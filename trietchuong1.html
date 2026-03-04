@@ -979,91 +979,126 @@ const rawQuestions = [
   c: 1
 }
 ];
-// ================== BIẾN TOÀN CỤC ==================
-let index = 0;
-let answered = false;
-let quizQuestions = [];
-
-// ================== HÀM TRỘN ==================
-function shuffle(array) {
-  return array
-    .map(v => ({ v, r: Math.random() }))
-    .sort((a, b) => a.r - b.r)
-    .map(x => x.v);
+/* ===== TRỘN ===== */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
 }
 
-// ================== BẮT ĐẦU / LÀM LẠI ==================
+/* ===== KHỞI TẠO ===== */
 function startQuiz() {
   index = 0;
-  answered = false;
+  score = 0;
+  userAnswers = [];
 
-  // 🔀 đảo câu hỏi
-  quizQuestions = shuffle([...questions]);
+  questions = JSON.parse(JSON.stringify(rawQuestions));
+  shuffle(questions);
+
+  questions.forEach(q => {
+    const correct = q.a[q.c];
+    shuffle(q.a);
+    q.c = q.a.indexOf(correct);
+  });
 
   loadQuestion();
 }
 
-// ================== LOAD CÂU HỎI ==================
+/* ===== LOAD ===== */
 function loadQuestion() {
-  answered = false;
-  const q = quizQuestions[index];
-
+  const q = questions[index];
   document.getElementById("question").innerText =
     `Câu ${index + 1}: ${q.q}`;
 
   const answersDiv = document.getElementById("answers");
   answersDiv.innerHTML = "";
 
-  // 🔀 đảo đáp án nhưng giữ index đúng
-  const mixedAnswers = q.a.map((text, i) => ({
-    text,
-    isCorrect: i === q.c
-  }));
-
-  shuffle(mixedAnswers).forEach(ans => {
+  q.a.forEach((text, i) => {
     const div = document.createElement("div");
     div.className = "answer";
-    div.innerText = ans.text;
-    div.onclick = () => checkAnswer(div, ans.isCorrect);
+    div.innerText = text;
+    div.onclick = () => checkAnswer(div, i);
     answersDiv.appendChild(div);
+
+    if (userAnswers[index] !== undefined) {
+      if (i === q.c) div.classList.add("correct");
+      if (i === userAnswers[index] && i !== q.c)
+        div.classList.add("wrong");
+      div.onclick = null;
+    }
   });
+
+  updateScore();
 }
 
-// ================== KIỂM TRA ĐÁP ÁN ==================
-function checkAnswer(element, isCorrect) {
-  if (answered) return;
-  answered = true;
+/* ===== CHỌN ===== */
+function checkAnswer(el, i) {
+  if (userAnswers[index] !== undefined) return;
 
-  const all = document.querySelectorAll(".answer");
-  all.forEach(a => a.onclick = null);
+  userAnswers[index] = i;
 
-  if (isCorrect) {
-    element.classList.add("correct");
+  if (i === questions[index].c) {
+    el.classList.add("correct");
+    score++;
   } else {
-    element.classList.add("wrong");
-    all.forEach(a => {
-      if (a.innerText === quizQuestions[index].a[quizQuestions[index].c]) {
-        a.classList.add("correct");
-      }
-    });
+    el.classList.add("wrong");
+    document.querySelectorAll(".answer")[questions[index].c]
+      .classList.add("correct");
   }
+
+  updateScore();
 }
 
-// ================== CÂU TIẾP ==================
+/* ===== ĐIỀU HƯỚNG ===== */
 function nextQuestion() {
-  index++;
-  if (index >= quizQuestions.length) {
-    alert("🎉 Bạn đã hoàn thành bài thi!\nBắt đầu lại với thứ tự mới.");
-    startQuiz();
-    return;
+  if (index < questions.length - 1) {
+    index++;
+    loadQuestion();
+  } else {
+    showResult();
   }
-  loadQuestion();
 }
 
-// ================== CHẠY LẦN ĐẦU ==================
+function prevQuestion() {
+  if (index > 0) {
+    index--;
+    loadQuestion();
+  }
+}
+
+/* ===== MODAL ===== */
+function showResult() {
+  document.getElementById("finalScore").innerText =
+    `Đúng: ${score} / ${questions.length}`;
+  document.getElementById("resultModal").style.display = "block";
+}
+
+function okReload() {
+  document.getElementById("resultModal").style.display = "none";
+  startQuiz();
+}
+
+/* ===== LÀM LẠI ===== */
+function resetQuiz() {
+  if (confirm("Bạn có chắc muốn làm lại?")) {
+    startQuiz();
+  }
+}
+
+/* ===== ĐIỂM ===== */
+function updateScore() {
+  document.getElementById("score").innerText =
+    `Đúng: ${score} / ${questions.length}`;
+}
+
 startQuiz();
+function goBack() {
+  window.history.back();
+}  
 </script>
 
 </body>
-
 </html>
+
+
