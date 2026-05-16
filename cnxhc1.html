@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thi trắc nghiệm</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 15px;
+  font-size: 18px;
+}
+
+/* ===== THANH TRÊN ===== */
+.top {
+  position: relative;
+  height: 44px;
+  margin-bottom: 15px;
+}
+
+/* NÚT TRỞ VỀ */
+.back-btn {
+  position: absolute;
+  left: 0;
+  background: #3498db;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* NÚT LÀM LẠI */
+.reset-top {
+  position: absolute;
+  right: 0;
+  background: #3498db;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* ĐIỂM Ở GIỮA */
+#score {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* ===== KHUNG ===== */
+.container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* ===== CÂU HỎI ===== */
+h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+/* ===== ĐÁP ÁN ===== */
+.answer {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.answer:active { background: #eef; }
+.correct { background: #c8f7c5; border-color: green; }
+.wrong { background: #f7c5c5; border-color: red; }
+
+/* ===== NÚT DƯỚI ===== */
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button.nav {
+  flex: 1;
+  padding: 14px;
+  font-size: 17px;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+}
+
+/* ===== MODAL ===== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 999;
+}
+
+.modal-content {
+  background: #fff;
+  width: 90%;
+  max-width: 300px;
+  margin: 30% auto;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.modal-content button {
+  margin-top: 15px;
+  padding: 12px;
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  background: #3498db;
+  color: white;
+  font-size: 16px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- THANH TRÊN -->
+<div class="top">
+  <button class="back-btn" onclick="goBack()">← Trở về</button>
+  <div id="score">Đúng: 0 / 0</div>
+  <button class="reset-top" onclick="resetQuiz()">🔄 Làm lại</button>
+</div>
+
+<div class="container">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+
+  <div class="buttons">
+    <button class="nav" onclick="prevQuestion()">← Câu trước</button>
+    <button class="nav" onclick="nextQuestion()">Câu tiếp →</button>
+  </div>
+</div>
+
+<!-- POPUP KẾT QUẢ -->
+<div id="resultModal" class="modal">
+  <div class="modal-content">
+    <h3>🎉 Hoàn thành</h3>
+    <p id="finalScore"></p>
+    <button onclick="okReload()">OK</button>
+  </div>
+</div>
+
+<script>
+let index = 0;
+let score = 0;
+let userAnswers = [];
+let questions = [];
+
+/* ===== DỮ LIỆU ===== */
+const rawQuestions = [
+  {
+    q: "Chủ nghĩa xã hội khoa học là một trong ba bộ phận cấu thành của...",
+    a: [
+      "Chủ nghĩa Mác - Lênin",
+      "Triết học Mác - Lênin",
+      "Kinh tế chính trị Mác - Lênin",
+      "Chủ nghĩa xã hội không tưởng"
+    ],
+    c: 0
+  },
+  {
+    q: "Chủ nghĩa xã hội khoa học theo nghĩa rộng được hiểu là gì?",
+    a: [
+      "Chủ nghĩa xã hội khoa học là chủ nghĩa Mác - Lênin",
+      "Luận giải từ các góc độ triết học về sự chuyển biến tất yếu của xã hội loài người từ chủ nghĩa tư bản lên chủ nghĩa xã hội và chủ nghĩa cộng sản",
+      "Luận giải từ các góc độ kinh tế học chính trị và chính trị - xã hội về sự chuyển biến tất yếu của xã hội loài người từ chủ nghĩa tư bản lên chủ nghĩa xã hội và chủ nghĩa cộng sản",
+      "Tất cả các đáp án đúng"
+    ],
+    c: 0
+  },
+  {
+    q: "Chủ nghĩa xã hội khoa học theo nghĩa hẹp được hiểu là gì?",
+    a: [
+      "Một trong ba bộ phận hợp thành chủ nghĩa Mác - Lênin",
+      "Là sự chuyển biến tất yếu của xã hội",
+      "Là chủ nghĩa Mác- Lênin",
+      "Tất cả các đáp án đúng"
+    ],
+    c: 0
+  },
+  {
+    q: "Điều kiện kinh tế - xã hội cho sự ra đời của chủ nghĩa xã hội khoa học là gì?",
+    a: [
+      "Nền đại công nghiệp phát triển làm cho phương thức sản xuất tư bản chủ nghĩa có bước phát triển vượt bậc",
+      "Mâu thuẫn gay gắt giữa giai cấp vô sản và giai cấp tư sản và sự trưởng thành nhanh chóng của giai cấp công nhân trên vũ đài chính trị",
+      "Yêu cầu bức thiết cần phải có một hệ thống lý luận soi đường và một cương lĩnh chính trị làm kim chỉ nam cho hành động",
+      "Tất cả các đáp án"
+    ],
+    c: 3
+  },
+  {
+    q: "Trong khoa học tự nhiên những phát minh vạch thời đại trong vật lý và sinh học nào đã làm tiền đề khoa học cho sự ra đời của chủ nghĩa xã hội khoa học?",
+    a: [
+      "Học thuyết tiến hóa",
+      "Định luật bảo toàn và chuyển hóa năng lượng",
+      "Học thuyết tế bào",
+      "Tất cả các đáp án"
+    ],
+    c: 3
+  },
+  {
+    q: "Tiền đề nào là nguồn gốc lý luận trực tiếp của chủ nghĩa xã hội khoa học?",
+    a: [
+      "Triết học cổ điển Đức",
+      "Kinh tế chính trị học cổ điển Anh",
+      "Chủ nghĩa xã hội không tưởng Pháp",
+      "Tất cả các đáp án"
+    ],
+    c: 2
+  },
+  {
+    q: "Ba nguồn gốc lý luận trực tiếp hình thành chủ nghĩa Mác là?",
+    a: [
+      "Học thuyết giá trị thặng dư, chủ nghĩa duy vật lịch sử, sứ mệnh lịch sử của giai cấp công nhân.",
+      "Triết học cổ điển Đức, kinh tế chính trị học Anh và chủ nghĩa xã hội không tưởng Pháp",
+      "Thuyết tiến hóa, Định luật bảo toàn và chuyển hóa năng lượng và Thuyết tế bào",
+      "Triết học, kinh tế chính trị học và chủ nghĩa xã hội khoa học"
+    ],
+    c: 1
+  },
+  {
+    q: "Vai trò của C.Mác và Ph.Ăngghen đối với sự ra đời của chủ nghĩa xã hội khoa học là gì?",
+    a: [
+      "Sự chuyển biến lập trường triết học và lập trường chính trị",
+      "Ba phát kiến vĩ đại của C.Mác và Ph. Ăngghen",
+      "Tác phẩm “Tuyên ngôn của Đảng Cộng sản” do C.Mác và Ph.Ăngghen soạn thảo",
+      "Tất cả các đáp án"
+    ],
+    c: 3
+  },
+  {
+    q: "Nội dung nào dưới đây là phát kiến vĩ đại của C.Mác và Ph.Ăngghen trong triết học Mác - Lênin?",
+    a: [
+      "Chủ nghĩa duy vật lịch sử",
+      "Học thuyết giá trị thặng dư",
+      "Chủ nghĩa duy vật biện chứng",
+      "Học thuyết về sứ mệnh lịch sử thế giới của giai cấp công nhân"
+    ],
+    c: 0
+  },
+  {
+    q: "Nội dung nào dưới đây là phát kiến vĩ đại của C.Mác và Ph.Ăngghen trong kinh tế chính trị Mác - Lênin?",
+    a: [
+      "Chủ nghĩa duy vật lịch sử",
+      "Học thuyết giá trị thặng dư",
+      "Chủ nghĩa duy vật biện chứng",
+      "Học thuyết về sứ mệnh lịch sử thế giới của giai cấp công nhân"
+    ],
+    c: 1
+  },
+  {
+    q: "Nội dung nào dưới đây là phát kiến vĩ đại của C.Mác và Ph.Ăngghen trong chủ nghĩa xã hội khoa học?",
+    a: [
+      "Chủ nghĩa duy vật lịch sử",
+      "Học thuyết giá trị thặng dư",
+      "Chủ nghĩa duy vật biện chứng",
+      "Học thuyết về sứ mệnh lịch sử thế giới của giai cấp công nhân"
+    ],
+    c: 3
+  },
+  {
+    q: "Nội dung cơ bản nhất mà nhờ đó chủ nghĩa xã hội từ không tưởng trở thành khoa học là gì?",
+    a: [
+      "Vạch ra bản chất chủ nghĩa tư bản",
+      "Phản ánh đúng khát vọng của nhân dân lao động bị áp bức",
+      "Phát hiện ra giai cấp công nhân là lực lượng xã hội có thể thủ tiêu chủ nghĩa tư bản, xây dựng chủ nghĩa xã hội",
+      "Chỉ ra sự cần thiết phải thay thế chủ nghĩa tư bản bằng chủ nghĩa xã hội"
+    ],
+    c: 2
+  },
+  {
+    q: "Tác phẩm nào đánh dấu sự ra đời của chủ nghĩa xã hội khoa học?",
+    a: [
+      "Tình cảnh giai cấp lao động ở Anh",
+      "Chủ nghĩa duy vật và chủ nghĩa kinh nghiệm phê phán",
+      "Tuyên ngôn của Đảng Cộng sản",
+      "Hệ tư tưởng Đức"
+    ],
+    c: 2
+  },
+  {
+    q: "Những hạn chế cơ bản của các nhà tư tưởng xã hội chủ nghĩa trước Mác là gì?",
+    a: [
+      "Chưa thấy được bản chất bóc lột và quá trình phát sinh phát triển và diệt vong tất yếu của chủ nghĩa tư bản",
+      "Không dùng bạo lực cách mạng để xoá bỏ chế độ tư bản chủ nghĩa",
+      "Không phát hiện được lực lượng xã hội tiên phong có thể thực hiện cuộc chuyển biến cách mạng từ chủ nghĩa tư bản lên chủ nghĩa xã hội và cộng sản chủ nghĩa",
+      "Tất cả các đáp án"
+    ],
+    c: 3
+  },
+  {
+    q: "Nguyên nhân chủ yếu của những hạn chế của chủ nghĩa xã hội không tưởng là?",
+    a: [
+      "Do trình độ nhận thức của những nhà tư tưởng",
+      "Do khoa học chưa phát triển",
+      "Do những điều kiện lịch sử khách quan quy định",
+      "Do chưa xuất hiện giai cấp công nhân"
+    ],
+    c: 2
+  },
+  {
+    q: "Trong phương thức sản xuất tư bản chủ nghĩa, mâu thuẫn về phương diện chính trị - xã hội là mâu thuẫn giữa giai cấp...",
+    a: [
+      "Vô sản với tư sản",
+      "Chủ nô với nô lệ",
+      "Nông dân với địa chủ",
+      "Trí thức với công nhân"
+    ],
+    c: 0
+  },
+  {
+    q: "Trong phương thức sản xuất tư bản chủ nghĩa, mâu thuẫn trong lĩnh vực kinh tế là mâu thuẫn giữa...",
+    a: [
+      "Lực lượng sản xuất mang tính xã hội hóa với quan hệ sản xuất mang tính xã hội tư bản chủ nghĩa",
+      "Lực lượng sản xuất mang tính cá nhân với quan hệ sản xuất mang tính xã hội tư bản chủ nghĩa",
+      "Lực lượng sản xuất mang tính xã hội hóa với quan hệ sản xuất mang tính tư nhân tư bản chủ nghĩa",
+      "Lực lượng sản xuất mang tính cá nhân với quan hệ sản xuất mang tính tư nhân tư bản chủ nghĩa"
+    ],
+    c: 2
+  },
+  {
+    q: "Một trong những hạn chế của chủ nghĩa xã hội không tưởng Anh và Pháp là:",
+    a: [
+      "Không thấy được tính lịch sử của giá trị",
+      "Không phân tích được một cách chính xác những biểu hiện của giá trị trong phương thức sản xuất tư bản chủ nghĩa",
+      "Không luận chứng được một cách khoa học về bản chất của chủ nghĩa tư bản và quy luật phát triển của chủ nghĩa tư bản",
+      "Tìm ra sứ mệnh lịch sử của giai cấp công nhân"
+    ],
+    c: 2
+  },
+  {
+    q: "Qy luật chính trị - xã hội phản ánh quan hệ nào sau đây?",
+    a: [
+      "Quan hệ giữa các thiết chế văn hóa",
+      "Quan hệ giữa các giai cấp, tầng lớp trong xã hội",
+      "Quan hệ giữa các cộng đồng dân cư trong xã hội",
+      "Quan hệ giữa các tổ chức trong xã hội"
+    ],
+    c: 1
+  },
+  {
+    q: "Điền vào chỗ trống để hoàn thiện luận điểm của V.I. Lênin: “Điểm chủ yếu trong học thuyết của Mác là ở chỗ nó làm sáng rõ vai trò lịch sử thế giới của (...) là người xây dựng xã hội xã hội chủ nghĩa”.",
+    a: [
+      "Giai cấp vô sản",
+      "Giai cấp tư sản",
+      "Tầng lớp trí thức",
+      "Tầng lớp doanh nhân"
+    ],
+    c: 0
+  },
+  {
+    q: "Phát kiến vĩ đại của C.Mác và Ph.Ănghen - “Học thuyết về sứ mệnh lịch sử toàn thế giới của giai cấp công nhân là sự khẳng định về điều gì?",
+    a: [
+      "Về phương diện kinh tế của sự diệt vong không tránh khỏi của chủ nghĩa tư bản và sự ra đời tất yếu của chủ nghĩa xã hội",
+      "Về phương diện triết học của sự sụp đổ của chủ nghĩa tư bản và sự thắng lợi của chủ nghĩa xã hội đều tất yếu như nhau",
+      "Về phương diện chính trị - xã hội của sự diệt vong không tránh khỏi của chủ nghĩa tư bản và sự ra đời tất yếu của chủ nghĩa xã hội",
+      "Tất cả các đáp án"
+    ],
+    c: 2
+  },
+  {
+    q: "Tác phẩm nào dưới đây là cương lĩnh chính trị, là kim chi nam hành động của toàn bộ phong trào cộng sản và công nhân quốc tế trong cuộc đấu tranh chống chủ nghĩa tư bản, giải phóng loài người vĩnh viễn khỏi mọi áp bức, bóc lột giai cấp, đảm bảo cho loài người có cuộc sống ấm no, tự do, hạnh phúc, được phát triển toàn diện?",
+    a: [
+      "Tình cảnh giai cấp lao động ở Anh",
+      "Những nguyên lí của chủ nghĩa cộng sản",
+      "Tuyên ngôn của Đảng Cộng sản",
+      "Điều lệ của Đồng minh những người cộng sản"
+    ],
+    c: 2
+  },
+  {
+    q: "Chọn phương án đúng nhất: Giai đoạn hình thành và phát triển chủ nghĩa Mác do ai thực hiện?",
+    a: [
+      "C.Mác",
+      "C.Mác và Ph.Ăngghen",
+      "V.I.Lênin",
+      "C.Mác, Ph.Ăngghen và V.I.Lênin"
+    ],
+    c: 1
+  },
+  {
+    q: "Chọn phương án đúng nhất: Giai đoạn bảo vệ và phát triển chủ nghĩa Mác thành chủ nghĩa Mác - Lênin do ai thực hiện?",
+    a: [
+      "C.Mác",
+      "C.Mác và Ph.Ăngghen",
+      "V.I.Lênin",
+      "C.Mác, Ph.Ăngghen và V.I.Lênin"
+    ],
+    c: 2
+  },
+  {
+    q: "Khi đánh giá về chủ nghĩa Mác, ai là người đã chỉ rõ: “Học thuyết của Mác là học thuyết vạn năng vì nó là học thuyết chính xác”?",
+    a: [
+      "V.I.Lênin",
+      "Ph.Ăngghen",
+      "C.Mác",
+      "Plekhanov"
+    ],
+    c: 0
+  },
+  {
+    q: "Từ 1843 đến 1848, C. Mác và Ph. Ăngghen cho ra đời nhiều tác phẩm lớn, đánh dấu sự chuyển biến tư tưởng...",
+    a: [
+      "Từ thế giới quan duy vật sang thế giới quan duy tâm, từ lập trường dân chủ cách mạng sang lập trường cộng sản chủ nghĩa",
+      "Từ thế giới quan duy vật sang thế giới quan duy tâm, từ lập trường cộng sản chủ nghĩa sang lập trường dân chủ cách mạng",
+      "Từ thế giới quan duy tâm sang thế giới quan duy vật, từ lập trường dân chủ cách mạng sang lập trường cộng sản chủ nghĩa",
+      "Từ thế giới quan duy tâm sang thế giới quan duy vật, từ lập trường cộng sản chủ nghĩa sang lập trường dân chủ cách mạng"
+    ],
+    c: 2
+  },
+  {
+    q: "Một trong những đóng góp quan trọng của Đảng Cộng sản Việt Nam vào lý luận của chủ nghĩa xã hội khoa học là...",
+    a: [
+      "Tư tưởng độc lập dân tộc gắn liền với chủ nghĩa xã hội",
+      "Tư tưởng dân chủ",
+      "Tư tưởng nhân văn",
+      "Tư tưởng đoàn kết"
+    ],
+    c: 0
+  },
+  {
+    q: "Điền từ vào chỗ trống: “Cách mạng Tháng Mười Nga năm 1917 thành công đã mở ra một thời đại mới - thời kỳ quá độ từ (...) trên phạm vi quốc tế\".",
+    a: [
+      "Chủ nghĩa tư bản lên chủ nghĩa xã hội",
+      "Phong kiến lên chủ nghĩa tư bản",
+      "Thực dân, phong kiến lên chủ nghĩa xã hội",
+      "Chủ nghĩa xã hội lên chủ nghĩa cộng sản"
+    ],
+    c: 0
+  },
+  {
+    q: "Vai trò của C. Mác và Ph. Ăngghen đối với chủ nghĩa xã hội được biểu hiện như thế nào?",
+    a: [
+      "Đưa chủ nghĩa xã hội từ không tưởng trở thành khoa học",
+      "Đưa chủ nghĩa xã hội từ lý luận thành hiện thực",
+      "Đưa chủ nghĩa xã hội hiện thực từ một nước trở thành hệ thống",
+      "Đưa chủ nghĩa xã hội trở thành hiện thực"
+    ],
+    c: 0
+  },
+  {
+    q: "Vai trò của V.I. Lênin đối với chủ nghĩa xã hội biểu hiện như thế nào?",
+    a: [
+      "Đưa chủ nghĩa xã hội từ lý luận thành hiện thực",
+      "Đưa chủ nghĩa xã hội từ một nước trở thành hệ thống",
+      "Đưa chủ nghĩa xã hội từ không tưởng thành khoa học",
+      "Đưa chủ nghĩa xã hội từ phương Tây sang phương Đông"
+    ],
+    c: 0
+  },
+  {
+    q: "Một trong những đóng góp của V.I. Lênin đối với chủ nghĩa xã hội khoa học là...",
+    a: [
+      "Xây dựng lý luận về đảng kiểu mới của giai cấp công nhân",
+      "Xây dựng lý luận về đảng kiểu mới của giai cấp nông dân",
+      "Xây dựng lý luận về đảng của nhiều giai cấp, tầng lớp trong xã hội",
+      "Xây dựng lý luận về đảng của các dân tộc thuộc địa và phụ thuộc"
+    ],
+    c: 0
+  },
+  {
+    q: "Chọn cụm từ dưới đây điền vào chỗ trống (...) để hoàn thiện luận điểm sau: “Đối tượng nghiên cứu của chủ nghĩa xã hội khoa học là những quy luật, tính quy luật (...) của quá trình phát sinh, hình thành và phát triển của hình thái kinh tế - xã hội cộng sản chủ nghĩa mà giai đoạn thấp là chủ nghĩa xã hội”?",
+    a: [
+      "Chính trị - xã hội",
+      "Kinh tế - xã hội",
+      "Văn hóa - xã hội",
+      "Tư tưởng - xã hội"
+    ],
+    c: 0
+  },
+  {
+    q: "Đâu không phải là đối tượng nghiên cứu của Chủ nghĩa xã hội khoa học?",
+    a: [
+      "Những quy luật chính trị - xã hội của quá trình phát sinh, phát triển của hình thái kinh tế - xã hội Cộng sản chủ nghĩa",
+      "Tính quy luật chính trị - xã hội của quá trình phát sinh, phát triển của hình thái kinh tế - xã hội Cộng sản chủ nghĩa",
+      "Những nguyên tắc, điều kiện, con đường, phương pháp đấu tranh cách mạng của giai cấp công nhân và nhân dân lao động nhằm thực hiện sự chuyển biến từ chủ nghĩa tư bản lên chủ nghĩa xã hội",
+      "Những quy luật chung nhất về sự vận động, phát triển của xã hội tư bản chủ nghĩa và xã hội xã hội chủ nghĩa"
+    ],
+    c: 3
+  },
+  {
+    q: "Phương pháp luận chung nhất được sử dụng trong nghiên cứu của chủ nghĩa xã hội khoa học là phương pháp nào?",
+    a: [
+      "Chủ nghĩa duy vật biện chứng và chủ nghĩa duy vật lịch sử",
+      "Phương pháp kết hợp lịch sử và lôgic",
+      "Phương pháp lịch sử dựa trên các điều kiện kinh tế - xã hội cụ thể",
+      "Phương pháp so sánh"
+    ],
+    c: 0
+  },
+  {
+    q: "Ý nghĩa về mặt lý luận của việc nghiên cứu chủ nghĩa xã hội khoa học?",
+    a: [
+      "Nhằm trang bị những nhận thức chính trị - xã hội và phương pháp luận khoa học về quá trình tất yếu lịch sử dẫn đến sự hình thành, phát triển hình thái kinh tế - xã hội cộng sản chủ nghĩa.",
+      "Góp phần định hướng chính trị - xã hội cho hoạt động thực tiễn của Đảng Cộng sản, nhà nước xã hội chủ nghĩa và nhân dân trong cách mạng xã hội chủ nghĩa.",
+      "Trang bị những nhận thức khoa học để luôn cảnh giác, phân tích đúng và đấu tranh chống lại những nhận thức sai lệch, những tuyên truyền chống phá của chủ nghĩa đế quốc và bọn phản động, chống phá chủ nghĩa xã hội.",
+      "Tất cả các đáp án"
+    ],
+    c: 0
+  },
+  {
+    q: "Đâu không phải là ý nghĩa về mặt thực tiễn của việc nghiên cứu chủ nghĩa xã hội khoa học?",
+    a: [
+      "Thấy rõ bản chất của các vấn đề liên quan tới chủ nghĩa xã hội ngày nay một cách khách quan, khoa học.",
+      "Củng cố niềm tin khoa học đối với chủ nghĩa xã hội cho cán bộ, học sinh, sinh viên, thanh thiếu niên và nhân dân",
+      "Giúp sinh viên nhận thức được trách nhiệm to lớn, vẻ vang của mình trong sự nghiệp công nghiệp hóa, hiện đại hóa để xây dựng thành công xã hội xã hội chủ nghĩa ở Việt Nam.",
+      "Nhằm trang bị những nhận thức chính trị - xã hội và phương pháp luận khoa học về quá trình tất yếu lịch sử dẫn đến sự hình thành, phát triển hình thái kinh tế - xã hội cộng sản chủ nghĩa."
+    ],
+    c: 3
+  }
+]
+  /* ===== TRỘN ===== */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+/* ===== KHỞI TẠO ===== */
+function startQuiz() {
+  index = 0;
+  score = 0;
+  userAnswers = [];
+
+  questions = JSON.parse(JSON.stringify(rawQuestions));
+  shuffle(questions);
+
+  questions.forEach(q => {
+    const correct = q.a[q.c];
+    shuffle(q.a);
+    q.c = q.a.indexOf(correct);
+  });
+
+  loadQuestion();
+}
+
+/* ===== LOAD ===== */
+function loadQuestion() {
+  const q = questions[index];
+  document.getElementById("question").innerText =
+    `Câu ${index + 1}: ${q.q}`;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  q.a.forEach((text, i) => {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.innerText = text;
+    div.onclick = () => checkAnswer(div, i);
+    answersDiv.appendChild(div);
+
+    if (userAnswers[index] !== undefined) {
+      if (i === q.c) div.classList.add("correct");
+      if (i === userAnswers[index] && i !== q.c)
+        div.classList.add("wrong");
+      div.onclick = null;
+    }
+  });
+
+  updateScore();
+}
+
+/* ===== CHỌN ===== */
+function checkAnswer(el, i) {
+  if (userAnswers[index] !== undefined) return;
+
+  userAnswers[index] = i;
+
+  if (i === questions[index].c) {
+    el.classList.add("correct");
+    score++;
+  } else {
+    el.classList.add("wrong");
+    document.querySelectorAll(".answer")[questions[index].c]
+      .classList.add("correct");
+  }
+
+  updateScore();
+}
+
+/* ===== ĐIỀU HƯỚNG ===== */
+function nextQuestion() {
+  if (index < questions.length - 1) {
+    index++;
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function prevQuestion() {
+  if (index > 0) {
+    index--;
+    loadQuestion();
+  }
+}
+
+/* ===== MODAL ===== */
+function showResult() {
+  document.getElementById("finalScore").innerText =
+    `Đúng: ${score} / ${questions.length}`;
+  document.getElementById("resultModal").style.display = "block";
+}
+
+function okReload() {
+  document.getElementById("resultModal").style.display = "none";
+  startQuiz();
+}
+
+/* ===== LÀM LẠI ===== */
+function resetQuiz() {
+  if (confirm("Bạn có chắc muốn làm lại?")) {
+    startQuiz();
+  }
+}
+
+/* ===== ĐIỂM ===== */
+function updateScore() {
+  document.getElementById("score").innerText =
+    `Đúng: ${score} / ${questions.length}`;
+}
+
+startQuiz();
+function goBack() {
+  window.history.back();
+}  
+</script>
+
+</body>
+</html>
+
+  
