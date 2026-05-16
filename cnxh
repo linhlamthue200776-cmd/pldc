@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chọn bài thi</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .menu {
+            max-width: 400px;
+            margin: auto;
+        }
+
+        a {
+            display: block;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 16px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+        }
+
+        a:active {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📚 CHỌN BÀI THI</h1>
+
+<div class="menu">
+    <a href="cnxhc1.html">📝  Chương 1</a>
+    <a href="cnxhc2.html">📝  Chương 2</a>
+    <a href="cnxhc3.html">📝  Chương 3</a>
+    <a href="cnxhc4.html">📝  Chương 4</a>
+    <a href="cnxhc5.html">📝  Chương 5</a>
+    <a href="cnxhc6.html">📝  Chương 6</a>
+    <a href="cnxhc7.html">📝  Chương 7</a>
+    <a href="cnxhc8.html">📝  Chương 8</a>
+    <a href="thithupldc.html">📝  Thi thử</a>
+</div>
+
+</body>
+</html>
